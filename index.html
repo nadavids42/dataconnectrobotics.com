@@ -11,14 +11,14 @@
 </head>
 
 <body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-white font-sans">
-  <header class="flex items-center justify-between px-6 py-4 shadow-md bg-white dark:bg-gray-800">
+  <header class="flex flex-col md:flex-row items-center justify-between px-6 py-4 shadow-md bg-white dark:bg-gray-800 space-y-4 md:space-y-0">
     <img src="img/logo.png" alt="Logo" class="h-12">
     <nav class="space-x-6 text-lg">
       <a href="#about" class="hover:text-blue-500 transition">About</a>
       <a href="#projects" class="hover:text-blue-500 transition">Projects</a>
       <a href="#contact" class="hover:text-blue-500 transition">Contact</a>
     </nav>
-    <button onclick="toggleDarkMode()" class="ml-4 px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition">
+    <button id="theme-toggle" class="ml-4 px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition">
       Toggle Dark Mode
     </button>
   </header>
@@ -83,15 +83,24 @@
   </style>
 
   <script>
-    const root = document.getElementById('html-root');
-    if (localStorage.getItem('theme') === 'dark') {
-      root.classList.add('dark');
-    }
+    document.addEventListener("DOMContentLoaded", () => {
+      const root = document.getElementById('html-root');
+      const toggleBtn = document.getElementById('theme-toggle');
 
-    function toggleDarkMode() {
-      root.classList.toggle('dark');
-      localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
-    }
+      // Apply saved theme on load
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
+
+      // Toggle theme on button click
+      toggleBtn.addEventListener('click', () => {
+        root.classList.toggle('dark');
+        localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+      });
+    });
   </script>
 </body>
 
