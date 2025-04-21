@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth" id="html-root">
+<html lang="en" class="scroll-smooth dark" id="html-root">
 
 <head>
   <meta charset="UTF-8">
@@ -10,21 +10,15 @@
   <link rel="icon" href="img/logo.png">
 </head>
 
-<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-white font-sans">
-  <header class="flex flex-wrap items-center justify-between gap-4 px-6 py-4 shadow-md bg-white dark:bg-gray-800">
+<body class="bg-gray-900 text-white font-sans">
+  <header class="flex flex-wrap items-center justify-between gap-4 px-6 py-4 shadow-md bg-gray-800">
     <div class="flex items-center justify-between w-full md:w-auto">
       <img src="img/logo.png" alt="Logo" class="h-12">
-      <button id="theme-toggle" class="ml-auto md:hidden px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition">
-        Toggle Dark Mode
-      </button>
     </div>
     <nav class="flex flex-wrap justify-center gap-6 text-lg w-full md:w-auto">
       <a href="#about" class="hover:text-blue-500 transition">About</a>
       <a href="#projects" class="hover:text-blue-500 transition">Projects</a>
       <a href="#contact" class="hover:text-blue-500 transition">Contact</a>
-      <button id="theme-toggle-desktop" class="hidden md:inline px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition">
-        Toggle Dark Mode
-      </button>
     </nav>
   </header>
 
@@ -40,18 +34,18 @@
     </p>
   </section>
 
-  <section id="projects" class="py-16 bg-gray-200 dark:bg-gray-800 px-6">
+  <section id="projects" class="py-16 bg-gray-800 px-6">
     <h2 class="text-3xl font-bold mb-10 text-center">Featured Projects</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-      <div class="bg-white dark:bg-gray-700 rounded-xl p-6 shadow hover:scale-105 transform transition">
+      <div class="bg-gray-700 rounded-xl p-6 shadow hover:scale-105 transform transition">
         <h3 class="text-xl font-semibold mb-2">Autonomous Line Follower</h3>
         <p>Robot that follows a path using infrared sensors and dynamic path-finding algorithms.</p>
       </div>
-      <div class="bg-white dark:bg-gray-700 rounded-xl p-6 shadow hover:scale-105 transform transition">
+      <div class="bg-gray-700 rounded-xl p-6 shadow hover:scale-105 transform transition">
         <h3 class="text-xl font-semibold mb-2">Smart Data Logger Bot</h3>
         <p>Bot that collects, transmits, and analyzes environmental data in real time.</p>
       </div>
-      <div class="bg-white dark:bg-gray-700 rounded-xl p-6 shadow hover:scale-105 transform transition">
+      <div class="bg-gray-700 rounded-xl p-6 shadow hover:scale-105 transform transition">
         <h3 class="text-xl font-semibold mb-2">Beginner Robotics Class</h3>
         <p>Our intro course for kids and adults interested in learning robotics hands-on.</p>
       </div>
@@ -62,15 +56,15 @@
     <h2 class="text-3xl font-bold mb-6 text-center">Get In Touch</h2>
     <p class="text-lg text-center mb-4">Have a question, idea, or want to collaborate? Drop us a line.</p>
     <form action="https://formspree.io/f/mgvkwvnj" method="POST" class="space-y-4">
-      <input type="text" name="name" placeholder="Your Name" required class="w-full px-4 py-2 rounded-lg border border-gray-300 text-black">
-      <input type="email" name="_replyto" placeholder="Your Email" required class="w-full px-4 py-2 rounded-lg border border-gray-300 text-black">
-      <textarea name="message" rows="4" placeholder="Your Message" required class="w-full px-4 py-2 rounded-lg border border-gray-300 text-black"></textarea>
+      <input type="text" name="name" placeholder="Your Name" required class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-gray-800 text-white">
+      <input type="email" name="_replyto" placeholder="Your Email" required class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-gray-800 text-white">
+      <textarea name="message" rows="4" placeholder="Your Message" required class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-gray-800 text-white"></textarea>
       <input type="text" name="_gotcha" style="display:none">
       <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition">Send</button>
     </form>
   </section>
 
-  <footer class="text-center py-6 text-sm text-gray-500 dark:text-gray-400">
+  <footer class="text-center py-6 text-sm text-gray-400">
     &copy; 2025 DataConnect Robotics. All rights reserved.
   </footer>
 
@@ -86,36 +80,6 @@
     .animate-fade-in { animation: fade-in 1s ease-out both; }
     .animate-slide-in { animation: slide-in 1s ease-out both; animation-delay: 0.2s; }
   </style>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const root = document.getElementById('html-root');
-      const toggleButtons = [
-        document.getElementById('theme-toggle'),
-        document.getElementById('theme-toggle-desktop')
-      ];
-
-      const applyTheme = () => {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-          root.classList.add('dark');
-        } else {
-          root.classList.remove('dark');
-        }
-      };
-
-      applyTheme();
-
-      toggleButtons.forEach(btn => {
-        if (btn) {
-          btn.addEventListener('click', () => {
-            root.classList.toggle('dark');
-            localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
-          });
-        }
-      });
-    });
-  </script>
 </body>
 
 </html>
