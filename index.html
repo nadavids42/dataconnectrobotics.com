@@ -11,16 +11,21 @@
 </head>
 
 <body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-white font-sans">
-  <header class="flex flex-col md:flex-row items-center justify-between px-6 py-4 shadow-md bg-white dark:bg-gray-800 space-y-4 md:space-y-0">
-    <img src="img/logo.png" alt="Logo" class="h-12">
-    <nav class="space-x-6 text-lg">
+  <header class="flex flex-wrap items-center justify-between gap-4 px-6 py-4 shadow-md bg-white dark:bg-gray-800">
+    <div class="flex items-center justify-between w-full md:w-auto">
+      <img src="img/logo.png" alt="Logo" class="h-12">
+      <button id="theme-toggle" class="ml-auto md:hidden px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition">
+        Toggle Dark Mode
+      </button>
+    </div>
+    <nav class="flex flex-wrap justify-center gap-6 text-lg w-full md:w-auto">
       <a href="#about" class="hover:text-blue-500 transition">About</a>
       <a href="#projects" class="hover:text-blue-500 transition">Projects</a>
       <a href="#contact" class="hover:text-blue-500 transition">Contact</a>
+      <button id="theme-toggle-desktop" class="hidden md:inline px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition">
+        Toggle Dark Mode
+      </button>
     </nav>
-    <button id="theme-toggle" class="ml-4 px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition">
-      Toggle Dark Mode
-    </button>
   </header>
 
   <section class="flex flex-col items-center justify-center text-center py-20 px-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
@@ -85,20 +90,29 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const root = document.getElementById('html-root');
-      const toggleBtn = document.getElementById('theme-toggle');
+      const toggleButtons = [
+        document.getElementById('theme-toggle'),
+        document.getElementById('theme-toggle-desktop')
+      ];
 
-      // Apply saved theme on load
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark') {
-        root.classList.add('dark');
-      } else {
-        root.classList.remove('dark');
-      }
+      const applyTheme = () => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+          root.classList.add('dark');
+        } else {
+          root.classList.remove('dark');
+        }
+      };
 
-      // Toggle theme on button click
-      toggleBtn.addEventListener('click', () => {
-        root.classList.toggle('dark');
-        localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+      applyTheme();
+
+      toggleButtons.forEach(btn => {
+        if (btn) {
+          btn.addEventListener('click', () => {
+            root.classList.toggle('dark');
+            localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+          });
+        }
       });
     });
   </script>
