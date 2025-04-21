@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DataConnect Robotics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <link rel="icon" href="img/logo.png">
+</head>
+
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-white font-sans">
+  <header class="flex items-center justify-between px-6 py-4 shadow-md bg-white dark:bg-gray-800">
+    <img src="img/logo.png" alt="Logo" class="h-12">
+    <nav class="space-x-6 text-lg">
+      <a href="#about" class="hover:text-blue-500 transition">About</a>
+      <a href="#projects" class="hover:text-blue-500 transition">Projects</a>
+      <a href="#contact" class="hover:text-blue-500 transition">Contact</a>
+    </nav>
+  </header>
+
+  <section class="flex flex-col items-center justify-center text-center py-20 px-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+    <h1 class="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">Welcome to DataConnect Robotics</h1>
+    <p class="text-xl md:text-2xl max-w-2xl animate-slide-in">Merging data, robotics, and code to build the future—one circuit at a time.</p>
+  </section>
+
+  <section id="about" class="py-16 px-6 max-w-4xl mx-auto animate-fade-in">
+    <h2 class="text-3xl font-bold mb-4 text-center">About Us</h2>
+    <p class="text-lg text-center leading-relaxed">
+      DataConnect Robotics is where creativity meets engineering. We build innovative projects at the intersection of robotics, data analysis, and software. Whether it's educational tools, autonomous bots, or smart systems, we're all about solving real problems with code and circuitry.
+    </p>
+  </section>
+
+  <section id="projects" class="py-16 bg-gray-200 dark:bg-gray-800 px-6">
+    <h2 class="text-3xl font-bold mb-10 text-center">Featured Projects</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div class="bg-white dark:bg-gray-700 rounded-xl p-6 shadow hover:scale-105 transform transition">
+        <h3 class="text-xl font-semibold mb-2">Autonomous Line Follower</h3>
+        <p>Robot that follows a path using infrared sensors and dynamic path-finding algorithms.</p>
+      </div>
+      <div class="bg-white dark:bg-gray-700 rounded-xl p-6 shadow hover:scale-105 transform transition">
+        <h3 class="text-xl font-semibold mb-2">Smart Data Logger Bot</h3>
+        <p>Bot that collects, transmits, and analyzes environmental data in real time.</p>
+      </div>
+      <div class="bg-white dark:bg-gray-700 rounded-xl p-6 shadow hover:scale-105 transform transition">
+        <h3 class="text-xl font-semibold mb-2">Beginner Robotics Class</h3>
+        <p>Our intro course for kids and adults interested in learning robotics hands-on.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="py-16 px-6 max-w-3xl mx-auto animate-fade-in">
+    <h2 class="text-3xl font-bold mb-6 text-center">Get In Touch</h2>
+    <p class="text-lg text-center mb-4">Have a question, idea, or want to collaborate? Drop us a line.</p>
+    <form class="space-y-4">
+      <input type="text" placeholder="Your Name" class="w-full px-4 py-2 rounded-lg border border-gray-300">
+      <input type="email" placeholder="Your Email" class="w-full px-4 py-2 rounded-lg border border-gray-300">
+      <textarea rows="4" placeholder="Your Message" class="w-full px-4 py-2 rounded-lg border border-gray-300"></textarea>
+      <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition">Send</button>
+    </form>
+  </section>
+
+  <footer class="text-center py-6 text-sm text-gray-500 dark:text-gray-400">
+    &copy; 2025 DataConnect Robotics. All rights reserved.
+  </footer>
+
+  <style>
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .animate-fade-in { animation: fade-in 1s ease-out both; }
+    .animate-slide-in { animation: slide-in 1s ease-out both; animation-delay: 0.2s; }
+  </style>
+</body>
+
+</html>
