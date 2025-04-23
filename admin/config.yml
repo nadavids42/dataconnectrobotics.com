@@ -3,7 +3,6 @@ backend:
   repo: nadavids42/dataconnectrobotics.com
   branch: main
   app_id: Ov23liGmoCPsmhOQyKm5
-  # base_url: https://dataconnectrobotics.com
 
 media_folder: "img/uploads"
 public_folder: "/img/uploads"
