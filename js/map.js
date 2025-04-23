@@ -1,9 +1,9 @@
 // map.js - Responsive SVGs for Map & Scatterplot
 
 Promise.all([
-  d3.json("data/SchoolDistricts_poly.geojson"),
-  d3.csv("data/Cleaned_grad_rates.csv"),
-  d3.csv("data/Cleaned_salaries.csv")
+  d3.json("/data/SchoolDistricts_poly.geojson"),
+  d3.csv("/data/Cleaned_grad_rates.csv"),
+  d3.csv("/data/Cleaned_salaries.csv")
 ]).then(([districts, gradRates, salaries]) => {
   const width = 800;
   const height = 600;
