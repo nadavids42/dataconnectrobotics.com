@@ -3,7 +3,7 @@ backend:
   repo: nadavids42/dataconnectrobotics.com
   branch: main
   app_id: Ov23liGmoCPsmhOQyKm5
-  auth_url: https://sveltia-cms-auth.ndavidson42.workers.dev/api/auth
+  auth_url: https://sveltia-cms-auth.ndavidson42.workers.dev
 
 media_folder: "img/uploads"
 public_folder: "/img/uploads"
