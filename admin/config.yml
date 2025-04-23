@@ -2,6 +2,7 @@ backend:
   name: github
   repo: nadavids42/dataconnectrobotics.com
   branch: main
+  app_id: Ov23liGmoCPsmhOQyKm5
 
 media_folder: "img/uploads"
 public_folder: "/img/uploads"
