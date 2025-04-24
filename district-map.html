@@ -69,6 +69,8 @@
           <input type="range" id="yearSlider" min="2013" max="2023" value="2021" step="1"
             class="w-full md:w-80 bg-gray-700 h-2 rounded-lg appearance-none outline-none cursor-pointer accent-blue-500">
         </div>
+        <!-- Subtitle placeholder -->
+        <span id="subtitle" class="ml-6 text-lg font-medium text-gray-200"></span>
       </div>
       <!-- Map + Scatterplot -->
       <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
@@ -97,7 +99,10 @@
     }
     .animate-fade-in { animation: fade-in 1s ease-out both;}
   </style>
-  <!-- D3 map code -->
-  <script src="js/map.js"></script>
+
+  <!-- Modular dashboard scripts -->
+  <script type="module" src="js/app.js"></script>
+  <!-- The other JS files (metrics.js, map_render.js, etc.) should be imported by app.js using ES6 imports. -->
+
 </body>
 </html>
