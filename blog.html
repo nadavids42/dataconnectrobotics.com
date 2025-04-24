@@ -1,20 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="scroll-smooth dark" id="html-root">
+
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog | DataConnect Robotics</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-</head>
-<body class="bg-gray-900 text-gray-100 min-h-screen font-sans">
-  <div class="max-w-2xl mx-auto px-4 py-10">
-    <h1 class="text-4xl font-bold mb-8 text-center text-cyan-400">Blog Posts</h1>
-    <ul id="post-list" class="space-y-4 mb-10">
-      <!-- Posts will be injected here -->
-    </ul>
-    <div id="post-content" class="prose prose-invert lg:prose-lg mx-auto bg-gray-800 rounded-xl p-6 shadow-lg"></div>
-  </div>
   <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="icon" href="img/logo.png">
+  <style>
+    body {
+      background-image: url('https://www.transparenttextures.com/patterns/circles.png');
+      background-repeat: repeat;
+      background-color: #1f2937; /* fallback background */
+    }
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in { animation: fade-in 1s ease-out both; }
+  </style>
+</head>
+
+<body class="text-white font-sans">
+  <!-- Header (same as main site) -->
+  <header class="bg-gray-800 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="/">
+        <img src="img/logo.png" alt="Logo" class="h-12">
+      </a>
+      <button class="text-white md:hidden focus:outline-none" onclick="toggleMenu()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+      <nav class="hidden md:flex space-x-6 text-lg">
+        <a href="/" class="hover:text-blue-500 transition">Home</a>
+        <a href="/#about" class="hover:text-blue-500 transition">About</a>
+        <a href="/#projects" class="hover:text-blue-500 transition">Projects</a>
+        <a href="/blog.html" class="hover:text-blue-500 transition font-semibold underline">Blog</a>
+        <a href="/#contact" class="hover:text-blue-500 transition">Contact</a>
+      </nav>
+    </div>
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4">
+      <a href="/" class="block py-2 text-lg hover:text-blue-500">Home</a>
+      <a href="/#about" class="block py-2 text-lg hover:text-blue-500">About</a>
+      <a href="/#projects" class="block py-2 text-lg hover:text-blue-500">Projects</a>
+      <a href="/blog.html" class="block py-2 text-lg hover:text-blue-500 font-semibold underline">Blog</a>
+      <a href="/#contact" class="block py-2 text-lg hover:text-blue-500">Contact</a>
+    </div>
+  </header>
+
+  <section class="flex flex-col items-center justify-center text-center py-14 px-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white animate-fade-in">
+    <h1 class="text-4xl md:text-6xl font-bold mb-4">Blog</h1>
+    <p class="text-xl md:text-2xl max-w-2xl">Stories, project notes, and tutorials from DataConnect Robotics.</p>
+  </section>
+
+  <main class="max-w-4xl mx-auto py-10 px-4">
+    <div class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-cyan-300">Posts</h2>
+      <ul id="post-list" class="space-y-3"></ul>
+    </div>
+    <div id="post-content" class="prose prose-invert lg:prose-lg mx-auto bg-gray-800 rounded-xl p-6 shadow-lg"></div>
+  </main>
+
+  <footer class="text-center py-6 text-sm text-gray-400">
+    &copy; 2025 DataConnect Robotics. All rights reserved.
+  </footer>
+
+  <script>
+    // Your manually updated posts array
     const posts = [
       { title: "Test Post", file: "2024-04-23-this-is-a-test.md" },
       { title: "Test 2", file: "2025-04-24-trying-something-a-bit-longer.md" }
@@ -24,12 +85,13 @@
     const listEl = document.getElementById("post-list");
     const contentEl = document.getElementById("post-content");
 
+    // Render list of blog post links
     posts.forEach(post => {
       const li = document.createElement("li");
       const link = document.createElement("a");
       link.href = "#";
       link.textContent = post.title;
-      link.className = "block px-4 py-2 rounded hover:bg-cyan-600 hover:text-white transition";
+      link.className = "block px-4 py-2 rounded bg-gray-700 hover:bg-cyan-600 hover:text-white font-medium transition";
       link.onclick = (e) => {
         e.preventDefault();
         fetch(`/blog/${post.file}`)
@@ -42,6 +104,8 @@
           })
           .then(md => {
             if (md) contentEl.innerHTML = marked.parse(md);
+            // Scroll to content on load (nice for mobile)
+            contentEl.scrollIntoView({ behavior: "smooth" });
           });
       };
       li.appendChild(link);
