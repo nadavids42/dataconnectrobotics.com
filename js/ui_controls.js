@@ -20,7 +20,7 @@ export function setupControls(
       .text(d => d.label);
   });
 
-  // Set initial values
+  // Set initial values (customize as needed)
   metricSelect.property("value", "grad");
   xMetricSelect.property("value", "salary");
   yMetricSelect.property("value", "grad");
