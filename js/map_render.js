@@ -1,6 +1,21 @@
 // map_render.js
-export function renderMap(svg, districts, path, color, getValue, legendDomain, updateLegend, gradByCode, salaryByCode, updateScatterplot, selectedYear, metric) {
-  updateLegend(legendDomain, metric);
+export function renderMap(
+  svg,
+  districts,
+  path,
+  color,
+  getValue,
+  legendDomain,
+  updateLegend,
+  mapByCode,
+  xByCode,
+  yByCode,
+  mapMetricObj,
+  xMetricObj,
+  yMetricObj,
+  selectedYear
+) {
+  updateLegend(legendDomain, mapMetricObj);
 
   svg.selectAll("g.districts path")
     .attr("fill", d => {
@@ -24,22 +39,21 @@ export function renderMap(svg, districts, path, color, getValue, legendDomain, u
         .attr("r", 6);
     })
     .on("click", function(event, d) {
-      const name = d.properties.DISTRICT_N;
       const code = d.properties.ORG8CODE?.toString().padStart(8, "0");
-      const rate = gradByCode[code];
-      const salary = salaryByCode[code];
+      const name = d.properties.DISTRICT_N;
+      const mapVal = mapByCode[code];
+      const xVal = xByCode[code];
+      const yVal = yByCode[code];
       const infoBox = document.getElementById("info-box");
       infoBox.innerHTML = `
         <h3 style="margin-top: 0">${name || "Unknown District"}</h3>
         <p><strong>District Code:</strong> ${code}</p>
-        <p><strong>Graduation Rate:</strong> ${rate !== undefined ? rate.toFixed(1) + "%" : "N/A"}</p>
-        <p><strong>Average Salary:</strong> ${salary !== undefined ? "$" + salary.toLocaleString(undefined, {maximumFractionDigits: 0}) : "N/A"}</p>
+        <p><strong>${mapMetricObj.label}:</strong> ${mapMetricObj.format(mapVal)}</p>
+        <p><strong>${xMetricObj.label} (X):</strong> ${xMetricObj.format(xVal)}</p>
+        <p><strong>${yMetricObj.label} (Y):</strong> ${yMetricObj.format(yVal)}</p>
       `;
       infoBox.style.display = "block";
     });
 
   svg.selectAll("g.districts path").selectAll("title").remove();
-
-  // --- Update scatterplot as well ---
-  updateScatterplot(gradByCode, salaryByCode, selectedYear);
 }
