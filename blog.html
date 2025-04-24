@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Blog | DataConnect Robotics</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <h1>Blog Posts</h1>
+  <ul id="post-list"></ul>
+  <div id="post-content"></div>
+  <script>
+    // List your posts here (update manually when you add a new post)
+    const posts = [
+      { title: "Test Post", file: "2024-04-23-this-is-a-test.md" },
+      // Add more posts as you create them!
+    ];
+
+    const listEl = document.getElementById("post-list");
+    const contentEl = document.getElementById("post-content");
+
+    // Render list of blog post links
+    posts.forEach(post => {
+      const li = document.createElement("li");
+      const link = document.createElement("a");
+      link.href = "#";
+      link.textContent = post.title;
+      link.onclick = (e) => {
+        e.preventDefault();
+        fetch(`/blog/${post.file}`)
+          .then(res => res.text())
+          .then(md => {
+            contentEl.innerHTML = marked.parse(md);
+          });
+      };
+      li.appendChild(link);
+      listEl.appendChild(li);
+    });
+  </script>
+</body>
+</html>
