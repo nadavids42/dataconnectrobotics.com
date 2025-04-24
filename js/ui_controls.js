@@ -1,5 +1,30 @@
 // ui_controls.js
-export function setupControls(yearSlider, metricSelect, rerender, minYear, maxYear, defaultYear) {
+export function setupControls(
+  metricSelect,
+  xMetricSelect,
+  yMetricSelect,
+  yearSlider,
+  rerender,
+  minYear,
+  maxYear,
+  defaultYear,
+  METRICS
+) {
+  // Populate all three dropdowns with metric options
+  [metricSelect, xMetricSelect, yMetricSelect].forEach(select => {
+    select.selectAll("option").remove();
+    select.selectAll("option")
+      .data(METRICS)
+      .enter().append("option")
+      .attr("value", d => d.key)
+      .text(d => d.label);
+  });
+
+  // Set initial values
+  metricSelect.property("value", "grad");
+  xMetricSelect.property("value", "salary");
+  yMetricSelect.property("value", "grad");
+
   yearSlider
     .attr("min", minYear)
     .attr("max", maxYear)
@@ -8,19 +33,6 @@ export function setupControls(yearSlider, metricSelect, rerender, minYear, maxYe
     .on("input", rerender);
 
   metricSelect.on("change", rerender);
-
-  // If you want to populate metricSelect programmatically, do it here:
-  if (metricSelect.empty()) {
-    d3.select("#subtitle").insert("select", "#yearSlider")
-      .attr("id", "metricSelect")
-      .selectAll("option")
-      .data([
-        {value: "grad", label: "Graduation Rate"},
-        {value: "salary", label: "Average Salary"}
-      ])
-      .enter()
-      .append("option")
-      .attr("value", d => d.value)
-      .text(d => d.label);
-  }
+  xMetricSelect.on("change", rerender);
+  yMetricSelect.on("change", rerender);
 }
