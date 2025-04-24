@@ -3,35 +3,45 @@
 <head>
   <meta charset="utf-8">
   <title>Blog | DataConnect Robotics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
-<body>
-  <h1>Blog Posts</h1>
-  <ul id="post-list"></ul>
-  <div id="post-content"></div>
+<body class="bg-gray-900 text-gray-100 min-h-screen font-sans">
+  <div class="max-w-2xl mx-auto px-4 py-10">
+    <h1 class="text-4xl font-bold mb-8 text-center text-cyan-400">Blog Posts</h1>
+    <ul id="post-list" class="space-y-4 mb-10">
+      <!-- Posts will be injected here -->
+    </ul>
+    <div id="post-content" class="prose prose-invert lg:prose-lg mx-auto bg-gray-800 rounded-xl p-6 shadow-lg"></div>
+  </div>
   <script>
-    // List your posts here (update manually when you add a new post)
     const posts = [
       { title: "Test Post", file: "2024-04-23-this-is-a-test.md" },
-      { title: "Test 2", file: "2025-04-24-trying-something-a-bit-longer.md"}
+      { title: "Test 2", file: "2025-04-24-trying-something-a-bit-longer.md" }
       // Add more posts as you create them!
     ];
 
     const listEl = document.getElementById("post-list");
     const contentEl = document.getElementById("post-content");
 
-    // Render list of blog post links
     posts.forEach(post => {
       const li = document.createElement("li");
       const link = document.createElement("a");
       link.href = "#";
       link.textContent = post.title;
+      link.className = "block px-4 py-2 rounded hover:bg-cyan-600 hover:text-white transition";
       link.onclick = (e) => {
         e.preventDefault();
         fetch(`/blog/${post.file}`)
-          .then(res => res.text())
+          .then(res => {
+            if (!res.ok) {
+              contentEl.innerHTML = "<em>Post not found.</em>";
+              return "";
+            }
+            return res.text();
+          })
           .then(md => {
-            contentEl.innerHTML = marked.parse(md);
+            if (md) contentEl.innerHTML = marked.parse(md);
           });
       };
       li.appendChild(link);
