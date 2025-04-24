@@ -1,24 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth dark" id="html-root">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog | DataConnect Robotics</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    function toggleMenu() {
-      const menu = document.getElementById('mobile-menu');
-      menu.classList.toggle('hidden');
-    }
-  </script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <link rel="icon" href="img/logo.png">
   <style>
     body {
       background-image: url('https://www.transparenttextures.com/patterns/circles.png');
       background-repeat: repeat;
-      background-color: #1f2937; /* fallback background */
+      background-color: #1f2937;
     }
     @keyframes fade-in {
       from { opacity: 0; transform: translateY(20px); }
@@ -27,16 +19,15 @@
     .animate-fade-in { animation: fade-in 1s ease-out both; }
   </style>
 </head>
-
 <body class="text-white font-sans">
-  <!-- Header (same as main site) -->
+  <!-- Header (reuse your main site header/nav) -->
   <header class="bg-gray-800 shadow-md">
     <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-      <a href="index.html">
+      <a href="/">
         <img src="img/logo.png" alt="Logo" class="h-12">
       </a>
       <button class="text-white md:hidden focus:outline-none" onclick="toggleMenu()">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
       </button>
@@ -62,12 +53,17 @@
     <p class="text-xl md:text-2xl max-w-2xl">Stories, project notes, and tutorials from DataConnect Robotics.</p>
   </section>
 
-  <main class="max-w-4xl mx-auto py-10 px-4">
-    <div class="mb-12">
+  <main class="max-w-3xl mx-auto py-10 px-4">
+    <div id="blog-list">
       <h2 class="text-2xl font-bold mb-6 text-cyan-300">Posts</h2>
       <ul id="post-list" class="space-y-3"></ul>
     </div>
-    <div id="post-content" class="prose prose-invert lg:prose-lg mx-auto bg-gray-800 rounded-xl p-6 shadow-lg"></div>
+    <div id="post-content" class="prose prose-invert lg:prose-lg bg-gray-800 rounded-xl p-6 shadow-lg hidden"></div>
+    <div id="back-link" class="mt-8 hidden">
+      <a href="#" class="inline-block px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 transition font-semibold" onclick="showList(event)">
+        &larr; Back to all posts
+      </a>
+    </div>
   </main>
 
   <footer class="text-center py-6 text-sm text-gray-400">
@@ -75,42 +71,85 @@
   </footer>
 
   <script>
-    // Your manually updated posts array
+    // Toggle mobile menu (reuse as before)
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    // Your posts array
     const posts = [
-      { title: "Test Post", file: "2025-04-23-this-is-a-test.md" },
+      { title: "Test Post", file: "2024-04-23-this-is-a-test.md" },
       { title: "Test 2", file: "2025-04-24-trying-something-a-bit-longer.md" }
-      // Add more posts as you create them!
+      // Add more posts here
     ];
 
     const listEl = document.getElementById("post-list");
     const contentEl = document.getElementById("post-content");
+    const blogList = document.getElementById("blog-list");
+    const backLink = document.getElementById("back-link");
 
-    // Render list of blog post links
-    posts.forEach(post => {
-      const li = document.createElement("li");
-      const link = document.createElement("a");
-      link.href = "#";
-      link.textContent = post.title;
-      link.className = "block px-4 py-2 rounded bg-gray-700 hover:bg-cyan-600 hover:text-white font-medium transition";
-      link.onclick = (e) => {
-        e.preventDefault();
-        fetch(`/blog/${post.file}`)
-          .then(res => {
-            if (!res.ok) {
-              contentEl.innerHTML = "<em>Post not found.</em>";
-              return "";
-            }
-            return res.text();
-          })
-          .then(md => {
-            if (md) contentEl.innerHTML = marked.parse(md);
-            // Scroll to content on load (nice for mobile)
-            contentEl.scrollIntoView({ behavior: "smooth" });
-          });
-      };
-      li.appendChild(link);
-      listEl.appendChild(li);
-    });
+    // Render blog list
+    function renderList() {
+      listEl.innerHTML = '';
+      posts.forEach(post => {
+        const li = document.createElement("li");
+        const link = document.createElement("a");
+        link.href = `#${post.file}`;
+        link.textContent = post.title;
+        link.className = "block px-4 py-2 rounded bg-gray-700 hover:bg-cyan-600 hover:text-white font-medium transition";
+        li.appendChild(link);
+        listEl.appendChild(li);
+      });
+    }
+
+    // Show list, hide post
+    function showList(e) {
+      if (e) e.preventDefault();
+      contentEl.classList.add('hidden');
+      blogList.classList.remove('hidden');
+      backLink.classList.add('hidden');
+      // Remove hash from URL (optional)
+      history.replaceState(null, '', window.location.pathname);
+    }
+
+    // Show single post view
+    function showPost(file) {
+      fetch(`/blog/${file}`)
+        .then(res => {
+          if (!res.ok) {
+            contentEl.innerHTML = "<em>Post not found.</em>";
+            return "";
+          }
+          return res.text();
+        })
+        .then(md => {
+          if (md) contentEl.innerHTML = marked.parse(md);
+          blogList.classList.add('hidden');
+          contentEl.classList.remove('hidden');
+          backLink.classList.remove('hidden');
+          // Scroll to top
+          contentEl.scrollIntoView({ behavior: "smooth" });
+        });
+    }
+
+    // Handle hash change (for sharing/bookmarks)
+    window.onhashchange = () => {
+      const hash = decodeURIComponent(location.hash.replace(/^#/, ''));
+      if (hash) {
+        showPost(hash);
+      } else {
+        showList();
+      }
+    };
+
+    // Initial render
+    renderList();
+    // Load post if hash present on page load
+    if (location.hash) {
+      showPost(decodeURIComponent(location.hash.replace(/^#/, '')));
+    }
+
   </script>
 </body>
 </html>
