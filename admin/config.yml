@@ -9,8 +9,8 @@ media_folder: "img/uploads"
 public_folder: "/img/uploads"
 
 collections:
-  - name: "blog"
-    label: "Blog"
+  - name: "projects"
+    label: "Projects"
     folder: "blog"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
