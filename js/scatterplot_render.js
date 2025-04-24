@@ -97,4 +97,38 @@ export function updateScatterplot(
       .style("border-radius", "6px")
       .style("padding", "7px 11px")
       .style("font-size", "15px")
-      .style("box-shadow", "0 1px 4
+      .style("box-shadow", "0 1px 4px #0002")
+      .style("left", (event.pageX + 18) + "px")
+      .style("top", (event.pageY - 10) + "px")
+      .style("display", "block");
+    })
+    .on("mousemove", function(event) {
+      d3.select("#scatterplot-tooltip")
+        .style("left", (event.pageX + 18) + "px")
+        .style("top", (event.pageY - 10) + "px");
+    })
+    .on("mouseleave", function(event, d) {
+      d3.select(this).attr("fill", "#009bcd").attr("r", 6);
+      d3.select("#scatterplot-tooltip").remove();
+    })
+    .on("click", function(event, d) {
+      // Highlight in info box
+      const infoBox = document.getElementById("info-box");
+      infoBox.innerHTML = `
+        <h3 style="margin-top: 0">${d.name || "Unknown District"}</h3>
+        <p><strong>District Code:</strong> ${d.code}</p>
+        <p><strong>${xMetricObj.label}:</strong> ${xMetricObj.format(d.x)}</p>
+        <p><strong>${yMetricObj.label}:</strong> ${yMetricObj.format(d.y)}</p>
+      `;
+      infoBox.style.display = "block";
+    });
+
+  scatterSvg.append("text")
+    .attr("x", scatterWidth / 2)
+    .attr("y", margin.top - 12)
+    .attr("text-anchor", "middle")
+    .attr("font-size", "17px")
+    .attr("font-weight", "bold")
+    .attr("fill", "#1a3344")
+    .text(`${xMetricObj.label} vs. ${yMetricObj.label} (${selectedYear})`);
+}
