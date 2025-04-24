@@ -1,6 +1,6 @@
 // app.js
 import { loadData } from './load_data.js';
-import { buildMetricLookups } from './metrics.js';
+import { buildLookupByCode } from './metrics.js';
 import { renderMap } from './map_render.js';
 import { updateScatterplot } from './scatterplot_render.js';
 import { setupControls } from './ui_controls.js';
