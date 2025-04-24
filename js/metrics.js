@@ -1,7 +1,8 @@
 // metrics.js
+
 export const METRICS = [
-  { key: "grad",   label: "Graduation Rate", col: "grad_% Graduated", legend: "percent", format: d => d == null ? "N/A" : d.toFixed(1) + "%" },
-  { key: "salary", label: "Average Salary", col: "sal_Average Salary", legend: "dollars", format: d => d == null ? "N/A" : "$" + d3.format(",.0f")(d) },
+  { key: "grad",      label: "Graduation Rate", col: "grad_% Graduated", legend: "percent", format: d => d == null ? "N/A" : d.toFixed(1) + "%" },
+  { key: "salary",    label: "Average Salary", col: "sal_Average Salary", legend: "dollars", format: d => d == null ? "N/A" : "$" + d3.format(",.0f")(d) },
   { key: "mcas_ela",  label: "MCAS ELA (Scaled)", col: "mcas_MCAS_Avg. Scaled Score_ELA", legend: "test", format: d => d == null ? "N/A" : d.toFixed(1) },
   { key: "mcas_math", label: "MCAS Math (Scaled)", col: "mcas_MCAS_Avg. Scaled Score_MATH", legend: "test", format: d => d == null ? "N/A" : d.toFixed(1) },
   { key: "expend_pp", label: "Expenditures Per Pupil", col: "expend_In-District Expenditures per Pupil", legend: "dollars", format: d => d == null ? "N/A" : "$" + d3.format(",.0f")(d) },
@@ -9,6 +10,7 @@ export const METRICS = [
   { key: "sat_read",  label: "SAT Reading Score", col: "sat_Reading", legend: "test", format: d => d == null ? "N/A" : d.toFixed(1) }
 ];
 
+// Generalized lookup builder
 export function buildLookupByCode(allData, colName, selectedYear) {
   const lookup = {};
   allData.forEach(d => {
