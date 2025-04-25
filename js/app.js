@@ -195,4 +195,5 @@ loadData().then(([districts, allData, massDistricts]) => {
 
   // --- Initial render ---
   rerender();
+  document.getElementById('loading-overlay').style.display = 'none'; // <-- add this last
 });
