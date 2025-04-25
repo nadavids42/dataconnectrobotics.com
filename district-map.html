@@ -18,6 +18,26 @@
       background-repeat: repeat;
       background-color: #1f2937;
     }
+    @media (max-width: 600px) {
+      body {
+        background-size: 60px 60px;
+        background-color: #111827;
+        /* Add a slightly darker overlay for readability */
+      }
+    }
+    /* Responsive SVGs (backup for Tailwind w-full/h-auto) */
+    svg.responsive-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      max-width: 900px;
+    }
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .animate-fade-in { animation: fade-in 1s ease-out both;}
   </style>
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
@@ -47,63 +67,52 @@
   </header>
 
   <!-- DASHBOARD CONTENT -->
-  <main class="max-w-7xl mx-auto px-4 py-12">
-    <section class="mb-10">
-      <h1 class="text-4xl md:text-5xl font-bold mb-3 animate-fade-in text-center">MA Public School Districts Dashboard</h1>
-      <p class="text-xl md:text-2xl text-gray-300 mb-8 text-center">Explore graduation rates, test scores, expenditures, and more by district and year.</p>
+  <main class="max-w-7xl mx-auto px-2 md:px-4 py-6 md:py-12">
+    <section class="mb-8 md:mb-10">
+      <h1 class="text-2xl sm:text-4xl md:text-5xl font-bold mb-2 md:mb-3 animate-fade-in text-center">MA Public School Districts Dashboard</h1>
+      <p class="text-base sm:text-xl md:text-2xl text-gray-300 mb-4 md:mb-8 text-center">Explore graduation rates, test scores, expenditures, and more by district and year.</p>
     </section>
-    <section class="bg-gray-800 rounded-xl shadow-lg p-6 md:p-10">
+    <section class="bg-gray-800/95 rounded-2xl shadow-xl p-4 sm:p-6 md:p-10">
       <!-- Controls -->
-      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8">
-        <div>
-          <label for="metricSelect" class="block font-semibold mb-1">Map Metric:</label>
-          <select id="metricSelect" class="bg-gray-700 text-white px-3 py-2 rounded-md border border-gray-600"></select>
+      <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between md:gap-6 mb-6 md:mb-8">
+        <div class="flex-1 min-w-0">
+          <label for="metricSelect" class="block font-semibold mb-1 text-base sm:text-lg">Map Metric:</label>
+          <select id="metricSelect" class="w-full bg-gray-700 text-white px-3 py-2 rounded-md border border-gray-600 focus:outline-none"></select>
         </div>
-        <div>
-          <label for="xMetricSelect" class="block font-semibold mb-1">Scatter X:</label>
-          <select id="xMetricSelect" class="bg-gray-700 text-white px-3 py-2 rounded-md border border-gray-600"></select>
+        <div class="flex-1 min-w-0">
+          <label for="xMetricSelect" class="block font-semibold mb-1 text-base sm:text-lg">Scatter X:</label>
+          <select id="xMetricSelect" class="w-full bg-gray-700 text-white px-3 py-2 rounded-md border border-gray-600 focus:outline-none"></select>
         </div>
-        <div>
-          <label for="yMetricSelect" class="block font-semibold mb-1">Scatter Y:</label>
-          <select id="yMetricSelect" class="bg-gray-700 text-white px-3 py-2 rounded-md border border-gray-600"></select>
+        <div class="flex-1 min-w-0">
+          <label for="yMetricSelect" class="block font-semibold mb-1 text-base sm:text-lg">Scatter Y:</label>
+          <select id="yMetricSelect" class="w-full bg-gray-700 text-white px-3 py-2 rounded-md border border-gray-600 focus:outline-none"></select>
         </div>
-        <div class="w-full md:w-auto">
-          <label for="yearSlider" class="block font-semibold mb-1">
+        <div class="w-full md:w-72 flex-1">
+          <label for="yearSlider" class="block font-semibold mb-1 text-base sm:text-lg">
             Year: <span id="yearValue">2021</span>
           </label>
           <input type="range" id="yearSlider" min="2013" max="2023" value="2021" step="1"
-            class="w-full md:w-80 bg-gray-700 h-2 rounded-lg appearance-none outline-none cursor-pointer accent-blue-500">
+            class="w-full accent-blue-500 bg-gray-700 h-2 rounded-lg appearance-none outline-none cursor-pointer">
         </div>
-        <!-- Subtitle placeholder -->
-<!--         <span id="subtitle" class="ml-6 text-lg font-medium text-gray-200"></span> -->
       </div>
       <!-- Map + Scatterplot -->
-      <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
-        <div id="map" class="flex-1 min-w-0"></div>
-        <div id="scatterplot" class="flex-1 min-w-0"></div>
+      <div class="flex flex-col gap-8 md:gap-12 lg:flex-row">
+        <div id="map" class="flex-1 min-w-0 w-full max-w-full"></div>
+        <div id="scatterplot" class="flex-1 min-w-0 w-full max-w-full"></div>
       </div>
       <!-- Info box -->
-      <div id="info-box" class="mt-6 p-5 rounded-lg border border-gray-600 bg-gray-900 text-white text-lg hidden"></div>
+      <div id="info-box" class="mt-6 p-5 rounded-lg border border-gray-600 bg-gray-900 text-white text-base sm:text-lg hidden"></div>
     </section>
-    <div class="mt-8 p-4 bg-gray-800 rounded-xl text-gray-200 text-sm max-w-2xl mx-auto shadow">
+    <div class="mt-8 p-4 bg-gray-800 rounded-xl text-gray-200 text-xs sm:text-sm max-w-2xl mx-auto shadow">
       <strong>About the Data:</strong> All School Data sourced from the 
       <a href="https://www.doe.mass.edu/" class="underline hover:text-blue-400" target="_blank" rel="noopener">Massachusetts Department of Elementary and Secondary Education (DESE)</a> for the years 2013–2023. 
       Data has been cleaned and processed for clarity. Last updated: April 2025.
     </div>
   </main>
 
-  <footer class="text-center py-6 text-sm text-gray-400">
+  <footer class="text-center py-6 text-xs sm:text-sm text-gray-400">
     &copy; 2025 DataConnect Robotics. All rights reserved.
   </footer>
-
-  <!-- Animations (copied from main site) -->
-  <style>
-    @keyframes fade-in {
-      from { opacity: 0; transform: translateY(20px);}
-      to { opacity: 1; transform: translateY(0);}
-    }
-    .animate-fade-in { animation: fade-in 1s ease-out both;}
-  </style>
 
   <!-- Modular dashboard entry point -->
   <script type="module" src="js/app.js"></script>
