@@ -124,9 +124,9 @@ loadData().then(([districts, allData, massDistricts]) => {
   }
 
   // --- Set up controls ---
-  setupControls(metricSelect, yearSlider, rerender, minYear, maxYear, defaultYear, METRICS);
-  setupControls(xMetricSelect, null, rerender, null, null, null, METRICS);
-  setupControls(yMetricSelect, null, rerender, null, null, null, METRICS);
+  setupControls(metricSelect, yearSlider, rerender, minYear, maxYear, defaultYear, METRICS, "grad");
+  setupControls(xMetricSelect, null, rerender, null, null, null, METRICS, "grad");
+  setupControls(yMetricSelect, null, rerender, null, null, null, METRICS, "salary");
 
   // --- Main rendering function ---
   function rerender() {
