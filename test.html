@@ -5,12 +5,15 @@
   <title>Markdown Test</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/@tailwindcss/typography@0.5.9/dist/typography.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.5.9/dist/typography.min.css">
+  <style>
+    /* Custom prose fixes (optional, see above) */
+    body { background: #181f2b; color: #fff; }
+  </style>
 </head>
-<body class="bg-gray-900 text-white">
+<body>
   <div id="post-content" class="prose prose-invert max-w-2xl mx-auto mt-10 bg-gray-800 rounded-xl p-6 shadow-lg"></div>
   <script>
-    // Example markdown string:
     const md = `
 # Hello, world!
 
