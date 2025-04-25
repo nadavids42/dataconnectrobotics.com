@@ -11,24 +11,32 @@ loadData().then(([districts, allData, massDistricts]) => {
   const scatterHeight = 480;
   const defaultYear = 2021;
 
+  // Main Map SVG
   const svg = d3.select("#map").append("svg")
     .attr("viewBox", `0 0 ${width} ${height}`)
     .attr("preserveAspectRatio", "xMidYMid meet")
     .classed("responsive-svg", true);
 
+  // Scatterplot SVG
   const scatterSvg = d3.select("#scatterplot").append("svg")
     .attr("viewBox", `0 0 ${scatterWidth} ${scatterHeight}`)
     .attr("preserveAspectRatio", "xMidYMid meet")
     .classed("responsive-svg", true);
 
+  // Selectors & Labels
   const metricSelect = d3.select("#metricSelect");
+  const xMetricSelect = d3.select("#xMetricSelect");
+  const yMetricSelect = d3.select("#yMetricSelect");
   const yearSlider = d3.select("#yearSlider");
   const yearValueLabel = d3.select("#yearValue");
   const subtitle = d3.select("#subtitle");
+
+  // Years & Extents
   const allYears = Array.from(new Set(allData.map(d => +d["Year"]))).sort();
   const minYear = d3.min(allYears);
   const maxYear = d3.max(allYears);
 
+  // Geo projection
   const projection = d3.geoMercator().fitSize([width, height], districts);
   const path = d3.geoPath().projection(projection);
 
@@ -73,6 +81,7 @@ loadData().then(([districts, allData, massDistricts]) => {
     .attr("text-anchor", "middle")
     .style("fill", "#eee");
 
+  // --- Legend updater ---
   function updateLegend(domain, metricObj) {
     if (!metricObj || !metricObj.legend) {
       console.error("updateLegend: metricObj missing or has no legend property", metricObj);
@@ -114,16 +123,31 @@ loadData().then(([districts, allData, massDistricts]) => {
     }
   }
 
+  // --- Set up controls ---
+  setupControls(metricSelect, yearSlider, rerender, minYear, maxYear, defaultYear, METRICS);
+  setupControls(xMetricSelect, null, rerender, null, null, null, METRICS);
+  setupControls(yMetricSelect, null, rerender, null, null, null, METRICS);
+
+  // --- Main rendering function ---
   function rerender() {
     const selectedYear = +yearSlider.node().value || 2021;
     const selectedMetric = metricSelect.node().value;
-    yearValueLabel.text(selectedYear);
 
+    // For scatterplot axes
+    const xMetricKey = xMetricSelect.node().value || METRICS[0].key;
+    const yMetricKey = yMetricSelect.node().value || METRICS[1].key;
     const metricObj = METRICS.find(m => m.key === selectedMetric);
+    const xMetricObj = METRICS.find(m => m.key === xMetricKey);
+    const yMetricObj = METRICS.find(m => m.key === yMetricKey);
+
+    yearValueLabel.text(selectedYear);
     subtitle.text(`${metricObj.label}: ${selectedYear}`);
 
     const metricByCode = buildLookupByCode(allData, metricObj.col, selectedYear);
+    const xByCode = buildLookupByCode(allData, xMetricObj.col, selectedYear);
+    const yByCode = buildLookupByCode(allData, yMetricObj.col, selectedYear);
 
+    // Color scale and domain for map
     let domain = d3.extent(Object.values(metricByCode).filter(v => v != null));
     let color;
     if (metricObj.legend === "percent") {
@@ -150,23 +174,25 @@ loadData().then(([districts, allData, massDistricts]) => {
       domain,
       updateLegend,
       metricByCode,
-      {}, // xByCode
-      {}, // yByCode
-      metricObj, // mapMetricObj
-      {}, // xMetricObj
-      {}, // yMetricObj
+      xByCode,
+      yByCode,
+      metricObj,
+      xMetricObj,
+      yMetricObj,
       selectedYear
     );
 
     updateScatterplot(
       scatterSvg,
-      allData,
-      districts,
+      xByCode,
+      yByCode,
+      xMetricObj,
+      yMetricObj,
       selectedYear,
-      metricObj
+      districts
     );
   }
 
-  setupControls(metricSelect, yearSlider, rerender, minYear, maxYear, defaultYear, METRICS);
+  // --- Initial render ---
   rerender();
 });
