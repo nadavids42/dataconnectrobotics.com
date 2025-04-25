@@ -28,6 +28,7 @@ loadData().then(([districts, allData, massDistricts]) => {
   const xMetricSelect = d3.select("#xMetricSelect");
   const yMetricSelect = d3.select("#yMetricSelect");
   const yearSlider = d3.select("#yearSlider");
+  const yearDropdown = d3.select("#yearDropdown");
   const yearValueLabel = d3.select("#yearValue");
   const subtitle = d3.select("#subtitle");
 
@@ -35,6 +36,19 @@ loadData().then(([districts, allData, massDistricts]) => {
   const allYears = Array.from(new Set(allData.map(d => +d["Year"]))).sort();
   const minYear = d3.min(allYears);
   const maxYear = d3.max(allYears);
+
+  // Populate year dropdown for mobile
+  yearDropdown.selectAll("option")
+    .data(allYears)
+    .enter()
+    .append("option")
+    .attr("value", d => d)
+    .text(d => d);
+
+  // Set both controls and label to default year
+  yearSlider.property("value", defaultYear);
+  yearDropdown.property("value", defaultYear);
+  yearValueLabel.text(defaultYear);
 
   // Geo projection
   const projection = d3.geoMercator().fitSize([width, height], districts);
@@ -128,9 +142,41 @@ loadData().then(([districts, allData, massDistricts]) => {
   setupControls(xMetricSelect, null, rerender, null, null, null, METRICS, "grad");
   setupControls(yMetricSelect, null, rerender, null, null, null, METRICS, "salary");
 
+  // Helper: always get selected year from whichever control is visible
+  function getSelectedYear() {
+    // Use dropdown value on mobile (< 768px), else slider
+    return window.innerWidth < 768
+      ? +yearDropdown.node().value
+      : +yearSlider.node().value;
+  }
+
+  // Sync both controls (and label) when year changes
+  function setYear(year) {
+    yearSlider.property("value", year);
+    yearDropdown.property("value", year);
+    yearValueLabel.text(year);
+    rerender();
+  }
+
+  // Add event listeners to both controls
+  yearSlider.on("input", function() {
+    setYear(this.value);
+  });
+  yearDropdown.on("change", function() {
+    setYear(this.value);
+  });
+
+  // Optionally, sync both controls if screen resizes across mobile/desktop boundary
+  window.addEventListener("resize", () => {
+    const curYear = getSelectedYear();
+    yearSlider.property("value", curYear);
+    yearDropdown.property("value", curYear);
+    yearValueLabel.text(curYear);
+  });
+
   // --- Main rendering function ---
   function rerender() {
-    const selectedYear = +yearSlider.node().value || 2021;
+    const selectedYear = getSelectedYear();
     const selectedMetric = metricSelect.node().value;
 
     // For scatterplot axes
