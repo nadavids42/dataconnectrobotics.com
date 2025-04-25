@@ -103,8 +103,8 @@ loadData().then(([districts, allData, massDistricts]) => {
     }
     legendGradient.selectAll("stop").remove();
 
-    // DEMO: only legend uses purple!
-    if (metricObj.type === "demo") {
+    // PURPLE legend for demo metrics
+    if (metricObj.legend === "demo") {
       let demoDomain = domain;
       legendGradient.selectAll("stop")
         .data(d3.range(demoDomain[0], demoDomain[1] + 1))
@@ -215,7 +215,11 @@ loadData().then(([districts, allData, massDistricts]) => {
     // Color scale and domain for map
     let domain = d3.extent(Object.values(metricByCode).filter(v => v != null));
     let color;
-    if (metricObj.legend === "percent") {
+    if (metricObj.legend === "demo") {
+      const maxVal = Math.max(0, ...Object.values(metricByCode).filter(v => v != null));
+      domain = [0, Math.ceil(maxVal / 10) * 10];
+      color = d3.scaleQuantize().domain(domain).range(d3.schemePuRd[7]);
+    } else if (metricObj.legend === "percent") {
       if (metricObj.key === "grad") {
         domain = [50, 100];
       } else {
