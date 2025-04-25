@@ -18,12 +18,15 @@ export function setupControls(
   // Set initial value
   metricSelect.property("value", "grad");
 
-  yearSlider
-    .attr("min", minYear)
-    .attr("max", maxYear)
-    .attr("value", defaultYear)
-    .attr("step", 1)
-    .on("input", rerender);
+  // Only try to set yearSlider attributes if it's present
+  if (yearSlider) {
+    yearSlider
+      .attr("min", minYear)
+      .attr("max", maxYear)
+      .attr("value", defaultYear)
+      .attr("step", 1)
+      .on("input", rerender);
+  }
 
   metricSelect.on("change", rerender);
 }
