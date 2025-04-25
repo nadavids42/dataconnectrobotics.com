@@ -9,13 +9,17 @@ export function updateScatterplot(
   districts
 ) {
   const scatterData = Object.keys(xByCode)
-    .filter(code => yByCode[code] !== undefined)
-    .map(code => ({
-      code,
-      x: xByCode[code],
-      y: yByCode[code],
-      name: (districts.features.find(f => (f.properties.ORG8CODE?.toString().trim().padStart(8, "0")) === code) || {}).properties?.DISTRICT_N || "Unknown"
-    }));
+  .filter(code => yByCode[code] !== undefined)
+  .filter(code => {
+    const feature = districts.features.find(f => (f.properties.ORG8CODE?.toString().trim().padStart(8, "0")) === code);
+    return feature && feature.properties?.DISTRICT_N && feature.properties.DISTRICT_N !== "Unknown";
+  })
+  .map(code => ({
+    code,
+    x: xByCode[code],
+    y: yByCode[code],
+    name: districts.features.find(f => (f.properties.ORG8CODE?.toString().trim().padStart(8, "0")) === code).properties.DISTRICT_N
+  }));
 
   scatterSvg.selectAll("*").remove();
 
