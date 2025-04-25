@@ -15,6 +15,9 @@ export function renderMap(
   yMetricObj,
   selectedYear
 ) {
+  if (!mapMetricObj || !mapMetricObj.legend) {
+    console.error("renderMap: mapMetricObj is missing or has no legend property", mapMetricObj);
+  }
   updateLegend(legendDomain, mapMetricObj);
 
   svg.selectAll("g.districts path")
