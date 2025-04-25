@@ -129,6 +129,6 @@ export function updateScatterplot(
     .attr("text-anchor", "middle")
     .attr("font-size", "17px")
     .attr("font-weight", "bold")
-    .attr("fill", "#1a3344")
+    .attr("fill", "#2b97e0")
     .text(`${xMetricObj.label} vs. ${yMetricObj.label} (${selectedYear})`);
 }
