@@ -6,9 +6,7 @@
   <title>Projects | DataConnect Robotics</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<!--   <link href="https://cdn.jsdelivr.net/npm/@tailwindcss/typography@0.5.9/dist/typography.min.css" rel="stylesheet"> -->
   <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.5.9/dist/typography.min.css">
-  
   <style>
     body {
       background-image: url('https://www.transparenttextures.com/patterns/circles.png');
@@ -81,7 +79,10 @@
     <div id="blog-list">
       <ul id="post-list" class="space-y-3"></ul>
     </div>
-    <div id="post-content" class="prose prose-invert prose-lg bg-gray-800 rounded-xl p-6 shadow-lg hidden"></div>
+    <div id="post-content-container" class="hidden">
+      <div id="post-meta" class="mb-4"></div>
+      <div id="post-content" class="prose prose-invert prose-lg bg-gray-800 rounded-xl p-6 shadow-lg"></div>
+    </div>
     <div id="back-link" class="mt-8 hidden">
       <a href="#" class="inline-block px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 transition font-semibold" onclick="showList(event)">
         &larr; Back to all Projects
@@ -100,16 +101,23 @@
       menu.classList.toggle('hidden');
     }
 
-    // Your posts array
+    // Your posts array (add date field for nicer display)
     const posts = [
-      { title: "Offical Launch", file: "2025-04-23-this-is-a-test.md" }
+      { title: "Official Launch", date: "2025-04-24", file: "2025-04-23-this-is-a-test.md" }
       // Add more posts here
     ];
 
     const listEl = document.getElementById("post-list");
+    const contentContainerEl = document.getElementById("post-content-container");
     const contentEl = document.getElementById("post-content");
+    const metaEl = document.getElementById("post-meta");
     const blogList = document.getElementById("blog-list");
     const backLink = document.getElementById("back-link");
+
+    // Function to strip YAML frontmatter (--- ... ---)
+    function stripFrontmatter(md) {
+      return md.replace(/^---[\s\S]*?---\s*/, '');
+    }
 
     // Render blog list
     function renderList() {
@@ -128,30 +136,56 @@
     // Show list, hide post
     function showList(e) {
       if (e) e.preventDefault();
-      contentEl.classList.add('hidden');
+      contentContainerEl.classList.add('hidden');
       blogList.classList.remove('hidden');
       backLink.classList.add('hidden');
       // Remove hash from URL (optional)
       history.replaceState(null, '', window.location.pathname);
     }
 
-    // Show single post view
+    // Format date (YYYY-MM-DD to readable)
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return dateStr;
+      return d.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    // Show single post view with meta
     function showPost(file) {
+      // Find the post metadata
+      const post = posts.find(p => p.file === file);
+
       fetch(`/blog/${file}`)
         .then(res => {
           if (!res.ok) {
             contentEl.innerHTML = "<em>Post not found.</em>";
+            metaEl.innerHTML = "";
             return "";
           }
           return res.text();
         })
         .then(md => {
-          if (md) contentEl.innerHTML = marked.parse(md);
+          if (md) {
+            // Strip YAML frontmatter if present
+            md = stripFrontmatter(md);
+            contentEl.innerHTML = marked.parse(md);
+            // Render meta/title
+            if (post) {
+              metaEl.innerHTML = `
+                <h2 class="text-2xl font-bold mb-1">${post.title}</h2>
+                <div class="text-gray-400 text-sm mb-4">${formatDate(post.date)}</div>
+                <hr class="border-gray-700 mb-4">
+              `;
+            } else {
+              metaEl.innerHTML = "";
+            }
+          }
           blogList.classList.add('hidden');
-          contentEl.classList.remove('hidden');
+          contentContainerEl.classList.remove('hidden');
           backLink.classList.remove('hidden');
           // Scroll to top
-          contentEl.scrollIntoView({ behavior: "smooth" });
+          contentContainerEl.scrollIntoView({ behavior: "smooth" });
         });
     }
 
@@ -171,6 +205,7 @@
     if (location.hash) {
       showPost(decodeURIComponent(location.hash.replace(/^#/, '')));
     }
+
   </script>
 </body>
 </html>
