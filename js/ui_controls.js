@@ -5,7 +5,8 @@ export function setupControls(
   minYear,
   maxYear,
   defaultYear,
-  METRICS
+  METRICS,
+  defaultMetricKey = "grad"
 ) {
   // Populate metric dropdown
   metricSelect.selectAll("option").remove();
@@ -16,7 +17,7 @@ export function setupControls(
     .text(d => d.label);
 
   // Set initial value
-  metricSelect.property("value", "grad");
+  metricSelect.property("value", defaultMetricKey);
 
   // Only try to set yearSlider attributes if it's present
   if (yearSlider) {
