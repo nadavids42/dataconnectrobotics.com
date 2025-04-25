@@ -103,14 +103,21 @@ loadData().then(([districts, allData, massDistricts]) => {
     }
     legendGradient.selectAll("stop").remove();
     if (metricObj.legend === "percent") {
+      // Use grad-specific or dynamic domain for percent metrics
+      let gradDomain;
+      if (metricObj.key === "grad") {
+        gradDomain = [50, 100];
+      } else {
+        gradDomain = domain;
+      }
       legendGradient.selectAll("stop")
-        .data(d3.range(50, 101))
+        .data(d3.range(gradDomain[0], gradDomain[1] + 1))
         .enter().append("stop")
-        .attr("offset", d => `${((d - 50) / 50) * 100}%`)
-        .attr("stop-color", d => d3.interpolateBlues((d - 50) / 50));
+        .attr("offset", d => `${((d - gradDomain[0]) / (gradDomain[1] - gradDomain[0])) * 100}%`)
+        .attr("stop-color", d => d3.interpolateBlues((d - gradDomain[0]) / (gradDomain[1] - gradDomain[0])));
       legendTitle.text(metricObj.label);
-      legendLabels.data([50, 75, 100])
-        .attr("x", d => (d - 50) / 50 * 300)
+      legendLabels.data([gradDomain[0], Math.round((gradDomain[0] + gradDomain[1]) / 2), gradDomain[1]])
+        .attr("x", (d, i) => i === 0 ? 0 : (i === 1 ? 150 : 300))
         .text(d => `${d}%`);
     } else if (metricObj.legend === "dollars") {
       const [minS, maxS] = domain;
@@ -197,7 +204,14 @@ loadData().then(([districts, allData, massDistricts]) => {
     let domain = d3.extent(Object.values(metricByCode).filter(v => v != null));
     let color;
     if (metricObj.legend === "percent") {
-      domain = [50, 100];
+      // Graduation Rate (by key): [50, 100]
+      if (metricObj.key === "grad") {
+        domain = [50, 100];
+      } else {
+        // For all other percent metrics, [0, max in data rounded up to nearest 10]
+        const maxVal = Math.max(0, ...Object.values(metricByCode).filter(v => v != null));
+        domain = [0, Math.ceil(maxVal / 10) * 10];
+      }
       color = d3.scaleQuantize().domain(domain).range(d3.schemeBlues[7]);
     } else if (metricObj.legend === "dollars") {
       domain = [
