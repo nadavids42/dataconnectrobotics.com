@@ -1,4 +1,3 @@
-// app.js
 import { loadData } from './load_data.js';
 import { METRICS, buildLookupByCode } from './metrics.js';
 import { renderMap } from './map_render.js';
@@ -23,8 +22,6 @@ loadData().then(([districts, allData, massDistricts]) => {
     .classed("responsive-svg", true);
 
   const metricSelect = d3.select("#metricSelect");
-  const xMetricSelect = d3.select("#xMetricSelect");
-  const yMetricSelect = d3.select("#yMetricSelect");
   const yearSlider = d3.select("#yearSlider");
   const yearValueLabel = d3.select("#yearValue");
   const subtitle = d3.select("#subtitle");
@@ -44,7 +41,7 @@ loadData().then(([districts, allData, massDistricts]) => {
     .attr("fill", "none")
     .attr("stroke", "#ccc")
     .attr("stroke-width", 1.5)
-    .attr("pointer-events", "none"); // Keeps map interactions above
+    .attr("pointer-events", "none");
 
   svg.append("g").attr("class", "districts")
     .selectAll("path")
@@ -53,23 +50,21 @@ loadData().then(([districts, allData, massDistricts]) => {
     .attr("d", path)
     .attr("stroke", "#333");
 
+  // Legend setup
   const defs = svg.append("defs");
   const legendGradient = defs.append("linearGradient").attr("id", "legend-gradient");
   const legend = svg.append("g")
     .attr("class", "legend")
     .attr("transform", `translate(${width - 300 - 40}, ${height - 40})`);
-
   legend.append("rect")
     .attr("width", 300)
     .attr("height", 10)
     .style("fill", "url(#legend-gradient)")
     .style("stroke", "#aaa");
-
   const legendTitle = legend.append("text")
     .attr("x", 0)
     .attr("y", -5)
     .style("fill", "#eee");
-
   const legendLabels = legend.selectAll("text.labels")
     .data([0, 0, 0])
     .enter().append("text")
@@ -80,7 +75,7 @@ loadData().then(([districts, allData, massDistricts]) => {
 
   function updateLegend(domain, metricObj) {
     legendGradient.selectAll("stop").remove();
-    if (metricObj && metricObj.legend === "percent") {
+    if (metricObj.legend === "percent") {
       legendGradient.selectAll("stop")
         .data(d3.range(50, 101))
         .enter().append("stop")
@@ -90,7 +85,7 @@ loadData().then(([districts, allData, massDistricts]) => {
       legendLabels.data([50, 75, 100])
         .attr("x", d => (d - 50) / 50 * 300)
         .text(d => `${d}%`);
-    } else if (metricObj && metricObj.legend === "dollars") {
+    } else if (metricObj.legend === "dollars") {
       const [minS, maxS] = domain;
       legendGradient.selectAll("stop")
         .data(d3.range(minS, maxS + 1, (maxS - minS) / 100))
@@ -101,8 +96,7 @@ loadData().then(([districts, allData, massDistricts]) => {
       legendLabels.data([minS, Math.round((minS + maxS) / 2), maxS])
         .attr("x", (d, i) => i === 0 ? 0 : (i === 1 ? 150 : 300))
         .text(d => "$" + d.toLocaleString(undefined, {maximumFractionDigits: 0}));
-    } else if (metricObj) {
-      // For other metrics (MCAS/SAT/etc)
+    } else {
       const [minS, maxS] = domain;
       legendGradient.selectAll("stop")
         .data(d3.range(minS, maxS + 1, (maxS - minS) / 100))
@@ -116,57 +110,55 @@ loadData().then(([districts, allData, massDistricts]) => {
     }
   }
 
-  import { METRICS, buildLookupByCode } from './metrics.js';  // Make sure this matches your metrics.js
+  function rerender() {
+    const selectedYear = +yearSlider.node().value || 2021;
+    const selectedMetric = metricSelect.node().value;
+    yearValueLabel.text(selectedYear);
 
-function rerender() {
-  const selectedYear = +yearSlider.node().value || defaultYear;
-  const selectedMetric = metricSelect.node().value;
+    const metricObj = METRICS.find(m => m.key === selectedMetric);
+    subtitle.text(`${metricObj.label}: ${selectedYear}`);
 
-  const metricObj = METRICS.find(m => m.key === selectedMetric);
-  subtitle.text(`${metricObj.label}: ${selectedYear}`);
-  yearValueLabel.text(selectedYear);
+    const metricByCode = buildLookupByCode(allData, metricObj.col, selectedYear);
 
-  // Build the lookup for the selected metric
-  const metricByCode = buildLookupByCode(allData, metricObj.col, selectedYear);
+    let domain = d3.extent(Object.values(metricByCode).filter(v => v != null));
+    let color;
+    if (metricObj.legend === "percent") {
+      domain = [50, 100];
+      color = d3.scaleQuantize().domain(domain).range(d3.schemeBlues[7]);
+    } else if (metricObj.legend === "dollars") {
+      domain = [
+        Math.floor(domain[0] / 1000) * 1000,
+        Math.ceil(domain[1] / 1000) * 1000
+      ];
+      color = d3.scaleQuantize().domain(domain).range(d3.schemeGreens[7]);
+    } else {
+      color = d3.scaleQuantize().domain(domain).range(d3.schemeOranges[7]);
+    }
 
-  // Decide color and legend domain by metric type
-  let domain = d3.extent(Object.values(metricByCode).filter(v => v != null));
-  let color;
-  if (metricObj.legend === "percent") {
-    domain = [50, 100];
-    color = d3.scaleQuantize().domain(domain).range(d3.schemeBlues[7]);
-  } else if (metricObj.legend === "dollars") {
-    domain = [
-      Math.floor(domain[0] / 1000) * 1000,
-      Math.ceil(domain[1] / 1000) * 1000
-    ];
-    color = d3.scaleQuantize().domain(domain).range(d3.schemeGreens[7]);
-  } else {
-    color = d3.scaleQuantize().domain(domain).range(d3.schemeOranges[7]);
-  }
+    updateLegend(domain, metricObj);
 
-  // Use your existing renderMap but pass the correct lookup/getValue
-  renderMap(
-    svg, districts, path, color,
-    code => metricByCode[code],
-    domain, updateLegend, metricByCode,
-    selectedYear, selectedMetric
-  );
-}
+    renderMap(
+      svg,
+      districts,
+      path,
+      color,
+      code => metricByCode[code],
+      domain,
+      updateLegend,
+      metricByCode,
+      selectedYear,
+      selectedMetric
+    );
 
-
-    // Render scatterplot
     updateScatterplot(
       scatterSvg,
-      xByCode,
-      yByCode,
-      xMetricObj,
-      yMetricObj,
+      allData,
+      districts,
       selectedYear,
-      districts
+      metricObj
     );
   }
 
-  setupControls(metricSelect, xMetricSelect, yMetricSelect, yearSlider, rerender, minYear, maxYear, defaultYear, METRICS);
+  setupControls(metricSelect, yearSlider, rerender, minYear, maxYear, defaultYear, METRICS);
   rerender();
 });
