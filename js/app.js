@@ -74,6 +74,10 @@ loadData().then(([districts, allData, massDistricts]) => {
     .style("fill", "#eee");
 
   function updateLegend(domain, metricObj) {
+    if (!metricObj || !metricObj.legend) {
+      console.error("updateLegend: metricObj missing or has no legend property", metricObj);
+      return;
+    }
     legendGradient.selectAll("stop").remove();
     if (metricObj.legend === "percent") {
       legendGradient.selectAll("stop")
@@ -146,8 +150,12 @@ loadData().then(([districts, allData, massDistricts]) => {
       domain,
       updateLegend,
       metricByCode,
-      selectedYear,
-      selectedMetric
+      {}, // xByCode
+      {}, // yByCode
+      metricObj, // mapMetricObj
+      {}, // xMetricObj
+      {}, // yMetricObj
+      selectedYear
     );
 
     updateScatterplot(
