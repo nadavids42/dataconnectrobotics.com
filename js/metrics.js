@@ -5,7 +5,8 @@ export const METRICS = [
   { key: "mcas_math", label: "MCAS Math",           col: "mcas_MCAS_Avg. Scaled Score_MATH", legend: "test", format: d => d == null ? "N/A" : d.toFixed(1) },
   { key: "sat_math",  label: "SAT Math Score",      col: "sat_Math", legend: "test", format: d => d == null ? "N/A" : d.toFixed(1) },
   { key: "sat_read",  label: "SAT Reading Score",   col: "sat_Reading_Merged", legend: "test", format: d => d == null ? "N/A" : d.toFixed(1) },
-  { key: "expend_pp", label: "Expenditures/Pupil",  col: "expend_In-District Expenditures per Pupil", legend: "dollars", format: d => d == null ? "N/A" : "$" + d3.format(",.0f")(d) }
+  { key: "expend_pp", label: "Expenditures/Pupil",  col: "expend_In-District Expenditures per Pupil", legend: "dollars", format: d => d == null ? "N/A" : "$" + d3.format(",.0f")(d) },
+  { key: "hisp_per", label: "% Hispanic Students",  col: "demo_Hispanic or Latino", legend: "percent", format: d => d == null ? "N/A": d.toFixed(1) + "%" }
 ];
 
 // Universal code-based lookup for any metric/column:
