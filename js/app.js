@@ -102,8 +102,20 @@ loadData().then(([districts, allData, massDistricts]) => {
       return;
     }
     legendGradient.selectAll("stop").remove();
-    if (metricObj.legend === "percent") {
-      // Use grad-specific or dynamic domain for percent metrics
+
+    // DEMO: only legend uses purple!
+    if (metricObj.type === "demo") {
+      let demoDomain = domain;
+      legendGradient.selectAll("stop")
+        .data(d3.range(demoDomain[0], demoDomain[1] + 1))
+        .enter().append("stop")
+        .attr("offset", d => `${((d - demoDomain[0]) / (demoDomain[1] - demoDomain[0])) * 100}%`)
+        .attr("stop-color", d => d3.interpolatePuRd((d - demoDomain[0]) / (demoDomain[1] - demoDomain[0])));
+      legendTitle.text(metricObj.label);
+      legendLabels.data([demoDomain[0], Math.round((demoDomain[0] + demoDomain[1]) / 2), demoDomain[1]])
+        .attr("x", (d, i) => i === 0 ? 0 : (i === 1 ? 150 : 300))
+        .text(d => `${d}%`);
+    } else if (metricObj.legend === "percent") {
       let gradDomain;
       if (metricObj.key === "grad") {
         gradDomain = [50, 100];
@@ -204,11 +216,9 @@ loadData().then(([districts, allData, massDistricts]) => {
     let domain = d3.extent(Object.values(metricByCode).filter(v => v != null));
     let color;
     if (metricObj.legend === "percent") {
-      // Graduation Rate (by key): [50, 100]
       if (metricObj.key === "grad") {
         domain = [50, 100];
       } else {
-        // For all other percent metrics, [0, max in data rounded up to nearest 10]
         const maxVal = Math.max(0, ...Object.values(metricByCode).filter(v => v != null));
         domain = [0, Math.ceil(maxVal / 10) * 10];
       }
