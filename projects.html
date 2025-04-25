@@ -32,8 +32,20 @@
     .prose h1 { font-size: 2.2em; }
     .prose h2 { font-size: 1.5em; }
     .prose h3 { font-size: 1.2em; }
-    .prose ul, .prose ol { margin: 1em 0 1em 2em; }
-    .prose li { margin-bottom: 0.4em; }
+    .prose ul {
+      list-style-type: disc !important;
+      margin-left: 1.5em;
+      padding-left: 0.5em;
+    }
+    .prose ol {
+      list-style-type: decimal !important;
+      margin-left: 1.5em;
+      padding-left: 0.5em;
+    }
+    .prose li {
+      margin-bottom: 0.5em;
+    }
+
     .prose p { margin: 1em 0; }
     .prose pre, .prose code { background: #23272f; padding: 0.2em 0.5em; border-radius: 4px; }
     .prose pre { display: block; overflow-x: auto; margin: 1em 0; }
