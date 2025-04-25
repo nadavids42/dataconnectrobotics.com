@@ -116,16 +116,26 @@ export function updateScatterplot(
       d3.select("#scatterplot-tooltip").remove();
     })
     .on("click", function(event, d) {
-      // Highlight in info box
-      const infoBox = document.getElementById("info-box");
-      infoBox.innerHTML = `
-        <h3 style="margin-top: 0">${d.name || "Unknown District"}</h3>
-        <p><strong>District Code:</strong> ${d.code}</p>
-        <p><strong>${xMetricObj.label}:</strong> ${xMetricObj.format(d.x)}</p>
-        <p><strong>${yMetricObj.label}:</strong> ${yMetricObj.format(d.y)}</p>
-      `;
-      infoBox.style.display = "block";
-    });
+  // Reset all district outlines to default
+  d3.selectAll("#map g.districts path")
+    .attr("stroke", "#333")
+    .attr("stroke-width", 1);
+
+  // Highlight the matching district in orange
+  d3.select(`#map g.districts path[data-code='${d.code}']`)
+    .attr("stroke", "#ff6600")
+    .attr("stroke-width", 4);
+
+  // Existing info box code
+  const infoBox = document.getElementById("info-box");
+  infoBox.innerHTML = `
+    <h3 style="margin-top: 0">${d.name || "Unknown District"}</h3>
+    <p><strong>District Code:</strong> ${d.code}</p>
+    <p><strong>${xMetricObj.label}:</strong> ${xMetricObj.format(d.x)}</p>
+    <p><strong>${yMetricObj.label}:</strong> ${yMetricObj.format(d.y)}</p>
+  `;
+  infoBox.style.display = "block";
+});
 
   scatterSvg.append("text")
     .attr("x", scatterWidth / 2)
