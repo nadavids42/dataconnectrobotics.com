@@ -116,59 +116,44 @@ loadData().then(([districts, allData, massDistricts]) => {
     }
   }
 
-  function rerender() {
-    const selectedYear = +yearSlider.node().value || defaultYear;
-    yearValueLabel.text(selectedYear);
+  import { METRICS, buildLookupByCode } from './metrics.js';  // Make sure this matches your metrics.js
 
-    // Get selected metrics
-    const mapMetricKey = metricSelect.node().value;
-    const xMetricKey = xMetricSelect.node().value;
-    const yMetricKey = yMetricSelect.node().value;
+function rerender() {
+  const selectedYear = +yearSlider.node().value || defaultYear;
+  const selectedMetric = metricSelect.node().value;
 
-    const mapMetricObj = METRICS.find(m => m.key === mapMetricKey);
-    const xMetricObj = METRICS.find(m => m.key === xMetricKey);
-    const yMetricObj = METRICS.find(m => m.key === yMetricKey);
+  const metricObj = METRICS.find(m => m.key === selectedMetric);
+  subtitle.text(`${metricObj.label}: ${selectedYear}`);
+  yearValueLabel.text(selectedYear);
 
-    subtitle.text(`${mapMetricObj.label} (${selectedYear})`);
+  // Build the lookup for the selected metric
+  const metricByCode = buildLookupByCode(allData, metricObj.col, selectedYear);
 
-    // Build lookup tables
-    const mapByCode = buildLookupByCode(allData, mapMetricObj.col, selectedYear);
-    const xByCode = buildLookupByCode(allData, xMetricObj.col, selectedYear);
-    const yByCode = buildLookupByCode(allData, yMetricObj.col, selectedYear);
+  // Decide color and legend domain by metric type
+  let domain = d3.extent(Object.values(metricByCode).filter(v => v != null));
+  let color;
+  if (metricObj.legend === "percent") {
+    domain = [50, 100];
+    color = d3.scaleQuantize().domain(domain).range(d3.schemeBlues[7]);
+  } else if (metricObj.legend === "dollars") {
+    domain = [
+      Math.floor(domain[0] / 1000) * 1000,
+      Math.ceil(domain[1] / 1000) * 1000
+    ];
+    color = d3.scaleQuantize().domain(domain).range(d3.schemeGreens[7]);
+  } else {
+    color = d3.scaleQuantize().domain(domain).range(d3.schemeOranges[7]);
+  }
 
-    // Color scales by metric type
-    let domain = d3.extent(Object.values(mapByCode).filter(v => v != null));
-    if (mapMetricObj.legend === "percent") domain = [50, 100];
-    else if (mapMetricObj.legend === "dollars") {
-      domain = [
-        Math.floor(domain[0] / 1000) * 1000,
-        Math.ceil(domain[1] / 1000) * 1000
-      ];
-    }
-    const color =
-      mapMetricObj.legend === "percent"
-        ? d3.scaleQuantize().domain(domain).range(d3.schemeBlues[7])
-        : mapMetricObj.legend === "dollars"
-        ? d3.scaleQuantize().domain(domain).range(d3.schemeGreens[7])
-        : d3.scaleQuantize().domain(domain).range(d3.schemeOranges[7]);
+  // Use your existing renderMap but pass the correct lookup/getValue
+  renderMap(
+    svg, districts, path, color,
+    code => metricByCode[code],
+    domain, updateLegend, metricByCode,
+    selectedYear, selectedMetric
+  );
+}
 
-    // Render map
-    renderMap(
-      svg,
-      districts,
-      path,
-      color,
-      code => mapByCode[code],
-      domain,
-      d => updateLegend(domain, mapMetricObj),
-      mapByCode,
-      xByCode, // for info-box
-      yByCode, // for info-box
-      mapMetricObj,
-      xMetricObj,
-      yMetricObj,
-      selectedYear
-    );
 
     // Render scatterplot
     updateScatterplot(
