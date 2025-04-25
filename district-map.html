@@ -89,10 +89,14 @@
         </div>
         <div class="w-full md:w-72 flex-1">
           <label for="yearSlider" class="block font-semibold mb-1 text-base sm:text-lg">
-            Year: <span id="yearValue">2021</span>
+          Year: <span id="yearValue">2021</span>
           </label>
+        <!-- Dropdown for mobile (shown below md) -->
+          <select id="yearDropdown"
+            class="block md:hidden w-full bg-gray-700 text-white px-3 py-2 rounded-md border border-gray-600 focus:outline-none"></select>
+          <!-- Slider for desktop (shown md and up) -->
           <input type="range" id="yearSlider" min="2013" max="2023" value="2021" step="1"
-            class="w-full accent-blue-500 bg-gray-700 h-2 rounded-lg appearance-none outline-none cursor-pointer">
+            class="hidden md:block w-full md:w-80 bg-gray-700 h-2 rounded-lg appearance-none outline-none cursor-pointer accent-blue-500">
         </div>
       </div>
       <!-- Map + Scatterplot -->
