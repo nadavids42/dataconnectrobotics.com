@@ -1,22 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth dark" id="html-root">
+<html lang="en" class="scroll-smooth dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MA Education Dashboard | DataConnect Robotics</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    function toggleMenu() {
-      const menu = document.getElementById('mobile-menu');
-      menu.classList.toggle('hidden');
-    }
-  </script>
   <link rel="icon" href="img/logo.png">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
     body {
-      background-image: url('https://www.transparenttextures.com/patterns/circles.png');
-      background-repeat: repeat;
-      background-color: #1f2937;
+      background-color: #f1f5f9;
+    }
+    .dark body {
+      background-color: #0f172a !important;
     }
     svg.responsive-svg {
       width: 100%;
@@ -31,7 +27,6 @@
     }
     .animate-fade-in { animation: fade-in 1s ease-out both;}
   </style>
-  <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JBH44FRNK1"></script>
@@ -41,64 +36,77 @@
   gtag('js', new Date());
   gtag('config', 'G-JBH44FRNK1');
 </script>
-<body class="text-white font-sans">
+<body class="font-sans text-gray-900 dark:text-white min-h-screen flex flex-col">
   <!-- Header/Nav from main site -->
-  <header class="bg-gray-800 shadow-md">
+  <header class="bg-white dark:bg-slate-900 shadow sticky top-0 z-20">
     <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-      <a href="/">
-        <img src="img/logo.png" alt="Logo" class="h-12">
-      </a>
-      <button class="text-white md:hidden focus:outline-none" onclick="toggleMenu()">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-      </button>
-      <nav class="hidden md:flex space-x-6 text-lg">
-        <a href="index.html#about" class="hover:text-blue-500 transition">About</a>
-        <a href="index.html#projects" class="hover:text-blue-500 transition">Projects</a>
-        <a href="index.html#contact" class="hover:text-blue-500 transition">Contact</a>
-        <a href="/classes.html" class="hover:text-blue-500 transition">Classes</a>
+      <div class="flex items-center gap-4">
+        <img src="img/logo.png" alt="Logo" class="h-12 rounded-lg shadow">
+        <span class="text-2xl font-bold tracking-tight text-blue-700 dark:text-blue-400">DataConnect Robotics</span>
+      </div>
+      <nav class="hidden md:flex space-x-6 text-lg font-medium">
+        <a href="/#about" class="hover:text-blue-600 dark:hover:text-blue-400 transition">About</a>
+        <a href="/projects.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Projects</a>
+        <a href="/#contact" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Contact</a>
+        <a href="/classes.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Classes</a>
       </nav>
+      <div class="flex items-center gap-2">
+        <button class="md:hidden text-2xl focus:outline-none" onclick="toggleMenu()">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+        <button id="toggle-dark" class="ml-2 rounded-full border border-slate-200 dark:border-slate-700 p-2 hover:bg-blue-100 dark:hover:bg-blue-800 transition">
+          <svg id="light-icon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5" />
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+          <svg id="dark-icon" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 0010 9.79z" />
+          </svg>
+        </button>
+      </div>
     </div>
-    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4">
-      <a href="index.html#about" class="block py-2 text-lg hover:text-blue-500">About</a>
-      <a href="index.html#projects" class="block py-2 text-lg hover:text-blue-500">Projects</a>
-      <a href="index.html#contact" class="block py-2 text-lg hover:text-blue-500">Contact</a>
-      <a href="/classes.html" class="block py-2 text-lg hover:text-blue-500">Classes</a>
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 bg-white dark:bg-slate-900">
+      <a href="/#about" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">About</a>
+      <a href="/projects.html" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">Projects</a>
+      <a href="/#contact" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">Contact</a>
+      <a href="/classes.html" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">Classes</a>
     </div>
   </header>
 
   <!-- DASHBOARD CONTENT -->
-  <main class="max-w-7xl mx-auto px-2 md:px-4 py-6 md:py-12">
+  <main class="flex-1 max-w-7xl mx-auto px-2 md:px-4 py-6 md:py-12 w-full">
     <section class="mb-8 md:mb-10">
-      <h1 class="text-2xl sm:text-4xl md:text-5xl font-bold mb-2 md:mb-3 animate-fade-in text-center">MA Public School Districts Dashboard</h1>
-      <p class="text-base sm:text-xl md:text-2xl text-gray-300 mb-4 md:mb-8 text-center">Explore graduation rates, test scores, expenditures, and more by district and year.</p>
+      <h1 class="text-2xl sm:text-4xl md:text-5xl font-bold mb-2 md:mb-3 animate-fade-in text-center text-blue-700 dark:text-blue-200 drop-shadow">MA Public School Districts Dashboard</h1>
+      <p class="text-base sm:text-xl md:text-2xl text-blue-800 dark:text-blue-300 mb-4 md:mb-8 text-center">Explore graduation rates, test scores, expenditures, and more by district and year.</p>
     </section>
-    <section class="bg-gray-800/95 rounded-2xl shadow-xl p-4 sm:p-6 md:p-10">
+    <section class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-4 sm:p-6 md:p-10">
       <!-- Controls -->
       <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between md:gap-6 mb-6 md:mb-8">
         <div class="flex-1 min-w-0">
-          <label for="metricSelect" class="block font-semibold mb-1 text-base sm:text-lg">Map Metric:</label>
-          <select id="metricSelect" class="w-full bg-gray-700 text-white px-3 py-2 rounded-md border border-gray-600 focus:outline-none"></select>
+          <label for="metricSelect" class="block font-semibold mb-1 text-base sm:text-lg text-gray-900 dark:text-gray-100">Map Metric:</label>
+          <select id="metricSelect" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 focus:outline-none"></select>
         </div>
         <div class="flex-1 min-w-0">
-          <label for="xMetricSelect" class="block font-semibold mb-1 text-base sm:text-lg">Scatter X:</label>
-          <select id="xMetricSelect" class="w-full bg-gray-700 text-white px-3 py-2 rounded-md border border-gray-600 focus:outline-none"></select>
+          <label for="xMetricSelect" class="block font-semibold mb-1 text-base sm:text-lg text-gray-900 dark:text-gray-100">Scatter X:</label>
+          <select id="xMetricSelect" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 focus:outline-none"></select>
         </div>
         <div class="flex-1 min-w-0">
-          <label for="yMetricSelect" class="block font-semibold mb-1 text-base sm:text-lg">Scatter Y:</label>
-          <select id="yMetricSelect" class="w-full bg-gray-700 text-white px-3 py-2 rounded-md border border-gray-600 focus:outline-none"></select>
+          <label for="yMetricSelect" class="block font-semibold mb-1 text-base sm:text-lg text-gray-900 dark:text-gray-100">Scatter Y:</label>
+          <select id="yMetricSelect" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 focus:outline-none"></select>
         </div>
         <div class="w-full md:w-72 flex-1">
-          <label for="yearSlider" class="block font-semibold mb-1 text-base sm:text-lg">
-          Year: <span id="yearValue">2021</span>
+          <label for="yearSlider" class="block font-semibold mb-1 text-base sm:text-lg text-gray-900 dark:text-gray-100">
+            Year: <span id="yearValue">2021</span>
           </label>
-        <!-- Dropdown for mobile (shown below md) -->
+          <!-- Dropdown for mobile (shown below md) -->
           <select id="yearDropdown"
-            class="block md:hidden w-full bg-gray-700 text-white px-3 py-2 rounded-md border border-gray-600 focus:outline-none"></select>
+            class="block md:hidden w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 focus:outline-none"></select>
           <!-- Slider for desktop (shown md and up) -->
           <input type="range" id="yearSlider" min="2013" max="2023" value="2021" step="1"
-            class="hidden md:block w-full md:w-80 bg-gray-700 h-2 rounded-lg appearance-none outline-none cursor-pointer accent-blue-500">
+            class="hidden md:block w-full md:w-80 bg-blue-200 dark:bg-slate-700 h-2 rounded-lg appearance-none outline-none cursor-pointer accent-blue-500">
         </div>
       </div>
       <!-- Map + Scatterplot -->
@@ -107,16 +115,16 @@
         <div id="scatterplot" class="flex-1 min-w-0 w-full max-w-full"></div>
       </div>
       <!-- Info box -->
-      <div id="info-box" class="mt-6 p-5 rounded-lg border border-gray-600 bg-gray-900 text-white text-base sm:text-lg hidden"></div>
+      <div id="info-box" class="mt-6 p-5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-900 text-gray-900 dark:text-white text-base sm:text-lg hidden"></div>
     </section>
-    <div class="mt-8 p-4 bg-gray-800 rounded-xl text-gray-200 text-xs sm:text-sm max-w-2xl mx-auto shadow">
+    <div class="mt-8 p-4 bg-white dark:bg-slate-800 rounded-2xl text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto shadow">
       <strong>About the Data:</strong> All School Data sourced from the
       <a href="https://www.doe.mass.edu/" class="underline hover:text-blue-400" target="_blank" rel="noopener">Massachusetts Department of Elementary and Secondary Education (DESE)</a>.
       Data has been cleaned and processed for clarity. Last updated: April 2025.
     </div>
   </main>
 
-  <footer class="text-center py-6 text-xs sm:text-sm text-gray-400">
+  <footer class="text-center py-8 text-base text-slate-600 dark:text-slate-400 bg-transparent mt-10">
     &copy; 2025 DataConnect Robotics. All rights reserved.
   </footer>
 
@@ -130,6 +138,41 @@
       <span class="text-white text-lg font-medium">Loading data…</span>
     </div>
   </div>
+  <!-- Dark/Light Toggle Script -->
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+    // Dark/light mode toggle and icon swap
+    function updateIcons() {
+      const html = document.documentElement;
+      document.getElementById('light-icon').classList.toggle('hidden', html.classList.contains('dark'));
+      document.getElementById('dark-icon').classList.toggle('hidden', !html.classList.contains('dark'));
+    }
+    // Set initial theme
+    if (localStorage.theme === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else if (localStorage.theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark');
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      updateIcons();
+    });
+    document.getElementById('toggle-dark').onclick = function () {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.theme = 'light';
+      } else {
+        html.classList.add('dark');
+        localStorage.theme = 'dark';
+      }
+      updateIcons();
+    };
+  </script>
   <!-- Modular dashboard entry point -->
   <script type="module" src="js/app.js"></script>
 </body>
