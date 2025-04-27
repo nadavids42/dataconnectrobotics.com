@@ -143,43 +143,52 @@
 
   <!-- SCRIPTS -->
   <script>
-    // Mobile menu toggle
-    function toggleMenu() {
+  // Utility to set theme and icon display
+  function setThemeAndIcons() {
+    const html = document.documentElement;
+    const isDark = html.classList.contains('dark');
+    document.getElementById('light-icon').style.display = isDark ? 'none' : 'block';
+    document.getElementById('dark-icon').style.display = isDark ? 'block' : 'none';
+  }
+
+  // Initial theme logic
+  function setInitialTheme() {
+    const html = document.documentElement;
+    if (localStorage.theme === 'light') {
+      html.classList.remove('dark');
+    } else if (localStorage.theme === 'dark') {
+      html.classList.add('dark');
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      html.classList.add('dark');
+    }
+    setThemeAndIcons();
+  }
+  setInitialTheme();
+
+  // Toggle button click logic
+  document.getElementById('toggle-dark').onclick = function () {
+    const html = document.documentElement;
+    if (html.classList.contains('dark')) {
+      html.classList.remove('dark');
+      localStorage.theme = 'light';
+    } else {
+      html.classList.add('dark');
+      localStorage.theme = 'dark';
+    }
+    setThemeAndIcons();
+  };
+
+  // Respond to OS-level theme changes while browsing
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setInitialTheme);
+
+  // Accessibility: Close mobile menu on ESC key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === "Escape") {
       const menu = document.getElementById('mobile-menu');
-      menu.classList.toggle('hidden');
+      if (menu && !menu.classList.contains('hidden')) menu.classList.add('hidden');
     }
+  });
+</script>
 
-    // Dark/Light mode toggle (unified, robust)
-    function setInitialTheme() {
-      const html = document.documentElement;
-      if (localStorage.theme === 'light') {
-        html.classList.remove('dark');
-      } else if (localStorage.theme === 'dark') {
-        html.classList.add('dark');
-      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        html.classList.add('dark');
-      }
-    }
-    setInitialTheme();
-
-    document.getElementById('toggle-dark').onclick = function () {
-      const html = document.documentElement;
-      if (html.classList.contains('dark')) {
-        html.classList.remove('dark');
-        localStorage.theme = 'light';
-      } else {
-        html.classList.add('dark');
-        localStorage.theme = 'dark';
-      }
-    };
-
-    // Accessibility: Close mobile menu on ESC key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === "Escape") {
-        const menu = document.getElementById('mobile-menu');
-        if (!menu.classList.contains('hidden')) menu.classList.add('hidden');
-      }
-    });
-  </script>
 </body>
 </html>
