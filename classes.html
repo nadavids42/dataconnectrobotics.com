@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark" id="html-root">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class Offerings | DataConnect Robotics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+  </script>
+  <link rel="icon" href="img/logo.png">
+  <style>
+    body {
+      background-image: url('https://www.transparenttextures.com/patterns/circles.png');
+      background-repeat: repeat;
+      background-color: #1f2937;
+    }
+  </style>
+</head>
+<body class="text-white font-sans">
+  <header class="bg-gray-800 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <img src="img/logo.png" alt="Logo" class="h-12">
+      <button class="text-white md:hidden focus:outline-none" onclick="toggleMenu()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+      <nav class="hidden md:flex space-x-6 text-lg">
+        <a href="/#about" class="hover:text-blue-500 transition">About</a>
+        <a href="/projects.html" class="hover:text-blue-500 transition">Projects</a>
+        <a href="/classes.html" class="hover:text-blue-500 transition font-bold">Classes</a>
+        <a href="/#contact" class="hover:text-blue-500 transition">Contact</a>
+      </nav>
+    </div>
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4">
+      <a href="/#about" class="block py-2 text-lg hover:text-blue-500">About</a>
+      <a href="/projects.html" class="block py-2 text-lg hover:text-blue-500">Projects</a>
+      <a href="/classes.html" class="block py-2 text-lg hover:text-blue-500 font-bold">Classes</a>
+      <a href="/#contact" class="block py-2 text-lg hover:text-blue-500">Contact</a>
+    </div>
+  </header>
+
+  <section class="flex flex-col items-center justify-center text-center py-20 px-6 bg-gradient-to-r from-blue-700 to-indigo-800 text-white relative">
+    <div class="absolute inset-0 bg-black bg-opacity-30 pointer-events-none"></div>
+    <h1 class="relative z-10 text-4xl md:text-6xl font-bold mb-6 animate-fade-in">Class Offerings</h1>
+    <p class="relative z-10 text-xl md:text-2xl max-w-2xl animate-slide-in">Hands-on robotics, electronics, and coding courses for curious minds of all ages. Start your journey with DataConnect Robotics!</p>
+  </section>
+
+  <section id="classes" class="py-16 px-6 max-w-5xl mx-auto animate-fade-in">
+    <h2 class="text-3xl font-bold mb-8 text-center">Current Classes & Private Lessons</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Build Your Own Robot Car -->
+      <div class="bg-gray-800 rounded-xl p-6 shadow hover:scale-105 transform transition">
+        <h3 class="text-2xl font-semibold mb-2">Build Your Own Robot Car</h3>
+        <p class="mb-2">Ages 9+ &bull; No experience needed</p>
+        <ul class="list-disc ml-6 mb-4 text-gray-300 text-left">
+          <li>Assemble and code your own two-wheeled robot</li>
+          <li>Learn the basics of motors, sensors, and microcontrollers</li>
+          <li>Bring your robot home at the end of the course</li>
+        </ul>
+        <div class="mb-2"><span class="font-bold">Group Class:</span> $25/session per student</div>
+        <div class="mb-2"><span class="font-bold">Private Lesson:</span> $50/hr (1:1 instruction)</div>
+        <div class="text-sm text-gray-400">Materials kit: $35–$50 (yours to keep)</div>
+      </div>
+      <!-- Intro to Circuits & Arduino -->
+      <div class="bg-gray-800 rounded-xl p-6 shadow hover:scale-105 transform transition">
+        <h3 class="text-2xl font-semibold mb-2">Intro to Circuits & Arduino</h3>
+        <p class="mb-2">Ages 10+ &bull; No prior experience required</p>
+        <ul class="list-disc ml-6 mb-4 text-gray-300 text-left">
+          <li>Build fun, interactive projects with LEDs, buzzers, and sensors</li>
+          <li>Learn the basics of electricity and electronics</li>
+          <li>Discover how code and circuits come together</li>
+        </ul>
+        <div class="mb-2"><span class="font-bold">Group Class:</span> $25/session per student</div>
+        <div class="mb-2"><span class="font-bold">Private Lesson:</span> $50/hr (1:1 instruction)</div>
+        <div class="text-sm text-gray-400">Materials kit: $30–$45 (yours to keep)</div>
+      </div>
+      <!-- Private Custom Robotics & Coding -->
+      <div class="bg-gray-800 rounded-xl p-6 shadow hover:scale-105 transform transition">
+        <h3 class="text-2xl font-semibold mb-2">Private Custom Robotics & Coding</h3>
+        <p class="mb-2">All ages &bull; All levels</p>
+        <ul class="list-disc ml-6 mb-4 text-gray-300 text-left">
+          <li>One-on-one lessons tailored to your interests</li>
+          <li>Help with personal projects, advanced topics, or troubleshooting</li>
+          <li>Flexible scheduling and curriculum</li>
+        </ul>
+        <div class="mb-2"><span class="font-bold">Private Lesson:</span> $50/hr</div>
+        <div class="text-sm text-gray-400">Materials as needed</div>
+      </div>
+      <!-- Creative Electronics for Kids -->
+      <div class="bg-gray-800 rounded-xl p-6 shadow hover:scale-105 transform transition">
+        <h3 class="text-2xl font-semibold mb-2">Creative Electronics for Kids</h3>
+        <p class="mb-2">Ages 8–12 &bull; No experience needed</p>
+        <ul class="list-disc ml-6 mb-4 text-gray-300 text-left">
+          <li>Explore circuits with Snap Circuits, lights, and sound</li>
+          <li>Make simple, fun gadgets and learn the basics of electricity</li>
+          <li>Hands-on, low-pressure, creative projects</li>
+        </ul>
+        <div class="mb-2"><span class="font-bold">Group Class:</span> $20/session per student</div>
+        <div class="text-sm text-gray-400">Materials kit: $25 (yours to keep)</div>
+      </div>
+    </div>
+    <div class="mt-12 text-center">
+      <a href="#interest-form" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-xl transition">Interested? Let us know!</a>
+    </div>
+  </section>
+
+  <section id="interest-form" class="py-16 px-6 max-w-3xl mx-auto animate-fade-in">
+    <h2 class="text-3xl font-bold mb-6 text-center">Class Interest Form</h2>
+    <p class="text-lg text-center mb-4">Ready to start or want more info? Share your interests and we’ll be in touch.</p>
+    <form action="https://formspree.io/f/mgvkwvnj" method="POST" class="space-y-4">
+      <input type="text" name="name" placeholder="Your Name" required class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-gray-800 text-white">
+      <input type="email" name="_replyto" placeholder="Your Email" required class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-gray-800 text-white">
+      <textarea name="message" rows="4" placeholder="What classes are you interested in? (Optional: Student age/level, scheduling needs, etc.)" required class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-gray-800 text-white"></textarea>
+      <input type="text" name="_gotcha" style="display:none">
+      <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition">Send</button>
+    </form>
+  </section>
+
+  <footer class="text-center py-6 text-sm text-gray-400">
+    &copy; 2025 DataConnect Robotics. All rights reserved.
+  </footer>
+
+  <style>
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .animate-fade-in { animation: fade-in 1s ease-out both; }
+    .animate-slide-in { animation: slide-in 1s ease-out both; animation-delay: 0.2s; }
+  </style>
+</body>
+</html>
