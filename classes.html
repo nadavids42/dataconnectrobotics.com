@@ -13,42 +13,6 @@
     .dark body {
       background-color: #0f172a !important; /* Tailwind slate-900 for dark */
     }
-
-    /* FORCE DARK MODE OVERRIDES for parity with index.html */
-    .dark .bg-white,
-    .dark.bg-white {
-      background-color: #1e293b !important;  /* slate-800 */
-      color: #f1f5f9 !important;
-    }
-    .dark .bg-slate-100,
-    .dark.bg-slate-100 {
-      background-color: #0f172a !important; /* slate-900 */
-      color: #f1f5f9 !important;
-    }
-    .dark .text-gray-900 {
-      color: #f1f5f9 !important;
-    }
-    .dark .text-gray-700 {
-      color: #e5e7eb !important;
-    }
-    .dark input,
-    .dark textarea {
-      background-color: #1e293b !important;
-      color: #f1f5f9 !important;
-      border-color: #334155 !important;
-    }
-    .dark .border-slate-200,
-    .dark.border-slate-200 {
-      border-color: #334155 !important;
-    }
-    .dark .border-slate-300,
-    .dark.border-slate-300 {
-      border-color: #334155 !important;
-    }
-    .dark .border-slate-600 {
-      border-color: #64748b !important;
-    }
-
     @keyframes fade-in {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -109,57 +73,57 @@
 
   <!-- CLASSES SECTION -->
   <section id="classes" class="py-16 px-6 max-w-5xl mx-auto animate-fade-in">
-    <h2 class="text-3xl font-bold mb-10 text-center text-blue-700 dark:text-blue-400">Upcoming Classes & Private Lessons</h2>
+    <h2 class="text-3xl font-bold mb-10 text-center">Upcoming Classes & Private Lessons</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <!-- Build Your Own Robot Car -->
       <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg hover:scale-105 transition border border-slate-200 dark:border-slate-700">
         <h3 class="text-2xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Build Your Own Robot Car</h3>
-        <p class="mb-2 text-sm text-slate-600 dark:text-slate-400">Ages 9+ &bull; No experience needed &bull; 2 hrs</p>
-        <ul class="list-disc ml-6 mb-4 text-slate-700 dark:text-slate-300 text-left">
+        <p class="mb-2 text-sm text-gray-600 dark:text-gray-300">Ages 9+ &bull; No experience needed &bull; 2 hrs</p>
+        <ul class="list-disc ml-6 mb-4 text-gray-800 dark:text-gray-200 text-left font-medium">
           <li>Assemble and code your own two-wheeled robot</li>
           <li>Learn the basics of motors, sensors, and microcontrollers</li>
           <li>Keep your robot at the end of the course</li>
         </ul>
         <div class="mb-2"><span class="font-bold">Group Class:</span> $60/session per student</div>
         <div class="mb-2"><span class="font-bold">Private Lesson:</span> $50/hr (1:1 instruction)</div>
-        <div class="text-sm text-slate-400 dark:text-slate-500">Materials kit: $35–$50 (yours to keep)</div>
+        <div class="text-sm text-gray-500 dark:text-gray-400">Materials kit: $35–$50 (yours to keep)</div>
       </div>
       <!-- Intro to Circuits & Arduino -->
       <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg hover:scale-105 transition border border-slate-200 dark:border-slate-700">
         <h3 class="text-2xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Intro to Circuits & Arduino</h3>
-        <p class="mb-2 text-sm text-slate-600 dark:text-slate-400">Ages 10+ &bull; Basic Math needed &bull; 2 hrs</p>
-        <ul class="list-disc ml-6 mb-4 text-slate-700 dark:text-slate-300 text-left">
+        <p class="mb-2 text-sm text-gray-600 dark:text-gray-300">Ages 10+ &bull; Basic Math needed &bull; 2 hrs</p>
+        <ul class="list-disc ml-6 mb-4 text-gray-800 dark:text-gray-200 text-left font-medium">
           <li>Build fun, interactive projects with LEDs, buzzers, and sensors</li>
           <li>Learn the basics of electricity and electronics</li>
           <li>Discover how code and circuits come together</li>
         </ul>
         <div class="mb-2"><span class="font-bold">Group Class:</span> $60/session per student</div>
         <div class="mb-2"><span class="font-bold">Private Lesson:</span> $50/hr (1:1 instruction)</div>
-        <div class="text-sm text-slate-400 dark:text-slate-500">Materials kit: $30–$45 (yours to keep)</div>
+        <div class="text-sm text-gray-500 dark:text-gray-400">Materials kit: $30–$45 (yours to keep)</div>
       </div>
       <!-- Private Custom Robotics & Coding -->
       <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg hover:scale-105 transition border border-slate-200 dark:border-slate-700">
         <h3 class="text-2xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Private Custom Robotics & Coding</h3>
-        <p class="mb-2 text-sm text-slate-600 dark:text-slate-400">All ages &bull; All levels</p>
-        <ul class="list-disc ml-6 mb-4 text-slate-700 dark:text-slate-300 text-left">
+        <p class="mb-2 text-sm text-gray-600 dark:text-gray-300">All ages &bull; All levels</p>
+        <ul class="list-disc ml-6 mb-4 text-gray-800 dark:text-gray-200 text-left font-medium">
           <li>One-on-one lessons tailored to your interests</li>
           <li>Help with personal projects, advanced topics, or troubleshooting</li>
           <li>Flexible scheduling and curriculum</li>
         </ul>
         <div class="mb-2"><span class="font-bold">Private Lesson:</span> $50/hr</div>
-        <div class="text-sm text-slate-400 dark:text-slate-500">Materials as needed</div>
+        <div class="text-sm text-gray-500 dark:text-gray-400">Materials as needed</div>
       </div>
       <!-- Creative Electronics for Kids -->
       <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg hover:scale-105 transition border border-slate-200 dark:border-slate-700">
         <h3 class="text-2xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Creative Electronics for Kids</h3>
-        <p class="mb-2 text-sm text-slate-600 dark:text-slate-400">Ages 8–12 &bull; No experience needed &bull; 1 hr</p>
-        <ul class="list-disc ml-6 mb-4 text-slate-700 dark:text-slate-300 text-left">
+        <p class="mb-2 text-sm text-gray-600 dark:text-gray-300">Ages 8–12 &bull; No experience needed &bull; 1 hr</p>
+        <ul class="list-disc ml-6 mb-4 text-gray-800 dark:text-gray-200 text-left font-medium">
           <li>Explore circuits with Snap Circuits, lights, and sound</li>
           <li>Make simple, fun gadgets and learn the basics of electricity</li>
           <li>Hands-on, low-pressure, creative projects</li>
         </ul>
         <div class="mb-2"><span class="font-bold">Group Class:</span> $25/session per student</div>
-        <div class="text-sm text-slate-400 dark:text-slate-500">Materials kit: $30 (yours to keep)</div>
+        <div class="text-sm text-gray-500 dark:text-gray-400">Materials kit: $30 (yours to keep)</div>
       </div>
     </div>
     <div class="mt-12 text-center">
@@ -169,7 +133,7 @@
 
   <!-- INTEREST FORM -->
   <section id="interest-form" class="py-16 px-6 max-w-3xl mx-auto">
-    <h2 class="text-3xl font-bold mb-6 text-center text-blue-700 dark:text-blue-400">Class Interest Form</h2>
+    <h2 class="text-3xl font-bold mb-6 text-center">Class Interest Form</h2>
     <p class="text-lg text-center mb-4 text-gray-700 dark:text-gray-200">Ready to start or want more info? Share your interests and we’ll be in touch.</p>
     <form action="https://formspree.io/f/mgvkwvnj" method="POST" class="space-y-4 bg-white dark:bg-slate-800 rounded-2xl shadow p-8">
       <input type="text" name="name" placeholder="Your Name" required class="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-900 text-gray-900 dark:text-white">
@@ -191,7 +155,7 @@
       const menu = document.getElementById('mobile-menu');
       menu.classList.toggle('hidden');
     }
-    // Dark/light mode toggle and icon update
+    // Dark/light mode toggle
     if (localStorage.theme === 'light') {
       document.documentElement.classList.remove('dark');
     } else if (localStorage.theme === 'dark') {
@@ -199,12 +163,6 @@
     } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       document.documentElement.classList.add('dark');
     }
-    function updateDarkIcons() {
-      const html = document.documentElement;
-      document.getElementById('light-icon').style.display = html.classList.contains('dark') ? 'none' : 'block';
-      document.getElementById('dark-icon').style.display = html.classList.contains('dark') ? 'block' : 'none';
-    }
-    document.addEventListener('DOMContentLoaded', updateDarkIcons);
     document.getElementById('toggle-dark').onclick = function () {
       const html = document.documentElement;
       if (html.classList.contains('dark')) {
@@ -214,8 +172,16 @@
         html.classList.add('dark');
         localStorage.theme = 'dark';
       }
-      updateDarkIcons();
+      // Swap icons on toggle (keep in sync with mode)
+      document.getElementById('light-icon').classList.toggle('hidden', html.classList.contains('dark'));
+      document.getElementById('dark-icon').classList.toggle('hidden', !html.classList.contains('dark'));
     }
+    // Ensure correct icon on load
+    window.addEventListener('DOMContentLoaded', () => {
+      const html = document.documentElement;
+      document.getElementById('light-icon').classList.toggle('hidden', html.classList.contains('dark'));
+      document.getElementById('dark-icon').classList.toggle('hidden', !html.classList.contains('dark'));
+    });
   </script>
 </body>
 </html>
