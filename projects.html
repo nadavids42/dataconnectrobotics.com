@@ -9,12 +9,11 @@
   <link rel="icon" href="img/logo.png">
   <style>
     body {
-      background-color: #f1f5f9; /* slate-100 */
+      background-color: #f1f5f9;
     }
     .dark body {
-      background-color: #0f172a !important; /* slate-900 */
+      background-color: #0f172a !important;
     }
-    /* Markdown/Prose Styling for blog content */
     .prose img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1em 0; }
     .prose a { color: #38bdf8; text-decoration: underline; transition: color 0.15s;}
     .prose a:hover { color: #2563eb;}
@@ -22,7 +21,7 @@
     .prose pre { background: #23272f; padding: 1em; border-radius: 8px; font-size: 0.95em; margin: 1em 0;}
     .prose table { width: 100%; border-collapse: collapse; margin: 1em 0; }
     .prose th, .prose td { border: 1px solid #444; padding: 0.5em; }
-    .prose blockquote { border-left: 4px solid #38bdf8; padding-left: 1em; color: #a5b4fc; margin: 1em 0; }
+    .prose blockquote { border-left: 4px solid #38bdf8; padding-left: 1em; color: #334155; margin: 1em 0; }
     .prose ul { list-style-type: disc; margin-left: 1.5em; }
     .prose ol { list-style-type: decimal; margin-left: 1.5em; }
     .prose li { margin-bottom: 0.4em; }
@@ -36,10 +35,19 @@
     .prose h2 { font-size: 1.6em; }
     .prose h3 { font-size: 1.25em; }
     .prose p { margin: 1em 0; }
-    .dark .prose code, .prose-invert code,
-    .dark .prose pre, .prose-invert pre { background: #23272f; color: #e0e7ef; }
-    .dark .prose blockquote, .prose-invert blockquote { border-left: 4px solid #60a5fa; color: #a5b4fc;}
-    .prose-invert { color: #f1f5f9; }
+    /* DARK MODE for prose */
+    .dark .prose, .prose-dark {
+      color: #f1f5f9;
+    }
+    .dark .prose blockquote, .prose-dark blockquote {
+      border-left: 4px solid #60a5fa;
+      color: #a5b4fc;
+    }
+    .dark .prose code, .prose-dark code,
+    .dark .prose pre, .prose-dark pre {
+      background: #23272f;
+      color: #e0e7ef;
+    }
     @keyframes fade-in { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
     .animate-fade-in { animation: fade-in 1s ease-out both; }
   </style>
@@ -97,7 +105,7 @@
     </div>
     <div id="post-content-container" class="hidden">
       <div id="post-meta" class="mb-4"></div>
-      <div id="post-content" class="prose prose-invert prose-lg bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg"></div>
+      <div id="post-content" class="prose prose-lg bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg transition-colors"></div>
     </div>
     <div id="back-link" class="mt-8 hidden">
       <a href="#" class="inline-block px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 transition font-semibold text-white" onclick="showList(event)">
@@ -117,11 +125,24 @@
       const menu = document.getElementById('mobile-menu');
       menu.classList.toggle('hidden');
     }
-    // Dark/light mode toggle logic (persist with localStorage)
+
+    // Dark/light mode toggle logic (persist with localStorage) and icon swap
     function updateIcons() {
       const html = document.documentElement;
       document.getElementById('light-icon').classList.toggle('hidden', html.classList.contains('dark'));
       document.getElementById('dark-icon').classList.toggle('hidden', !html.classList.contains('dark'));
+    }
+    // Markdown container theme fix
+    function updateProseTheme() {
+      const postContent = document.getElementById('post-content');
+      if (!postContent) return;
+      if (document.documentElement.classList.contains('dark')) {
+        postContent.classList.add('prose-dark');
+        postContent.classList.remove('prose-invert');
+      } else {
+        postContent.classList.remove('prose-dark');
+        postContent.classList.remove('prose-invert');
+      }
     }
     if (localStorage.theme === 'light') {
       document.documentElement.classList.remove('dark');
@@ -130,9 +151,10 @@
     } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       document.documentElement.classList.add('dark');
     }
-    // Initial icon state on load
-    window.addEventListener('DOMContentLoaded', updateIcons);
-    // Toggle dark/light on click and swap icons
+    window.addEventListener('DOMContentLoaded', () => {
+      updateIcons();
+      updateProseTheme();
+    });
     document.getElementById('toggle-dark').onclick = function () {
       const html = document.documentElement;
       if (html.classList.contains('dark')) {
@@ -143,7 +165,8 @@
         localStorage.theme = 'dark';
       }
       updateIcons();
-    }
+      updateProseTheme();
+    };
 
     // Blog logic
     const posts = [
@@ -210,6 +233,7 @@
             } else {
               metaEl.innerHTML = "";
             }
+            updateProseTheme();
           }
           blogList.classList.add('hidden');
           contentContainerEl.classList.remove('hidden');
