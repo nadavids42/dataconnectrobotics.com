@@ -9,10 +9,10 @@
   <link rel="icon" href="img/logo.png">
   <style>
     body {
-      background-color: #f1f5f9;
+      background-color: #f1f5f9; /* slate-100 */
     }
     .dark body {
-      background-color: #0f172a !important;
+      background-color: #0f172a !important; /* slate-900 */
     }
     /* Markdown/Prose Styling for blog content */
     .prose img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1em 0; }
@@ -97,7 +97,7 @@
     </div>
     <div id="post-content-container" class="hidden">
       <div id="post-meta" class="mb-4"></div>
-      <div id="post-content" class="prose prose-invert prose-lg bg-slate-800 rounded-2xl p-8 shadow-lg"></div>
+      <div id="post-content" class="prose prose-invert prose-lg bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg"></div>
     </div>
     <div id="back-link" class="mt-8 hidden">
       <a href="#" class="inline-block px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 transition font-semibold text-white" onclick="showList(event)">
@@ -118,6 +118,11 @@
       menu.classList.toggle('hidden');
     }
     // Dark/light mode toggle logic (persist with localStorage)
+    function updateIcons() {
+      const html = document.documentElement;
+      document.getElementById('light-icon').classList.toggle('hidden', html.classList.contains('dark'));
+      document.getElementById('dark-icon').classList.toggle('hidden', !html.classList.contains('dark'));
+    }
     if (localStorage.theme === 'light') {
       document.documentElement.classList.remove('dark');
     } else if (localStorage.theme === 'dark') {
@@ -125,6 +130,9 @@
     } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       document.documentElement.classList.add('dark');
     }
+    // Initial icon state on load
+    window.addEventListener('DOMContentLoaded', updateIcons);
+    // Toggle dark/light on click and swap icons
     document.getElementById('toggle-dark').onclick = function () {
       const html = document.documentElement;
       if (html.classList.contains('dark')) {
@@ -134,6 +142,7 @@
         html.classList.add('dark');
         localStorage.theme = 'dark';
       }
+      updateIcons();
     }
 
     // Blog logic
