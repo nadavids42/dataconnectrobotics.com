@@ -1,137 +1,130 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth dark" id="html-root">
+<html lang="en" class="scroll-smooth dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects | DataConnect Robotics</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.5.9/dist/typography.min.css">
+  <link rel="icon" href="img/logo.png">
   <style>
     body {
-      background-image: url('https://www.transparenttextures.com/patterns/circles.png');
-      background-repeat: repeat;
-      background-color: #1f2937;
+      background-color: #f1f5f9; /* slate-100 */
+    }
+    .dark body {
+      background-color: #0f172a !important; /* slate-900 */
     }
     .prose img { max-width: 100%; height: auto; border-radius: 0.5rem; }
-    .prose a { color: #38bdf8; text-decoration: underline; transition: color 0.15s;}
-    .prose a:hover { color: #2563eb;}
-    .prose code { background: #23272f; padding: 0.1em 0.4em; border-radius: 4px; font-size: 0.95em;}
+    .prose a { color: #2563eb; text-decoration: underline; transition: color 0.15s;}
+    .prose a:hover { color: #1e40af;}
+    .prose code { background: #e2e8f0; color: #334155; padding: 0.1em 0.4em; border-radius: 4px; font-size: 0.97em;}
+    .dark .prose code { background: #23272f; color: #e0e7ef;}
     .prose table { width: 100%; border-collapse: collapse;}
     .prose th, .prose td { border: 1px solid #444; padding: 0.5em;}
-    @keyframes fade-in { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);}
-    }
-    .animate-fade-in { animation: fade-in 1s ease-out both;}
-
-    .prose h1, .prose h2, .prose h3, .prose h4 {
-    font-weight: bold;
-    margin-top: 1.2em;
-    margin-bottom: 0.6em;
-    line-height: 1.15;
-    }
-    .prose h1 { font-size: 2.2em; }
-    .prose h2 { font-size: 1.5em; }
-    .prose h3 { font-size: 1.2em; }
-    .prose ul {
-      list-style-type: disc !important;
-      margin-left: 1.5em;
-      padding-left: 0.5em;
-    }
-    .prose ol {
-      list-style-type: decimal !important;
-      margin-left: 1.5em;
-      padding-left: 0.5em;
-    }
-    .prose li {
-      margin-bottom: 0.5em;
-    }
-
-    .prose p { margin: 1em 0; }
-    .prose pre, .prose code { background: #23272f; padding: 0.2em 0.5em; border-radius: 4px; }
-    .prose pre { display: block; overflow-x: auto; margin: 1em 0; }
-    .prose table { width: 100%; border-collapse: collapse; margin: 1em 0; }
-    .prose th, .prose td { border: 1px solid #444; padding: 0.5em; }
-    .prose a { color: #38bdf8; text-decoration: underline; transition: color 0.15s;}
-    .prose a:hover { color: #2563eb;}
-    .prose img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1em 0; }
-    .prose blockquote { border-left: 4px solid #38bdf8; padding-left: 1em; color: #a5b4fc; margin: 1em 0; }
+    .prose blockquote { border-left: 4px solid #2563eb; padding-left: 1em; color: #64748b; margin: 1em 0; }
+    .dark .prose blockquote { border-left: 4px solid #60a5fa; color: #a5b4fc;}
   </style>
 </head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBH44FRNK1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<body class="font-sans text-gray-900 dark:text-white min-h-screen flex flex-col">
 
-  gtag('config', 'G-JBH44FRNK1');
-</script>
-<body class="text-white font-sans">
-  <!-- Header (reuse your main site header/nav) -->
-  <header class="bg-gray-800 shadow-md">
+  <!-- HEADER -->
+  <header class="bg-white dark:bg-slate-900 shadow sticky top-0 z-20">
     <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-      <a href="/">
-        <img src="img/logo.png" alt="Logo" class="h-12">
+      <a href="/" class="flex items-center gap-3">
+        <img src="img/logo.png" alt="Logo" class="h-12 rounded-lg shadow">
+        <span class="text-2xl font-bold tracking-tight text-blue-700 dark:text-blue-400">DataConnect Robotics</span>
       </a>
-      <button class="text-white md:hidden focus:outline-none" onclick="toggleMenu()">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-      </button>
-      <nav class="hidden md:flex space-x-6 text-lg">
-        <a href="/index.html" class="hover:text-blue-500 transition">Home</a>
-        <a href="/#about" class="hover:text-blue-500 transition">About</a>
-        <a href="/#contact" class="hover:text-blue-500 transition">Contact</a>
-        <a href="/classes.html" class="hover:text-blue-500 transition">Classes</a>
+      <nav class="hidden md:flex space-x-6 text-lg font-medium">
+        <a href="/index.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Home</a>
+        <a href="/#about" class="hover:text-blue-600 dark:hover:text-blue-400 transition">About</a>
+        <a href="/#contact" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Contact</a>
+        <a href="/classes.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Classes</a>
       </nav>
+      <div class="flex items-center gap-2">
+        <button class="md:hidden text-2xl focus:outline-none" onclick="toggleMenu()">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+        <button id="toggle-dark" class="ml-2 rounded-full border border-slate-200 dark:border-slate-700 p-2 hover:bg-blue-100 dark:hover:bg-blue-800 transition">
+          <svg id="light-icon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5" />
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+          <svg id="dark-icon" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 0010 9.79z" />
+          </svg>
+        </button>
+      </div>
     </div>
-    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4">
-      <a href="/index.html" class="block py-2 text-lg hover:text-blue-500">Home</a>
-      <a href="/#about" class="block py-2 text-lg hover:text-blue-500">About</a>
-      <a href="/#contact" class="block py-2 text-lg hover:text-blue-500">Contact</a>
-      <a href="/classes.html" class="block py-2 text-lg hover:text-blue-500">Classes</a>
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 bg-white dark:bg-slate-900">
+      <a href="/index.html" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">Home</a>
+      <a href="/#about" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">About</a>
+      <a href="/#contact" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">Contact</a>
+      <a href="/classes.html" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">Classes</a>
     </div>
   </header>
 
-  <section class="flex flex-col items-center justify-center text-center py-14 px-6 bg-gradient-to-r from-blue-600 to-indigo-700 text-white animate-fade-in relative">
-    <div class="absolute inset-0 bg-black bg-opacity-30 pointer-events-none"></div>
-    <h1 class="relative z-10 text-4xl md:text-6xl font-bold mb-6 animate-fade-in">Projects</h1>
-    <p class="text-xl md:text-2xl max-w-2xl">Stories, project notes, and tutorials from DataConnect Robotics.</p>
+  <!-- HERO/BANNER -->
+  <section class="relative overflow-hidden flex flex-col items-center justify-center text-center py-20 px-6 bg-gradient-to-br from-blue-200 to-indigo-100 dark:from-blue-900 dark:to-indigo-900">
+    <h1 class="relative z-10 text-4xl md:text-6xl font-bold mb-4 text-blue-900 dark:text-blue-200 drop-shadow">Projects</h1>
+    <p class="relative z-10 text-xl md:text-2xl max-w-2xl text-blue-800 dark:text-blue-300">Stories, project notes, and tutorials from DataConnect Robotics.</p>
   </section>
 
-  <main class="max-w-3xl mx-auto py-10 px-4">
+  <!-- MAIN BLOG LIST/POST -->
+  <main class="max-w-3xl mx-auto py-10 px-4 flex-1 w-full">
     <div id="blog-list">
-      <ul id="post-list" class="space-y-3"></ul>
+      <ul id="post-list" class="space-y-4"></ul>
     </div>
     <div id="post-content-container" class="hidden">
       <div id="post-meta" class="mb-4"></div>
-      <div id="post-content" class="prose prose-invert prose-lg bg-gray-800 rounded-xl p-6 shadow-lg"></div>
+      <div id="post-content" class="prose prose-blue dark:prose-invert prose-lg bg-white dark:bg-slate-800 rounded-xl p-8 shadow-lg"></div>
     </div>
     <div id="back-link" class="mt-8 hidden">
-      <a href="#" class="inline-block px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 transition font-semibold" onclick="showList(event)">
+      <a href="#" class="inline-block px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 transition font-semibold text-white" onclick="showList(event)">
         &larr; Back to all Projects
       </a>
     </div>
   </main>
 
-  <footer class="text-center py-6 text-sm text-gray-400">
+  <!-- FOOTER -->
+  <footer class="text-center py-8 text-base text-slate-600 dark:text-slate-400 bg-transparent">
     &copy; 2025 DataConnect Robotics. All rights reserved.
   </footer>
 
+  <!-- SCRIPTS -->
   <script>
-    // Toggle mobile menu (reuse as before)
     function toggleMenu() {
       const menu = document.getElementById('mobile-menu');
       menu.classList.toggle('hidden');
     }
 
-    // Your posts array (add date field for nicer display)
+    // Dark/light mode toggle
+    if (localStorage.theme === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else if (localStorage.theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark');
+    }
+    document.getElementById('toggle-dark').onclick = function () {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.theme = 'light';
+      } else {
+        html.classList.add('dark');
+        localStorage.theme = 'dark';
+      }
+    }
+
+    // Blog logic
     const posts = [
       { title: "Official Launch", date: "2025-04-24", file: "2025-04-23-this-is-a-test.md" },
       { title: "2-Wheeled Smart Car - Version 1", date: "2025-04-26", file: "2025-04-26-2-wheeled-smart-car-version-1.md" }
       // Add more posts here
     ];
-
     const listEl = document.getElementById("post-list");
     const contentContainerEl = document.getElementById("post-content-container");
     const contentEl = document.getElementById("post-content");
@@ -139,12 +132,9 @@
     const blogList = document.getElementById("blog-list");
     const backLink = document.getElementById("back-link");
 
-    // Function to strip YAML frontmatter (--- ... ---)
     function stripFrontmatter(md) {
       return md.replace(/^---[\s\S]*?---\s*/, '');
     }
-
-    // Render blog list
     function renderList() {
       listEl.innerHTML = '';
       posts.forEach(post => {
@@ -152,35 +142,26 @@
         const link = document.createElement("a");
         link.href = `#${post.file}`;
         link.textContent = post.title;
-        link.className = "block px-4 py-2 rounded bg-gray-700 hover:bg-cyan-600 hover:text-white font-medium transition";
+        link.className = "block px-4 py-3 rounded-xl bg-white dark:bg-slate-800 text-gray-900 dark:text-white shadow hover:bg-blue-100 dark:hover:bg-blue-800 font-semibold transition";
         li.appendChild(link);
         listEl.appendChild(li);
       });
     }
-
-    // Show list, hide post
     function showList(e) {
       if (e) e.preventDefault();
       contentContainerEl.classList.add('hidden');
       blogList.classList.remove('hidden');
       backLink.classList.add('hidden');
-      // Remove hash from URL (optional)
       history.replaceState(null, '', window.location.pathname);
     }
-
-    // Format date (YYYY-MM-DD to readable)
     function formatDate(dateStr) {
       if (!dateStr) return '';
       const d = new Date(dateStr);
       if (isNaN(d.getTime())) return dateStr;
       return d.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
     }
-
-    // Show single post view with meta
     function showPost(file) {
-      // Find the post metadata
       const post = posts.find(p => p.file === file);
-
       fetch(`/blog/${file}`)
         .then(res => {
           if (!res.ok) {
@@ -192,15 +173,13 @@
         })
         .then(md => {
           if (md) {
-            // Strip YAML frontmatter if present
             md = stripFrontmatter(md);
             contentEl.innerHTML = marked.parse(md);
-            // Render meta/title
             if (post) {
               metaEl.innerHTML = `
                 <h2 class="text-2xl font-bold mb-1">${post.title}</h2>
-                <div class="text-gray-400 text-sm mb-4">${formatDate(post.date)}</div>
-                <hr class="border-gray-700 mb-4">
+                <div class="text-slate-400 dark:text-slate-300 text-sm mb-4">${formatDate(post.date)}</div>
+                <hr class="border-slate-200 dark:border-slate-700 mb-4">
               `;
             } else {
               metaEl.innerHTML = "";
@@ -209,12 +188,9 @@
           blogList.classList.add('hidden');
           contentContainerEl.classList.remove('hidden');
           backLink.classList.remove('hidden');
-          // Scroll to top
           contentContainerEl.scrollIntoView({ behavior: "smooth" });
         });
     }
-
-    // Handle hash change (for sharing/bookmarks)
     window.onhashchange = () => {
       const hash = decodeURIComponent(location.hash.replace(/^#/, ''));
       if (hash) {
@@ -223,14 +199,10 @@
         showList();
       }
     };
-
-    // Initial render
     renderList();
-    // Load post if hash present on page load
     if (location.hash) {
       showPost(decodeURIComponent(location.hash.replace(/^#/, '')));
     }
-
   </script>
 </body>
 </html>
