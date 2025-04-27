@@ -18,8 +18,10 @@
     body {
       background-image: url('https://www.transparenttextures.com/patterns/circles.png');
       background-repeat: repeat;
-      background-color: #1f2937; /* fallback background */
-/*       background-color: #FFFFFF; */
+      background-color: #f9fafb; /* light fallback */
+    }
+    .dark body {
+      background-color: #1f2937; /* dark fallback */
     }
   </style>
 </head>
@@ -29,18 +31,23 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-JBH44FRNK1');
 </script>
-<body class="text-white font-sans">
-  <header class="bg-gray-800 shadow-md">
+<body class="text-gray-900 dark:text-white font-sans">
+  <header class="bg-gray-100 dark:bg-gray-800 shadow-md">
     <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
       <img src="img/logo.png" alt="Logo" class="h-12">
-      <button class="text-white md:hidden focus:outline-none" onclick="toggleMenu()">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-      </button>
+      <div class="flex items-center">
+        <button class="text-gray-900 dark:text-white md:hidden focus:outline-none mr-2" onclick="toggleMenu()">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+        <!-- Light/Dark Mode Toggle Button -->
+        <button id="toggle-dark" class="ml-4 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-1 rounded transition hover:bg-blue-600 hover:text-white">
+          Toggle Light/Dark
+        </button>
+      </div>
       <nav class="hidden md:flex space-x-6 text-lg">
         <a href="#about" class="hover:text-blue-500 transition">About</a>
         <a href="/projects.html" class="hover:text-blue-500 transition">Projects</a>
@@ -56,13 +63,13 @@
     </div>
   </header>
 
-  <section class="flex flex-col items-center justify-center text-center py-15 px-6 bg-gradient-to-r from-blue-700 to-indigo-800 text-white relative">
-    <!-- Optional overlay: -->
-    <div class="absolute inset-0 bg-black bg-opacity-30 pointer-events-none"></div>
+  <section class="flex flex-col items-center justify-center text-center py-15 px-6 bg-white dark:bg-gradient-to-r dark:from-blue-700 dark:to-indigo-800 relative">
+    <div class="absolute inset-0 bg-black bg-opacity-0 dark:bg-opacity-30 pointer-events-none"></div>
     <h1 class="relative z-10 text-4xl md:text-6xl font-bold mb-6 animate-fade-in">Welcome to DataConnect Robotics</h1>
     <p class="relative z-10 text-xl md:text-2xl max-w-2xl animate-slide-in">Merging data, robotics, and code to build the future—one circuit at a time.</p>
     <img src="img/header.jpg" alt="Showcase robot" class="relative z-10 mx-auto mb-6 w-80 rounded-xl shadow-lg animate-fade-in">
   </section>
+
   <section id="about" class="py-16 px-6 max-w-4xl mx-auto animate-fade-in">
     <h2 class="text-3xl font-bold mb-4 text-center">About Us</h2>
       <div class="flex flex-col md:flex-row items-center gap-8">
@@ -84,18 +91,18 @@
     </div>
   </section>
 
-  <section id="projects" class="py-16 bg-gray-800 px-6">
+  <section id="projects" class="py-16 bg-gray-100 dark:bg-gray-800 px-6">
     <h2 class="text-3xl font-bold mb-10 text-center">Featured Projects</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-      <a href="/projects.html#2025-04-26-2-wheeled-smart-car-version-1.md" class="block bg-gray-700 rounded-xl p-6 shadow hover:scale-105 transform transition">
+      <a href="/projects.html#2025-04-26-2-wheeled-smart-car-version-1.md" class="block bg-gray-200 dark:bg-gray-700 rounded-xl p-6 shadow hover:scale-105 transform transition">
         <h3 class="text-xl font-semibold mb-2">2 Wheeled Smart Car - Version 1</h3>
         <p>Multi-function robot that avoids objects, follows a path and avoids edges.</p>
       </a>
-      <a href="district-map.html" class="block bg-gray-700 rounded-xl p-6 shadow hover:scale-105 transform transition">
+      <a href="district-map.html" class="block bg-gray-200 dark:bg-gray-700 rounded-xl p-6 shadow hover:scale-105 transform transition">
         <h3 class="text-xl font-semibold mb-2">Massachusetts Schools Dashboard</h3>
         <p>Dashboard that displays publically available data on school performance and demographics.</p>
       </a>
-      <a href="classes.html" class="block bg-gray-700 rounded-xl p-6 shadow hover:scale-105 transform transition">
+      <a href="classes.html" class="block bg-gray-200 dark:bg-gray-700 rounded-xl p-6 shadow hover:scale-105 transform transition">
         <h3 class="text-xl font-semibold mb-2">Robotics & Electronics Classes</h3>
         <p>Classes for kids and adults interested in learning robotics & electronics hands-on.</p>
       </a>
@@ -106,15 +113,15 @@
     <h2 class="text-3xl font-bold mb-6 text-center">Get In Touch</h2>
     <p class="text-lg text-center mb-4">Have a question, idea, or want to collaborate? Drop us a line.</p>
     <form action="https://formspree.io/f/mgvkwvnj" method="POST" class="space-y-4">
-      <input type="text" name="name" placeholder="Your Name" required class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-gray-800 text-white">
-      <input type="email" name="_replyto" placeholder="Your Email" required class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-gray-800 text-white">
-      <textarea name="message" rows="4" placeholder="Your Message" required class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-gray-800 text-white"></textarea>
+      <input type="text" name="name" placeholder="Your Name" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white">
+      <input type="email" name="_replyto" placeholder="Your Email" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white">
+      <textarea name="message" rows="4" placeholder="Your Message" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"></textarea>
       <input type="text" name="_gotcha" style="display:none">
       <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition">Send</button>
     </form>
   </section>
 
-  <footer class="text-center py-6 text-sm text-gray-400">
+  <footer class="text-center py-6 text-sm text-gray-500 dark:text-gray-400">
     &copy; 2025 DataConnect Robotics. All rights reserved.
   </footer>
 
@@ -130,6 +137,28 @@
     .animate-fade-in { animation: fade-in 1s ease-out both; }
     .animate-slide-in { animation: slide-in 1s ease-out both; animation-delay: 0.2s; }
   </style>
-</body>
 
+  <!-- Light/Dark mode toggle script -->
+  <script>
+    // On page load, set mode from localStorage (if set)
+    if (localStorage.theme === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else if (localStorage.theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark');
+    }
+
+    document.getElementById('toggle-dark').onclick = function () {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.theme = 'light';
+      } else {
+        html.classList.add('dark');
+        localStorage.theme = 'dark';
+      }
+    }
+  </script>
+</body>
 </html>
