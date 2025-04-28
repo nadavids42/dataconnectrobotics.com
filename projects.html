@@ -4,22 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects | DataConnect Robotics</title>
-  <!-- Early theme script for dark mode before CSS loads -->
-  <script>
-    try {
-      let theme = localStorage.theme;
-      if (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        theme = 'dark';
-      }
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    } catch (e) {}
-  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+  </script>
   <link rel="icon" href="img/logo.png">
   <style>
     body {
@@ -28,6 +20,40 @@
     .dark body {
       background-color: #0f172a !important;
     }
+    .dark .bg-white,
+    .dark.bg-white {
+      background-color: #1e293b !important;
+      color: #f1f5f9 !important;
+    }
+    .dark .bg-slate-100,
+    .dark.bg-slate-100 {
+      background-color: #0f172a !important;
+      color: #f1f5f9 !important;
+    }
+    .dark .text-gray-900 {
+      color: #f1f5f9 !important;
+    }
+    .dark .text-gray-700 {
+      color: #e5e7eb !important;
+    }
+    .dark input,
+    .dark textarea {
+      background-color: #1e293b !important;
+      color: #f1f5f9 !important;
+      border-color: #334155 !important;
+    }
+    .dark .border-slate-200,
+    .dark.border-slate-200 {
+      border-color: #334155 !important;
+    }
+    .dark .border-slate-300,
+    .dark.border-slate-300 {
+      border-color: #334155 !important;
+    }
+    .dark .border-slate-600 {
+      border-color: #64748b !important;
+    }
+
     /* Markdown/Prose Styling for blog content */
     .prose img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1em 0; }
     .prose a { color: #38bdf8; text-decoration: underline; transition: color 0.15s;}
@@ -62,7 +88,10 @@
       background: #23272f !important;
       color: #e0e7ef !important;
     }
-    @keyframes fade-in { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     .animate-fade-in { animation: fade-in 1s ease-out both; }
   </style>
 </head>
@@ -90,12 +119,10 @@
           </svg>
         </button>
         <button id="toggle-dark" class="ml-2 rounded-full border border-slate-200 dark:border-slate-700 p-2 hover:bg-blue-100 dark:hover:bg-blue-800 transition">
-          <!-- Light icon: sun -->
           <svg id="light-icon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="5" />
             <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
           </svg>
-          <!-- Dark icon: moon -->
           <svg id="dark-icon" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 0010 9.79z" />
           </svg>
@@ -144,13 +171,26 @@
   </footer>
 
   <script>
-    // Toggle mobile menu
-    function toggleMenu() {
-      const menu = document.getElementById('mobile-menu');
-      menu.classList.toggle('hidden');
+    // Initial theme setup (index.html logic)
+    if (localStorage.theme === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else if (localStorage.theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark');
     }
 
-    // Toggle dark mode on button click
+    // Icon switcher (index.html logic)
+    function updateDarkIcons() {
+      const html = document.documentElement;
+      document.getElementById('light-icon').style.display = html.classList.contains('dark') ? 'none' : 'block';
+      document.getElementById('dark-icon').style.display = html.classList.contains('dark') ? 'block' : 'none';
+    }
+
+    // Initial icon update on page load
+    document.addEventListener('DOMContentLoaded', updateDarkIcons);
+
+    // Toggle button
     document.getElementById('toggle-dark').onclick = function () {
       const html = document.documentElement;
       if (html.classList.contains('dark')) {
@@ -160,9 +200,10 @@
         html.classList.add('dark');
         localStorage.theme = 'dark';
       }
-    };
+      updateDarkIcons();
+    }
 
-    // Blog logic
+    // Blog logic (unchanged)
     const posts = [
       { title: "Official Launch", date: "2025-04-24", file: "2025-04-23-this-is-a-test.md" },
       { title: "2-Wheeled Smart Car - Version 1", date: "2025-04-26", file: "2025-04-26-2-wheeled-smart-car-version-1.md" }
