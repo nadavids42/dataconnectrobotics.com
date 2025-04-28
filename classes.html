@@ -55,11 +55,11 @@
           </svg>
         </button>
         <button id="toggle-dark" class="ml-2 rounded-full border border-slate-200 dark:border-slate-700 p-2 hover:bg-blue-100 dark:hover:bg-blue-800 transition">
-          <svg id="light-icon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <svg id="light-icon" class="w-5 h-5 block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="5" />
             <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
           </svg>
-          <svg id="dark-icon" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <svg id="dark-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 0010 9.79z" />
           </svg>
         </button>
@@ -163,7 +163,7 @@
       const menu = document.getElementById('mobile-menu');
       menu.classList.toggle('hidden');
     }
-    // Dark/light mode toggle
+    // Theme initial setup
     if (localStorage.theme === 'light') {
       document.documentElement.classList.remove('dark');
     } else if (localStorage.theme === 'dark') {
@@ -171,6 +171,15 @@
     } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       document.documentElement.classList.add('dark');
     }
+    // Icon update helper
+    function updateDarkIcons() {
+      const html = document.documentElement;
+      document.getElementById('light-icon').style.display = html.classList.contains('dark') ? 'none' : 'block';
+      document.getElementById('dark-icon').style.display = html.classList.contains('dark') ? 'block' : 'none';
+    }
+    // Update icon on page load
+    document.addEventListener('DOMContentLoaded', updateDarkIcons);
+    // Toggle handler
     document.getElementById('toggle-dark').onclick = function () {
       const html = document.documentElement;
       if (html.classList.contains('dark')) {
@@ -180,16 +189,8 @@
         html.classList.add('dark');
         localStorage.theme = 'dark';
       }
-      // Swap icons on toggle (keep in sync with mode)
-      document.getElementById('light-icon').classList.toggle('hidden', html.classList.contains('dark'));
-      document.getElementById('dark-icon').classList.toggle('hidden', !html.classList.contains('dark'));
+      updateDarkIcons();
     }
-    // Ensure correct icon on load
-    window.addEventListener('DOMContentLoaded', () => {
-      const html = document.documentElement;
-      document.getElementById('light-icon').classList.toggle('hidden', html.classList.contains('dark'));
-      document.getElementById('dark-icon').classList.toggle('hidden', !html.classList.contains('dark'));
-    });
   </script>
 </body>
 </html>
