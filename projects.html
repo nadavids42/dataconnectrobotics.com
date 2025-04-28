@@ -4,6 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects | DataConnect Robotics</title>
+  <!-- Early theme script for dark mode before CSS loads -->
+  <script>
+    // Set dark mode class as early as possible to prevent flash of wrong theme
+    try {
+      let theme = localStorage.theme;
+      if (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      }
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    } catch (e) {}
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link rel="icon" href="img/logo.png">
@@ -141,17 +156,10 @@
       document.getElementById('dark-icon').classList.toggle('hidden', !html.classList.contains('dark'));
     }
 
-    // Set initial theme
-    if (localStorage.theme === 'light') {
-      document.documentElement.classList.remove('dark');
-    } else if (localStorage.theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.documentElement.classList.add('dark');
-    }
-    window.addEventListener('DOMContentLoaded', () => {
-      updateIcons();
-    });
+    // Update icons on page load (theme set by early script in <head>)
+    window.addEventListener('DOMContentLoaded', updateIcons);
+
+    // Toggle dark mode on button click
     document.getElementById('toggle-dark').onclick = function () {
       const html = document.documentElement;
       if (html.classList.contains('dark')) {
