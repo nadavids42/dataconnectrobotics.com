@@ -205,8 +205,8 @@
 
     // Blog logic (unchanged)
     const posts = [
-      { title: "Official Launch", date: "2025-04-24", file: "2025-04-23-this-is-a-test.md" },
-      { title: "2-Wheeled Smart Car - Version 1", date: "2025-04-26", file: "2025-04-26-2-wheeled-smart-car-version-1.md" }
+      { title: "Official Launch", date: "2025-04-24", file: "2025-04-23-this-is-a-test.md", image: "/img/uploads/logo.png" },
+      { title: "2-Wheeled Smart Car - Version 1", date: "2025-04-26", file: "2025-04-26-2-wheeled-smart-car-version-1.md", image: "/img/uploads/v1.jpg" }
       // Add more posts here
     ];
     const listEl = document.getElementById("post-list");
@@ -222,15 +222,27 @@
     function renderList() {
       listEl.innerHTML = '';
       posts.forEach(post => {
-        const li = document.createElement("li");
-        const link = document.createElement("a");
-        link.href = `#${post.file}`;
-        link.textContent = post.title;
-        link.className = "block px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white shadow hover:bg-blue-100 dark:hover:bg-blue-800 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition";
-        li.appendChild(link);
-        listEl.appendChild(li);
+      const li = document.createElement("li");
+      li.className = "flex gap-4 items-center";
+
+      if (post.image) {
+        const img = document.createElement("img");
+        img.src = post.image;
+        img.alt = `${post.title} preview`;
+        img.className = "w-20 h-20 object-cover rounded-xl shadow-md flex-shrink-0";
+        li.appendChild(img);
+      }
+
+      const link = document.createElement("a");
+      link.href = `#${post.file}`;
+      link.textContent = post.title;
+      link.className = "block px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white shadow hover:bg-blue-100 dark:hover:bg-blue-800 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition";
+      li.appendChild(link);
+
+      listEl.appendChild(li);
       });
     }
+
     function showList(e) {
       if (e) e.preventDefault();
       contentContainerEl.classList.add('hidden');
