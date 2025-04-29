@@ -91,27 +91,49 @@
       <!-- Controls -->
       <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between md:gap-6 mb-6 md:mb-8">
         <div class="flex-1 min-w-0">
-          <label for="metricSelect" class="block font-semibold mb-1 text-base sm:text-lg">
-            Map Metric:
+          <label for="metricSelect" class="inline-flex items-center gap-1 font-semibold mb-1 text-base sm:text-lg">
+            Map Metric
             <div class="relative group cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />
-            </svg>
-            <div class="absolute left-5 bottom-full mb-1 w-64 text-sm text-white bg-gray-800 rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 shadow-lg">
-              Pick a metric to view on the map
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />
+              </svg>
+              <div class="absolute left-5 bottom-full mb-1 w-64 text-sm text-white bg-gray-800 rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 shadow-lg">
+                Pick a metric to view on the map
+              </div>
             </div>
-          </div>
-        </label>
+          </label>
           <select id="metricSelect" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 focus:outline-none"></select>
         </div>
         <div class="flex-1 min-w-0">
-          <label for="xMetricSelect" class="block font-semibold mb-1 text-base sm:text-lg">Scatter X:</label>
-          <select id="xMetricSelect" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 focus:outline-none"></select>
+          <label for="metricSelect" class="inline-flex items-center gap-1 font-semibold mb-1 text-base sm:text-lg">
+            Scatter X
+            <div class="relative group cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />
+              </svg>
+              <div class="absolute left-5 bottom-full mb-1 w-64 text-sm text-white bg-gray-800 rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 shadow-lg">
+                Pick a metric to view on the x-axis of the scatterplot
+              </div>
+            </div>
+          </label>
+          <select id="metricSelect" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 focus:outline-none"></select>
         </div>
         <div class="flex-1 min-w-0">
-          <label for="yMetricSelect" class="block font-semibold mb-1 text-base sm:text-lg">Scatter Y:</label>
-          <select id="yMetricSelect" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 focus:outline-none"></select>
+          <label for="metricSelect" class="inline-flex items-center gap-1 font-semibold mb-1 text-base sm:text-lg">
+            Scatter Y
+            <div class="relative group cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />
+              </svg>
+              <div class="absolute left-5 bottom-full mb-1 w-64 text-sm text-white bg-gray-800 rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 shadow-lg">
+                Pick a metric to view on the y-axis of the scatterplot 
+              </div>
+            </div>
+          </label>
+          <select id="metricSelect" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 focus:outline-none"></select>
         </div>
         <div class="w-full md:w-72 flex-1">
           <label for="yearSlider" class="block font-semibold mb-1 text-base sm:text-lg">
