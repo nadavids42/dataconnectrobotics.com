@@ -4,28 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MA Education Dashboard | DataConnect Robotics</title>
-
-  <!-- SEO Meta Tags -->
-  <meta name="description" content="Interactive Massachusetts public school dashboard from DataConnect Robotics. Explore graduation rates, expenditures, and test scores by district.">
-  <meta name="robots" content="index, follow">
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="MA Education Dashboard | DataConnect Robotics">
-  <meta property="og:description" content="Interactive dashboard to explore Massachusetts public school graduation rates, MCAS scores, and per-pupil expenditures.">
-  <meta property="og:image" content="https://dataconnectrobotics.com/img/header.jpg">
-  <meta property="og:url" content="https://dataconnectrobotics.com/district-map.html">
-  <meta property="og:type" content="website">
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="MA Education Dashboard | DataConnect Robotics">
-  <meta name="twitter:description" content="Analyze Massachusetts public school performance data with the MA Education Dashboard by DataConnect Robotics.">
-  <meta name="twitter:image" content="https://dataconnectrobotics.com/img/header.jpg">
-
-  <link rel="icon" href="img/logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="img/logo.png">
   <script src="https://d3js.org/d3.v7.min.js"></script>
-
   <style>
     body {
       background-color: #f1f5f9;
@@ -48,7 +29,7 @@
   </style>
 </head>
 
-<!-- Google Analytics -->
+<!-- Google tag -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JBH44FRNK1"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -81,11 +62,11 @@
           </svg>
         </button>
         <button id="toggle-dark" class="ml-2 rounded-full border border-slate-200 dark:border-slate-700 p-2 hover:bg-blue-100 dark:hover:bg-blue-800 transition">
-          <svg id="light-icon" class="w-5 h-5 block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <svg id="light-icon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="5" />
             <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
           </svg>
-          <svg id="dark-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <svg id="dark-icon" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 0010 9.79z" />
           </svg>
         </button>
@@ -101,11 +82,52 @@
 
   <!-- Dashboard Content -->
   <main class="flex-1 max-w-7xl mx-auto px-2 md:px-4 py-6 md:py-12 w-full">
-    <!-- Sections (title, controls, map, scatterplot, info, footer) — UNCHANGED -->
-    <!-- Same as your current version -->
+    <section class="mb-8 md:mb-10">
+      <h1 class="text-2xl sm:text-4xl md:text-5xl font-bold mb-2 md:mb-3 animate-fade-in text-center text-blue-700 dark:text-blue-400 drop-shadow">MA Public School Districts Dashboard</h1>
+      <p class="text-base sm:text-xl md:text-2xl text-blue-800 dark:text-blue-300 mb-4 md:mb-8 text-center">Explore graduation rates, test scores, expenditures, and more by district and year.</p>
+    </section>
+
+    <section class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-4 sm:p-6 md:p-10">
+      <!-- Controls -->
+      <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between md:gap-6 mb-6 md:mb-8">
+        <div class="flex-1 min-w-0">
+          <label for="metricSelect" class="block font-semibold mb-1 text-base sm:text-lg">Map Metric:</label>
+          <select id="metricSelect" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 focus:outline-none"></select>
+        </div>
+        <div class="flex-1 min-w-0">
+          <label for="xMetricSelect" class="block font-semibold mb-1 text-base sm:text-lg">Scatter X:</label>
+          <select id="xMetricSelect" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 focus:outline-none"></select>
+        </div>
+        <div class="flex-1 min-w-0">
+          <label for="yMetricSelect" class="block font-semibold mb-1 text-base sm:text-lg">Scatter Y:</label>
+          <select id="yMetricSelect" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 focus:outline-none"></select>
+        </div>
+        <div class="w-full md:w-72 flex-1">
+          <label for="yearSlider" class="block font-semibold mb-1 text-base sm:text-lg">
+            Year: <span id="yearValue">2021</span>
+          </label>
+          <select id="yearDropdown" class="block md:hidden w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 focus:outline-none"></select>
+          <input type="range" id="yearSlider" min="2013" max="2023" value="2021" step="1" class="hidden md:block w-full md:w-80 bg-blue-200 dark:bg-slate-700 h-2 rounded-lg appearance-none outline-none cursor-pointer accent-blue-500">
+        </div>
+      </div>
+
+      <!-- Map and Scatterplot -->
+      <div class="flex flex-col gap-8 md:gap-12 lg:flex-row">
+        <div id="map" class="flex-1 min-w-0 w-full max-w-full"></div>
+        <div id="scatterplot" class="flex-1 min-w-0 w-full max-w-full"></div>
+      </div>
+
+      <!-- Info box -->
+      <div id="info-box" class="mt-6 p-5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-900 hidden"></div>
+    </section>
+
+    <div class="mt-8 p-4 bg-white dark:bg-slate-800 rounded-2xl text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto shadow">
+      <strong>About the Data:</strong> Data sourced from <a href="https://www.doe.mass.edu/" target="_blank" rel="noopener" class="underline hover:text-blue-400">Massachusetts DESE</a>. Cleaned and updated as of April 2025.
+    </div>
   </main>
 
-  <footer class="text-center py-8 text-base text-slate-600 dark:text-slate-400 bg-transparent mt-10">
+  <!-- Footer -->
+  <footer class="text-center py-8 text-base text-slate-600 dark:text-slate-400">
     &copy; 2025 DataConnect Robotics. All rights reserved.
   </footer>
 
@@ -120,13 +142,17 @@
     </div>
   </div>
 
-  <!-- Scripts: Theme, Dark Toggle, Dashboard App -->
+  <!-- Scripts -->
   <script>
     function toggleMenu() {
-      const menu = document.getElementById('mobile-menu');
-      menu.classList.toggle('hidden');
+      document.getElementById('mobile-menu').classList.toggle('hidden');
     }
-    // Dark/light theme initial setup
+    function updateIcons() {
+      const html = document.documentElement;
+      document.getElementById('light-icon').classList.toggle('hidden', html.classList.contains('dark'));
+      document.getElementById('dark-icon').classList.toggle('hidden', !html.classList.contains('dark'));
+    }
+    // Initial dark mode setup
     if (localStorage.theme === 'light') {
       document.documentElement.classList.remove('dark');
     } else if (localStorage.theme === 'dark') {
@@ -134,15 +160,9 @@
     } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       document.documentElement.classList.add('dark');
     }
-
-    function updateDarkIcons() {
-      const html = document.documentElement;
-      document.getElementById('light-icon').style.display = html.classList.contains('dark') ? 'none' : 'block';
-      document.getElementById('dark-icon').style.display = html.classList.contains('dark') ? 'block' : 'none';
-    }
-
-    document.addEventListener('DOMContentLoaded', updateDarkIcons);
-
+    window.addEventListener('DOMContentLoaded', () => {
+      updateIcons();
+    });
     document.getElementById('toggle-dark').onclick = function () {
       const html = document.documentElement;
       if (html.classList.contains('dark')) {
@@ -152,12 +172,11 @@
         html.classList.add('dark');
         localStorage.theme = 'dark';
       }
-      updateDarkIcons();
-    }
+      updateIcons();
+    };
   </script>
 
-  <!-- Your dashboard app (unchanged) -->
+  <!-- Modular Dashboard JS -->
   <script type="module" src="js/app.js"></script>
-
 </body>
 </html>
