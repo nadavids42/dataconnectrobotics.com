@@ -53,16 +53,29 @@ export function renderLineChart(data) {
 
   selectedDistricts = allDistricts.slice(0, 2);
 
-  select.selectAll("option")
-    .data(allDistricts)
-    .enter()
-    .append("option")
-    .attr("value", d => d)
-    .text(d => {
-      const match = data.find(row => row["District Code"] === d);
-      return match ? match["District Name"] : d;
-    })
-    .property("selected", d => selectedDistricts.includes(d));
+  const options = allDistricts.map(d => {
+  const match = data.find(row => row["District Code"] === d);
+  return {
+    value: d,
+    label: match ? match["District Name"] : d,
+    selected: selectedDistricts.includes(d)
+  };
+});
+
+if (!window.districtChoices) {
+  const nativeSelect = document.getElementById("districtSelect");
+  window.districtChoices = new Choices(nativeSelect, {
+    removeItemButton: true,
+    shouldSort: false,
+    searchResultLimit: 100,
+    placeholderValue: 'Search districts...',
+    maxItemCount: 3,
+  });
+  window.districtChoices.setChoices(options, 'value', 'label', true);
+} else {
+  window.districtChoices.clearChoices();
+  window.districtChoices.setChoices(options, 'value', 'label', true);
+}
 
   select.on("change", function () {
     const chosen = Array.from(this.selectedOptions).map(opt => opt.value);
