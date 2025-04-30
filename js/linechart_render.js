@@ -47,12 +47,11 @@ export function renderLineChart(data) {
   });
 
   const select = d3.select("#districtSelect")
-    .attr("multiple", true)
-    .attr("size", 6);
+    .attr("multiple", true);
 
   const allDistricts = Array.from(new Set(data.map(d => d["District Code"]))).sort();
 
-  selectedDistricts = allDistricts.slice(0, 2); // default selection
+  selectedDistricts = allDistricts.slice(0, 2);
 
   select.selectAll("option")
     .data(allDistricts)
@@ -63,7 +62,7 @@ export function renderLineChart(data) {
       const match = data.find(row => row["District Code"] === d);
       return match ? match["District Name"] : d;
     })
-    .property("selected", d => selectedDistricts.includes(d)); // <-- mobile fix
+    .property("selected", d => selectedDistricts.includes(d));
 
   select.on("change", function () {
     const chosen = Array.from(this.selectedOptions).map(opt => opt.value);
@@ -86,23 +85,16 @@ export function renderLineChart(data) {
 
     const filtered = data.filter(d => districtCodes.includes(d["District Code"]));
 
-    const parseVal = (raw) => {
-      if (typeof raw !== "string") return parseFloat(raw);
-      return parseFloat(raw.replace(/[%$,]/g, "").trim());
-    };
+    const parseVal = raw => typeof raw !== "string" ? parseFloat(raw) : parseFloat(raw.replace(/[%$,]/g, "").trim());
 
     const primaryColorScale = d3.scaleOrdinal(d3.schemeCategory10);
     const secondaryColorScale = d3.scaleOrdinal(d3.schemeSet2);
 
-    const buildSeries = (col, colorScale) => {
-      return districtCodes.map((code, i) => {
+    const buildSeries = (col, colorScale) =>
+      districtCodes.map((code, i) => {
         const entries = filtered
           .filter(d => d["District Code"] === code)
-          .map(d => ({
-            year: +d.Year,
-            value: parseVal(d[col]),
-            name: d["District Name"]
-          }))
+          .map(d => ({ year: +d.Year, value: parseVal(d[col]), name: d["District Name"] }))
           .filter(d => !isNaN(d.value))
           .sort((a, b) => a.year - b.year);
 
@@ -113,7 +105,6 @@ export function renderLineChart(data) {
           values: entries
         };
       }).filter(s => s.values.length > 0);
-    };
 
     const primarySeries = buildSeries(selectedPrimaryCol, primaryColorScale);
     const secondarySeries = selectedSecondaryCol ? buildSeries(selectedSecondaryCol, secondaryColorScale) : [];
@@ -124,7 +115,6 @@ export function renderLineChart(data) {
 
     const xScale = d3.scaleLinear().range([0, width]).domain(d3.extent(allYears));
     const yScaleLeft = d3.scaleLinear().range([height, 0]).domain(d3.extent(allPrimaryVals));
-
     const useRightAxis = secondarySeries.length > 0;
     const yScaleRight = useRightAxis ? d3.scaleLinear().range([height, 0]).domain(d3.extent(allSecondaryVals)) : null;
 
@@ -186,7 +176,7 @@ export function renderLineChart(data) {
         .style("z-index", "999");
     }
 
-    const line = (scale) => d3.line()
+    const line = scale => d3.line()
       .x(d => xScale(d.year))
       .y(d => scale(d.value))
       .curve(d3.curveMonotoneX);
@@ -244,7 +234,7 @@ export function renderLineChart(data) {
     });
 
     const legendBox = d3.select("#lineChart-legend");
-    legendBox.html(""); // clear previous entries
+    legendBox.html("");
 
     [...primarySeries.map(s => ({ ...s, isSecondary: false })),
      ...secondarySeries.map(s => ({ ...s, isSecondary: true }))]
@@ -257,31 +247,30 @@ export function renderLineChart(data) {
            ${series.name} – ${metricLabel}`
         );
     });
-    // Initialize or update Choices.js after district <select> is populated
-if (!window.districtChoices) {
-  const nativeSelect = document.getElementById("districtSelect");
-  window.districtChoices = new Choices(nativeSelect, {
-    removeItemButton: true,
-    shouldSort: false,
-    searchResultLimit: 100,
-    placeholderValue: 'Search districts...',
-    maxItemCount: 3,
-  });
-} else {
-  window.districtChoices.setChoices(
-    Array.from(document.querySelectorAll('#districtSelect option')).map(opt => ({
-      value: opt.value,
-      label: opt.text,
-      selected: opt.selected,
-      disabled: opt.disabled
-    })),
-    'value',
-    'label',
-    true
-  );
-}
 
+    const nativeSelect = document.getElementById("districtSelect");
+    if (!window.districtChoices) {
+      window.districtChoices = new Choices(nativeSelect, {
+        removeItemButton: true,
+        shouldSort: false,
+        searchResultLimit: 100,
+        placeholderValue: 'Search districts...',
+        maxItemCount: 3,
+      });
+    } else {
+      window.districtChoices.setChoices(
+        Array.from(nativeSelect.options).map(opt => ({
+          value: opt.value,
+          label: opt.text,
+          selected: opt.selected,
+          disabled: opt.disabled
+        })),
+        'value',
+        'label',
+        true
+      );
+    }
   }
 
-  update(selectedDistricts); // chart initial render
+  update(selectedDistricts);
 }
