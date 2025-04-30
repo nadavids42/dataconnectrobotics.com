@@ -65,10 +65,19 @@ export function renderLineChart(data) {
       return match ? match["District Name"] : d;
     });
 
-  select.on("change", function () {
-    selectedDistricts = Array.from(this.selectedOptions).map(opt => opt.value);
-    update(selectedDistricts);
-  });
+    select.on("change", function () {
+    const chosen = Array.from(this.selectedOptions).map(opt => opt.value);
+    if (chosen.length > 3) {
+      // Optional: alert or silently revert to first 3
+      alert("Please select no more than 3 districts.");
+      this.selectedIndex = -1;
+      selectedDistricts = [];
+      update(selectedDistricts);
+    } else {
+      selectedDistricts = chosen;
+      update(selectedDistricts);
+    }
+    });
 
   function update(districtCodes) {
     svg.selectAll("*").remove();
@@ -244,16 +253,22 @@ export function renderLineChart(data) {
         .on("mouseout", () => d3.select("#lineChart-tooltip").style("display", "none"));
     });
 
-    svg.selectAll(".legend-label")
-      .data([...primarySeries.map(s => ({ ...s, side: "left" })), ...secondarySeries.map(s => ({ ...s, side: "right" }))])
-      .enter()
-      .append("text")
-      .attr("class", "legend-label")
-      .attr("x", width + 10)
-      .attr("y", (d, i) => i * 20)
-      .style("fill", d => d.color)
-      .style("font-size", "0.85rem")
-      .text(d => `${d.name}${d.side === "right" ? " (2)" : ""}`);
+    function drawLineLabels(seriesList, scale, isRight = false) {
+  seriesList.forEach(series => {
+    const last = series.values[series.values.length - 1];
+    svg.append("text")
+      .attr("x", xScale(last.year) + 5)
+      .attr("y", scale(last.value))
+      .attr("dy", "0.35em")
+      .style("fill", series.color)
+      .style("font-size", "0.8rem")
+      .text(`${series.name}${isRight ? " (2)" : ""}`);
+  });
+}
+
+drawLineLabels(primarySeries, yScaleLeft, false);
+if (useRightAxis) drawLineLabels(secondarySeries, yScaleRight, true);
+
   }
 
   // Initial render
