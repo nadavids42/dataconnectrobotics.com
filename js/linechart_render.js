@@ -96,6 +96,18 @@ export function renderLineChart(data) {
 
   function update(districtCodes) {
     svg.selectAll("*").remove();
+    // Append legends for both metric sets
+    svg.selectAll(".legend-label")
+      .data([...primarySeries.map(s => ({ ...s, side: "left" })), ...secondarySeries.map(s => ({ ...s, side: "right" }))])
+      .enter()
+      .append("text")
+      .attr("class", "legend-label")
+      .attr("x", width + 10)
+      .attr("y", (d, i) => i * 20)
+      .style("fill", d => d.color)
+      .style("font-size", "0.85rem")
+      .text(d => `${d.name}${d.side === "right" ? " (2)" : ""}`);
+
     if (districtCodes.length === 0) return;
 
     const primaryMeta = METRICS.find(m => m.col === selectedMetricCol);
