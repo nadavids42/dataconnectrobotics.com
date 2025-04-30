@@ -31,12 +31,6 @@
   </style>
 </head>
 <body class="font-sans text-gray-900 dark:text-white min-h-screen flex flex-col">
-  <!-- Header -->
-  <header class="bg-white dark:bg-slate-900 shadow sticky top-0 z-20">
-    <!-- truncated header for brevity -->
-  </header>
-
-  <!-- Main Content -->
   <main class="flex-1 max-w-7xl mx-auto px-2 md:px-4 py-6 md:py-12 w-full">
     <section class="mb-10 text-center">
       <h1 class="text-4xl font-bold mb-3 animate-fade-in text-blue-700 dark:text-blue-400 drop-shadow">
@@ -48,53 +42,18 @@
     </section>
 
     <!-- Metric Controls -->
-    <!-- truncated controls for brevity -->
-        <!-- <section class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-4 sm:p-6 md:p-10"> -->
-      <!-- Controls -->
-      <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between md:gap-6 mb-6 md:mb-8">
+    <section class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-4 sm:p-6 md:p-10 mb-8">
+      <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between md:gap-6 mb-6">
         <div class="flex-1 min-w-0">
-          <label for="metricSelect" class="inline-flex items-center gap-1 font-semibold mb-1 text-base sm:text-lg">
-            Map Metric
-            <div class="relative group cursor-pointer">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />
-              </svg>
-              <div class="absolute left-5 bottom-full mb-1 w-64 text-sm text-white bg-gray-800 rounded px-2 py-1 opacity-0 md:group-hover:opacity-100 transition-opacity duration-200 z-10 shadow-lg hidden md:block">
-                Pick a metric to view on the map
-              </div>
-            </div>
-          </label>
+          <label for="metricSelect" class="block font-semibold mb-1 text-base sm:text-lg">Map Metric</label>
           <select id="metricSelect" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 focus:outline-none"></select>
         </div>
         <div class="flex-1 min-w-0">
-          <label for="xMetricSelect" class="inline-flex items-center gap-1 font-semibold mb-1 text-base sm:text-lg">
-            Scatter X
-            <div class="relative group cursor-pointer">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />
-              </svg>
-              <div class="absolute left-5 bottom-full mb-1 w-64 text-sm text-white bg-gray-800 rounded px-2 py-1 opacity-0 md:group-hover:opacity-100 transition-opacity duration-200 z-10 shadow-lg hidden md:block">
-                Pick a metric to view on the x-axis of the scatterplot
-              </div>
-            </div>
-          </label>
+          <label for="xMetricSelect" class="block font-semibold mb-1 text-base sm:text-lg">Scatter X</label>
           <select id="xMetricSelect" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 focus:outline-none"></select>
         </div>
         <div class="flex-1 min-w-0">
-          <label for="yMetricSelect" class="inline-flex items-center gap-1 font-semibold mb-1 text-base sm:text-lg">
-            Scatter Y
-            <div class="relative group cursor-pointer">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />
-              </svg>
-              <div class="absolute left-5 bottom-full mb-1 w-64 text-sm text-white bg-gray-800 rounded px-2 py-1 opacity-0 md:group-hover:opacity-100 transition-opacity duration-200 z-10 shadow-lg hidden md:block">
-                Pick a metric to view on the y-axis of the scatterplot 
-              </div>
-            </div>
-          </label>
+          <label for="yMetricSelect" class="block font-semibold mb-1 text-base sm:text-lg">Scatter Y</label>
           <select id="yMetricSelect" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 focus:outline-none"></select>
         </div>
         <div class="w-full md:w-72 flex-1">
@@ -102,40 +61,35 @@
             Year: <span id="yearValue">2021</span>
           </label>
           <select id="yearDropdown" class="block md:hidden w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 focus:outline-none"></select>
-          <input type="range" id="yearSlider" min="2013" max="2023" value="2021" step="1" class="hidden md:block w-full md:w-80 bg-blue-200 dark:bg-slate-700 h-2 rounded-lg appearance-none outline-none cursor-pointer accent-blue-500">
+          <input type="range" id="yearSlider" min="2013" max="2023" value="2021" step="1" class="hidden md:block w-full bg-blue-200 dark:bg-slate-700 h-2 rounded-lg appearance-none outline-none cursor-pointer accent-blue-500">
         </div>
       </div>
-    <!-- Visualizations -->
-    <section class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-4 sm:p-6 md:p-10">
-      <!-- Map and Scatterplot -->
+
       <div class="flex flex-col gap-8 md:gap-12 lg:flex-row">
         <div id="map" class="flex-1 min-w-0 w-full max-w-full"></div>
         <div id="scatterplot" class="flex-1 min-w-0 w-full max-w-full"></div>
       </div>
+    </section>
 
-      <!-- Info Box -->
-      <div id="info-box" class="mt-6 p-5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-900 hidden"></div>
-
-      <!-- Line Chart -->
-      <div class="p-4" id="lineChartContainer">
-        <div class="mb-4 grid md:grid-cols-2 gap-4">
-          <div>
-            <label for="trendMetricSelect" class="font-semibold text-lg">Primary Metric</label>
-            <select id="trendMetricSelect" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600"></select>
-          </div>
-          <div>
-            <label for="secondaryTrendMetricSelect" class="font-semibold text-lg">Secondary Metric</label>
-            <select id="secondaryTrendMetricSelect" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600"></select>
-          </div>
+    <!-- Line Chart -->
+    <section class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-4 sm:p-6 md:p-10">
+      <div class="mb-4 grid md:grid-cols-2 gap-4">
+        <div>
+          <label for="trendMetricSelect" class="font-semibold text-lg">Primary Metric</label>
+          <select id="trendMetricSelect" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600"></select>
         </div>
-
-        <label for="districtSelect" class="font-semibold text-lg block mb-1">Select District(s)</label>
-        <select id="districtSelect" multiple size="6" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 mb-4"></select>
-
-        <div id="lineChartWrapper" style="position: relative;" class="w-full max-w-[700px] mx-auto">
-          <div id="lineChart" class="w-full"></div>
-          <div id="lineChart-legend" class="text-sm p-2 rounded-md" style="position: absolute; bottom: 20px; right: 20px; background: rgba(0,0,0,0.7); color: #fff; font-size: 0.85rem; z-index: 998; pointer-events: none;"></div>
+        <div>
+          <label for="secondaryTrendMetricSelect" class="font-semibold text-lg">Secondary Metric</label>
+          <select id="secondaryTrendMetricSelect" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600"></select>
         </div>
+      </div>
+
+      <label for="districtSelect" class="font-semibold text-lg block mb-1">Select District(s)</label>
+      <select id="districtSelect" multiple size="6" class="w-full bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 mb-4"></select>
+
+      <div id="lineChartWrapper" style="position: relative;" class="w-full max-w-[700px] mx-auto">
+        <div id="lineChart" class="w-full"></div>
+        <div id="lineChart-legend" class="text-sm p-2 rounded-md" style="position: absolute; bottom: 20px; right: 20px; background: rgba(0,0,0,0.7); color: #fff; font-size: 0.85rem; z-index: 998; pointer-events: none;"></div>
       </div>
     </section>
 
@@ -144,12 +98,10 @@
     </div>
   </main>
 
-  <!-- Footer -->
   <footer class="text-center py-8 text-base text-slate-600 dark:text-slate-400">
     &copy; 2025 DataConnect Robotics. All rights reserved.
   </footer>
 
-  <!-- Loading Overlay -->
   <div id="loading-overlay" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-90">
     <div class="flex flex-col items-center">
       <svg class="animate-spin h-10 w-10 text-blue-400 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -160,7 +112,6 @@
     </div>
   </div>
 
-  <!-- Theme Toggle Script -->
   <script>
     if (localStorage.theme === 'light') {
       document.documentElement.classList.remove('dark');
@@ -186,7 +137,6 @@
     });
   </script>
 
-  <!-- App Script -->
   <script type="module" src="js/app.js"></script>
 </body>
 </html>
