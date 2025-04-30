@@ -52,6 +52,8 @@ export function renderLineChart(data) {
 
   const allDistricts = Array.from(new Set(data.map(d => d["District Code"]))).sort();
 
+  selectedDistricts = allDistricts.slice(0, 2); // default selection
+
   select.selectAll("option")
     .data(allDistricts)
     .enter()
@@ -60,7 +62,8 @@ export function renderLineChart(data) {
     .text(d => {
       const match = data.find(row => row["District Code"] === d);
       return match ? match["District Name"] : d;
-    });
+    })
+    .property("selected", d => selectedDistricts.includes(d)); // <-- mobile fix
 
   select.on("change", function () {
     const chosen = Array.from(this.selectedOptions).map(opt => opt.value);
@@ -246,15 +249,15 @@ export function renderLineChart(data) {
     [...primarySeries.map(s => ({ ...s, isSecondary: false })),
      ...secondarySeries.map(s => ({ ...s, isSecondary: true }))]
     .forEach(series => {
+      const metricLabel = series.isSecondary ? secondaryMetric.label : primaryMetric.label;
       legendBox.append("div")
         .style("margin-bottom", "4px")
         .html(
           `<span style="display:inline-block;width:12px;height:12px;background:${series.color};margin-right:6px;border-radius:2px;"></span>
-           ${series.name}${series.isSecondary ? " (2)" : ""}`
+           ${series.name} – ${metricLabel}`
         );
     });
   }
 
-  selectedDistricts = allDistricts.slice(0, 2);
-  update(selectedDistricts);
+  update(selectedDistricts); // chart initial render
 }
