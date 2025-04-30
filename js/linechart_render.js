@@ -12,12 +12,12 @@ export function renderLineChart(data) {
 
   const svg = d3.select("#lineChart")
     .append("svg")
-    .attr("viewBox", 0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom})
+    .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
     .attr("preserveAspectRatio", "xMidYMid meet")
     .style("width", "100%")
     .style("height", "auto")
     .append("g")
-    .attr("transform", translate(${margin.left},${margin.top}));
+    .attr("transform", `translate(${margin.left},${margin.top})`);
 
   const trendSelect = d3.select("#trendMetricSelect");
   const secondarySelect = d3.select("#secondaryTrendMetricSelect");
@@ -129,9 +129,9 @@ export function renderLineChart(data) {
     const yAxisLeft = d3.axisLeft(yScaleLeft);
     const yAxisRight = yScaleRight ? d3.axisRight(yScaleRight) : null;
 
-    svg.append("g").attr("transform", translate(0,${height})).call(xAxis);
+    svg.append("g").attr("transform", `translate(0,${height})`).call(xAxis);
     svg.append("g").call(yAxisLeft);
-    if (yAxisRight) svg.append("g").attr("transform", translate(${width},0)).call(yAxisRight);
+    if (yAxisRight) svg.append("g").attr("transform", `translate(${width},0)`).call(yAxisRight);
 
     svg.append("text")
       .attr("x", width / 2)
@@ -165,7 +165,7 @@ export function renderLineChart(data) {
       .attr("font-size", "17px")
       .attr("font-weight", "bold")
       .attr("fill", "#2b97e0")
-      .text(Trend Over Time: ${primaryMetric.label}${secondaryMetric ? " & " + secondaryMetric.label : ""});
+      .text(`Trend Over Time: ${primaryMetric.label}${secondaryMetric ? " & " + secondaryMetric.label : ""}`);
 
     const tooltip = d3.select("#lineChart-tooltip");
     if (tooltip.empty()) {
@@ -206,9 +206,9 @@ export function renderLineChart(data) {
         .attr("fill", series.color)
         .on("mouseover", (event, d) => {
           d3.select("#lineChart-tooltip")
-            .html(${series.name}<br>Year: ${d.year}<br>${primaryMetric.label}: ${primaryMetric.format(d.value)})
-            .style("left", ${event.pageX + 10}px)
-            .style("top", ${event.pageY - 20}px)
+            .html(`${series.name}<br>Year: ${d.year}<br>${primaryMetric.label}: ${primaryMetric.format(d.value)}`)
+            .style("left", `${event.pageX + 10}px`)
+            .style("top", `${event.pageY - 20}px`)
             .style("display", "inline-block");
         })
         .on("mouseout", () => d3.select("#lineChart-tooltip").style("display", "none"));
@@ -232,9 +232,9 @@ export function renderLineChart(data) {
         .attr("fill", series.color)
         .on("mouseover", (event, d) => {
           d3.select("#lineChart-tooltip")
-            .html(${series.name}<br>Year: ${d.year}<br>${secondaryMetric.label}: ${secondaryMetric.format(d.value)})
-            .style("left", ${event.pageX + 10}px)
-            .style("top", ${event.pageY - 20}px)
+            .html(`${series.name}<br>Year: ${d.year}<br>${secondaryMetric.label}: ${secondaryMetric.format(d.value)}`)
+            .style("left", `${event.pageX + 10}px`)
+            .style("top", `${event.pageY - 20}px`)
             .style("display", "inline-block");
         })
         .on("mouseout", () => d3.select("#lineChart-tooltip").style("display", "none"));
@@ -249,23 +249,23 @@ export function renderLineChart(data) {
           .attr("dy", "0.35em")
           .style("fill", series.color)
           .style("font-size", "0.8rem")
-          .text(${series.name}${isRight ? " (2)" : ""});
+          .text(`${series.name}${isRight ? " (2)" : ""}`);
       });
     }
 
     const legendBox = d3.select("#lineChart-legend");
-legendBox.html(""); // clear previous entries
+    legendBox.html(""); // clear previous entries
 
-[...primarySeries.map(s => ({ ...s, isSecondary: false })),
- ...secondarySeries.map(s => ({ ...s, isSecondary: true }))]
-.forEach(series => {
-  legendBox.append("div")
-    .style("margin-bottom", "4px")
-    .html(
-      <span style="display:inline-block;width:12px;height:12px;background:${series.color};margin-right:6px;border-radius:2px;"></span>
-      ${series.name}${series.isSecondary ? " (2)" : ""}
-    );
-});
+    [...primarySeries.map(s => ({ ...s, isSecondary: false })),
+     ...secondarySeries.map(s => ({ ...s, isSecondary: true }))]
+    .forEach(series => {
+      legendBox.append("div")
+        .style("margin-bottom", "4px")
+        .html(
+          `<span style="display:inline-block;width:12px;height:12px;background:${series.color};margin-right:6px;border-radius:2px;"></span>
+           ${series.name}${series.isSecondary ? " (2)" : ""}`
+        );
+    });
 
     drawLineLabels(primarySeries, yScaleLeft, false);
     if (useRightAxis) drawLineLabels(secondarySeries, yScaleRight, true);
