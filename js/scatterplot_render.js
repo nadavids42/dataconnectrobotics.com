@@ -60,7 +60,7 @@ export function updateScatterplot(
     .attr("x", scatterWidth / 2)
     .attr("y", scatterHeight - 18)
     .attr("text-anchor", "middle")
-    .attr("fill", "#222")
+    .attr("fill", "#ff6600")
     .attr("font-size", "14px")
     .text(xMetricObj.label);
 
@@ -69,7 +69,7 @@ export function updateScatterplot(
     .attr("y", 18)
     .attr("text-anchor", "middle")
     .attr("transform", "rotate(-90)")
-    .attr("fill", "#222")
+    .attr("fill", "#ff6600")
     .attr("font-size", "14px")
     .text(yMetricObj.label);
 
