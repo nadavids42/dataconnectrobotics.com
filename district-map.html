@@ -28,6 +28,30 @@
       to { opacity: 1; transform: translateY(0);}
     }
     .animate-fade-in { animation: fade-in 1s ease-out both;}
+
+    .choices__inner {
+  background-color: #f1f5f9; /* light mode */
+  color: #111827;
+}
+
+.dark .choices__inner {
+  background-color: #1e293b; /* slate-800 for dark mode */
+  color: #f9fafb; /* white-ish text */
+}
+
+.choices__list--dropdown {
+  background-color: #ffffff;
+  color: #111827;
+}
+
+.dark .choices__list--dropdown {
+  background-color: #1e293b;
+  color: #f9fafb;
+}
+
+.dark .choices__item--choice.is-selected {
+  background-color: #334155; /* dark highlight */
+}
   </style>
 </head>
 
