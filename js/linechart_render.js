@@ -253,6 +253,20 @@ export function renderLineChart(data) {
       });
     }
 
+    const legendBox = d3.select("#lineChart-legend");
+legendBox.html(""); // clear previous entries
+
+[...primarySeries.map(s => ({ ...s, isSecondary: false })),
+ ...secondarySeries.map(s => ({ ...s, isSecondary: true }))]
+.forEach(series => {
+  legendBox.append("div")
+    .style("margin-bottom", "4px")
+    .html(`
+      <span style="display:inline-block;width:12px;height:12px;background:${series.color};margin-right:6px;border-radius:2px;"></span>
+      ${series.name}${series.isSecondary ? " (2)" : ""}
+    `);
+});
+
     drawLineLabels(primarySeries, yScaleLeft, false);
     if (useRightAxis) drawLineLabels(secondarySeries, yScaleRight, true);
   }
