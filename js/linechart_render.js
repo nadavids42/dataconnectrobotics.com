@@ -257,6 +257,30 @@ export function renderLineChart(data) {
            ${series.name} – ${metricLabel}`
         );
     });
+    // Initialize or update Choices.js after district <select> is populated
+if (!window.districtChoices) {
+  const nativeSelect = document.getElementById("districtSelect");
+  window.districtChoices = new Choices(nativeSelect, {
+    removeItemButton: true,
+    shouldSort: false,
+    searchResultLimit: 100,
+    placeholderValue: 'Search districts...',
+    maxItemCount: 3,
+  });
+} else {
+  window.districtChoices.setChoices(
+    Array.from(document.querySelectorAll('#districtSelect option')).map(opt => ({
+      value: opt.value,
+      label: opt.text,
+      selected: opt.selected,
+      disabled: opt.disabled
+    })),
+    'value',
+    'label',
+    true
+  );
+}
+
   }
 
   update(selectedDistricts); // chart initial render
