@@ -46,38 +46,34 @@ export function renderLineChart(data) {
     update(selectedDistricts);
   });
 
-  const select = d3.select("#districtSelect")
-    .attr("multiple", true);
-
   const allDistricts = Array.from(new Set(data.map(d => d["District Code"]))).sort();
-
   selectedDistricts = allDistricts.slice(0, 2);
 
   const options = allDistricts.map(d => {
-  const match = data.find(row => row["District Code"] === d);
-  return {
-    value: d,
-    label: match ? match["District Name"] : d,
-    selected: selectedDistricts.includes(d)
-  };
-});
-
-if (!window.districtChoices) {
-  const nativeSelect = document.getElementById("districtSelect");
-  window.districtChoices = new Choices(nativeSelect, {
-    removeItemButton: true,
-    shouldSort: false,
-    searchResultLimit: 100,
-    placeholderValue: 'Search districts...',
-    maxItemCount: 3,
+    const match = data.find(row => row["District Code"] === d);
+    return {
+      value: d,
+      label: match ? match["District Name"] : d,
+      selected: selectedDistricts.includes(d)
+    };
   });
-  window.districtChoices.setChoices(options, 'value', 'label', true);
-} else {
-  window.districtChoices.clearChoices();
-  window.districtChoices.setChoices(options, 'value', 'label', true);
-}
 
-  select.on("change", function () {
+  const nativeSelect = document.getElementById("districtSelect");
+  if (!window.districtChoices) {
+    window.districtChoices = new Choices(nativeSelect, {
+      removeItemButton: true,
+      shouldSort: false,
+      searchResultLimit: 100,
+      placeholderValue: 'Search districts...',
+      maxItemCount: 3,
+    });
+    window.districtChoices.setChoices(options, 'value', 'label', true);
+  } else {
+    window.districtChoices.clearChoices();
+    window.districtChoices.setChoices(options, 'value', 'label', true);
+  }
+
+  nativeSelect.addEventListener("change", function () {
     const chosen = Array.from(this.selectedOptions).map(opt => opt.value);
     if (chosen.length > 3) {
       alert("Please select no more than 3 districts.");
@@ -260,29 +256,6 @@ if (!window.districtChoices) {
            ${series.name} – ${metricLabel}`
         );
     });
-
-    const nativeSelect = document.getElementById("districtSelect");
-    if (!window.districtChoices) {
-      window.districtChoices = new Choices(nativeSelect, {
-        removeItemButton: true,
-        shouldSort: false,
-        searchResultLimit: 100,
-        placeholderValue: 'Search districts...',
-        maxItemCount: 3,
-      });
-    } else {
-      window.districtChoices.setChoices(
-        Array.from(nativeSelect.options).map(opt => ({
-          value: opt.value,
-          label: opt.text,
-          selected: opt.selected,
-          disabled: opt.disabled
-        })),
-        'value',
-        'label',
-        true
-      );
-    }
   }
 
   update(selectedDistricts);
