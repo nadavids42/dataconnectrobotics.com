@@ -240,19 +240,6 @@ export function renderLineChart(data) {
         .on("mouseout", () => d3.select("#lineChart-tooltip").style("display", "none"));
     });
 
-    function drawLineLabels(seriesList, scale, isRight = false) {
-      seriesList.forEach(series => {
-        const last = series.values[series.values.length - 1];
-        svg.append("text")
-          .attr("x", xScale(last.year) + 5)
-          .attr("y", scale(last.value))
-          .attr("dy", "0.35em")
-          .style("fill", series.color)
-          .style("font-size", "0.8rem")
-          .text(`${series.name}${isRight ? " (2)" : ""}`);
-      });
-    }
-
     const legendBox = d3.select("#lineChart-legend");
     legendBox.html(""); // clear previous entries
 
@@ -266,9 +253,6 @@ export function renderLineChart(data) {
            ${series.name}${series.isSecondary ? " (2)" : ""}`
         );
     });
-
-    drawLineLabels(primarySeries, yScaleLeft, false);
-    if (useRightAxis) drawLineLabels(secondarySeries, yScaleRight, true);
   }
 
   selectedDistricts = allDistricts.slice(0, 2);
