@@ -98,6 +98,14 @@
     .prose pre {
       overflow-x: auto;
     }
+    .prose pre code {
+      display: block;
+      overflow-x: auto;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
     .prose h1 { font-size: 2.1em; }
     .prose h2 { font-size: 1.6em; }
     .prose h3 { font-size: 1.25em; }
@@ -120,6 +128,11 @@
     }
     .animate-fade-in { animation: fade-in 1s ease-out both; }
   </style>
+  <!-- Highlight.js styles and script -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+
 </head>
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JBH44FRNK1"></script>
@@ -313,7 +326,14 @@
         .then(md => {
           if (md) {
             md = stripFrontmatter(md);
+            marked.setOptions({
+              highlight: function (code, lang) {
+                return hljs.highlight(code, { language: lang || 'plaintext' }).value;
+              },
+              langPrefix: 'language-', // REQUIRED for highlight.js
+              });
             contentEl.innerHTML = marked.parse(md);
+
             if (post) {
               metaEl.innerHTML = `
                 <h2 class="text-2xl font-bold mb-1">${post.title}</h2>
