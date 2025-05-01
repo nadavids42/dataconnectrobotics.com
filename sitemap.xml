@@ -16,4 +16,8 @@
     <loc>https://dataconnectrobotics.com/district-map.html</loc>
     <priority>0.50</priority>
   </url>
+  <url>
+    <loc>https://dataconnectrobotics.com/hire_me.html</loc>
+    <priority>0.70</priority>
+  </url>
 </urlset>
