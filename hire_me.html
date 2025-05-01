@@ -1,8 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hire Me | DataConnect Robotics</title>
+  <meta name="description" content="Hire Nick Davidson for freelance data, robotics, education, or development work.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Hire Me | DataConnect Robotics">
+  <meta property="og:description" content="Available for freelance work in data analytics, robotics, education, and web development.">
+  <meta property="og:image" content="https://dataconnectrobotics.com/img/header.jpg">
+  <meta property="og:url" content="https://dataconnectrobotics.com/hire_me.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="img/logo.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #f1f5f9; }
+    .dark body { background-color: #0f172a !important; }
+    .dark .bg-white, .dark.bg-white {
+      background-color: #1e293b !important;
+      color: #f1f5f9 !important;
+    }
+    .dark .prose, .prose-invert { color: #f1f5f9 !important; }
+    .dark .prose a { color: #60a5fa; }
+  </style>
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+  </script>
+</head>
+<body class="font-sans text-gray-900 dark:text-white min-h-screen flex flex-col">
+
+<!-- Header -->
+<header class="bg-white dark:bg-slate-900 shadow sticky top-0 z-20">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3">
+      <img src="img/logo.png" alt="Logo" class="h-12 rounded-lg shadow">
+      <span class="text-2xl font-bold tracking-tight text-blue-700 dark:text-blue-400">DataConnect Robotics</span>
+    </a>
+    <nav class="hidden md:flex space-x-6 text-lg font-medium">
+      <a href="/#about" class="hover:text-blue-600 dark:hover:text-blue-400">About</a>
+      <a href="/projects.html" class="hover:text-blue-600 dark:hover:text-blue-400">Projects</a>
+      <a href="/#contact" class="hover:text-blue-600 dark:hover:text-blue-400">Contact</a>
+      <a href="/classes.html" class="hover:text-blue-600 dark:hover:text-blue-400">Classes</a>
+    </nav>
+    <div class="flex items-center gap-2">
+      <button class="md:hidden text-2xl" onclick="toggleMenu()">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 bg-white dark:bg-slate-900">
+    <a href="/#about" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">About</a>
+    <a href="/projects.html" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">Projects</a>
+    <a href="/#contact" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">Contact</a>
+    <a href="/classes.html" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">Classes</a>
+  </div>
+</header>
+
+<!-- Hero -->
 <section class="relative overflow-hidden flex flex-col items-center justify-center text-center py-20 px-6 bg-gradient-to-br from-blue-200 to-indigo-100 dark:from-blue-900 dark:to-indigo-900">
-  <h1 class="relative z-10 text-4xl md:text-6xl font-bold mb-4 text-blue-900 dark:text-blue-200 drop-shadow">Hire Me</h1>
-  <p class="relative z-10 text-xl md:text-2xl max-w-2xl text-blue-800 dark:text-blue-300">Freelance work in data, robotics, education, and web development.</p>
+  <h1 class="text-4xl md:text-6xl font-bold mb-4 text-blue-900 dark:text-blue-200 drop-shadow">Hire Me</h1>
+  <p class="text-xl md:text-2xl max-w-2xl text-blue-800 dark:text-blue-300">Freelance work in data, robotics, education, and web development.</p>
 </section>
 
+<!-- Content -->
 <main class="max-w-3xl mx-auto py-10 px-4 w-full flex-1">
   <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-8 prose prose-lg dark:prose-invert">
     <p>I love solving problems with data, code, and hands-on builds — and I’m open to freelance or side project work. Whether you need help with a quick analysis, a custom data dashboard, or a robot that does something wild and weird, I’d love to hear from you.</p>
@@ -23,6 +91,25 @@
     </ul>
 
     <h2>Let’s Talk</h2>
-    <p>Have something in mind? <a href="/contact">Reach out here</a> — I’d love to see what we can build together.</p>
+    <p>Have something in mind? <a href="/#contact">Reach out here</a> — I’d love to see what we can build together.</p>
   </div>
 </main>
+
+<!-- Footer -->
+<footer class="text-center py-8 text-base text-slate-600 dark:text-slate-400 bg-transparent mt-10">
+  &copy; 2025 DataConnect Robotics. All rights reserved.
+</footer>
+
+<!-- Theme Handling -->
+<script>
+  if (localStorage.theme === 'light') {
+    document.documentElement.classList.remove('dark');
+  } else if (localStorage.theme === 'dark') {
+    document.documentElement.classList.add('dark');
+  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.classList.add('dark');
+  }
+</script>
+
+</body>
+</html>
