@@ -132,16 +132,40 @@
   &copy; 2025 DataConnect Robotics. All rights reserved.
 </footer>
 
-<!-- Theme Handling -->
-<script>
-  if (localStorage.theme === 'light') {
-    document.documentElement.classList.remove('dark');
-  } else if (localStorage.theme === 'dark') {
-    document.documentElement.classList.add('dark');
-  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    document.documentElement.classList.add('dark');
-  }
-</script>
+<!-- Dark/Light Toggle Script -->
+  <script>
+    // Initial theme setup
+    if (localStorage.theme === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else if (localStorage.theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark');
+    }
+
+    // Icon switcher
+    function updateDarkIcons() {
+      const html = document.documentElement;
+      document.getElementById('light-icon').style.display = html.classList.contains('dark') ? 'none' : 'block';
+      document.getElementById('dark-icon').style.display = html.classList.contains('dark') ? 'block' : 'none';
+    }
+
+    // Initial icon update on page load
+    document.addEventListener('DOMContentLoaded', updateDarkIcons);
+
+    // Toggle button
+    document.getElementById('toggle-dark').onclick = function () {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.theme = 'light';
+      } else {
+        html.classList.add('dark');
+        localStorage.theme = 'dark';
+      }
+      updateDarkIcons();
+    }
+  </script>
 
 </body>
 </html>
