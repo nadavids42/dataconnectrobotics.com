@@ -77,7 +77,7 @@ IFrame(src="charts/fig_temperature_line.html", width='100%', height=600)
 <iframe
     width="100%"
     height="600"
-    src="charts/fig\_temperature\_line.html"
+    src="charts/fig_temperature_line.html"
     frameborder="0"
     allowfullscreen
 
@@ -159,7 +159,7 @@ IFrame(src="charts/fig_temperature_trend.html", width='100%', height=600)
 <iframe
     width="100%"
     height="600"
-    src="charts/fig\_temperature\_trend.html"
+    src="charts/fig_temperature_trend.html"
     frameborder="0"
     allowfullscreen
 
@@ -259,7 +259,7 @@ IFrame(src="charts/fig_temperature_trend_proj.html", width='100%', height=600)
 <iframe
     width="100%"
     height="600"
-    src="charts/fig\_temperature\_trend\_proj.html"
+    src="charts/fig_temperature_trend_proj.html"
     frameborder="0"
     allowfullscreen
 
@@ -358,7 +358,7 @@ IFrame(src="charts/average_snow_depth.html", width='100%', height=600)
 <iframe
     width="100%"
     height="600"
-    src="charts/average\_snow\_depth.html"
+    src="charts/average_snow_depth.html"
     frameborder="0"
     allowfullscreen
 
@@ -445,7 +445,7 @@ IFrame(src="charts/total_snow.html", width='100%', height=600)
 <iframe
     width="100%"
     height="600"
-    src="charts/total\_snow.html"
+    src="charts/total_snow.html"
     frameborder="0"
     allowfullscreen
 
@@ -456,24 +456,20 @@ This chart reveals an interesting — and seemingly contradictory — trend:
 
 So what’s going on? Here are a few likely reasons:
 
----
 
 **1. Warmer air holds more moisture**  
 Warmer air can carry more water vapor, which leads to heavier precipitation overall.  
 If temperatures stay near or below freezing, that means more snow during storms.
 
----
 
 **2. More frequent melting between snowfalls**  
 Slightly warmer winters mean more thaw cycles. Snow melts faster between storms, reducing average snow depth even when snowfall is frequent.
 
----
 
 **3. Fewer, but more intense snowstorms**  
 We're seeing a shift toward shorter, more extreme snow events.  
 You might get 8 inches in a single day — but it's gone by the weekend.
 
----
 
 **4. More rain at the edges of winter**  
 Warmer shoulder seasons lead to more rain instead of snow in early and late winter.  
@@ -534,7 +530,7 @@ IFrame(src="charts/map_1.html", width='100%', height=600)
 
 ></iframe>
 
-I don't love the above visual. Let's try to make it better. Also, what's with all the black dots?  Perhaps we'll drop null TMAX\_F values.
+I don't love the above visual. Let's try to make it better. Also, what's with all the black dots?  Perhaps we'll drop null `TMAX_F` values.
 
 ### Taking a Look at Station Data
 
