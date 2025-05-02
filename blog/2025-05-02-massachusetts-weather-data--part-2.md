@@ -528,7 +528,7 @@ IFrame(src="charts/map_1.html", width='100%', height=600)
 <iframe
     width="100%"
     height="600"
-    src="charts/map\_1.html"
+    src="charts/map_1.html"
     frameborder="0"
     allowfullscreen
 
