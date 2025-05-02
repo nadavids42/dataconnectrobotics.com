@@ -85,7 +85,7 @@ print(station_ids[:10])
 
 As you can see this didn't work.  What's going on here?
 
-In my earlier code, I used ``` sep="\t"``` because I thought I had a tab separated document.  However, This doesn't appear to be the case.  Let's try delimiting the file by whitespace instead.
+In my earlier code, I used \`\`\` sep="\\t"\`\`\` because I thought I had a tab separated document.  However, This doesn't appear to be the case.  Let's try delimiting the file by whitespace instead.
 
 ```python
 # df = pd.read_csv("station_data/ma_stations.csv", delim_whitespace=True, engine="python")
@@ -289,7 +289,9 @@ is available, the field is left empty
 See section III of the GHCN-Daily readme.txt file (ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt)
 for an explanation of ELEMENT codes and their units as well as the M-FLAG, Q-FLAG and S-FLAG.
 
-The OBS-TIME field is populated with the observation times contained in NOAA/NCEI's HOMR station history database.  
+The OBS-TIME field is populated with the observation times contained in NOAA/NCEI's HOMR station history database. 
+
+ https://www.ncei.noaa.gov/pub/data/ghcn/daily/readme-by_station.txt 
 ```
 
 ```python
@@ -638,7 +640,7 @@ plt.show()
 ```
 
     
-![TMAX Over Time \\(Sample\\)](/img/uploads/output_36_0.png "TMAX Over Time \\(Sample\\)")
+![TMAX Over Time \\\(Sample\\\)](/img/uploads/output_36_0.png "TMAX Over Time \\\(Sample\\\)")
     
 
 I had to play with the plot above a bit before I could get it to look decent.  Key changes are that I only sampled data for every 5 years rather than all the data present.  It was also helpful to put the axis labels at a 45 degree angle. 
