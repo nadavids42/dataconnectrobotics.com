@@ -45,8 +45,8 @@ I dove back into the NOAA file structure and discovered a list of stations I had
 Boom.
 Next stop: the command line.
 
-```
-bash wget -r -nd -np -A 'US1MA*.csv.gz' ftp://ftp.ncei.noaa.gov/pub/data/ghcn/daily/by_station/
+```bash 
+wget -r -nd -np -A 'US1MA*.csv.gz' ftp://ftp.ncei.noaa.gov/pub/data/ghcn/daily/by_station/
 ```
 
 Just a few minutes later, I had a folder full of files—so I opened one to take a quick look. Unfortunately, disappointment struck again: the US1MA stations only report precipitation. I was hoping to model both temperature and precipitation, so this dataset wasn’t going to cut it.
@@ -54,7 +54,7 @@ Just a few minutes later, I had a folder full of files—so I opened one to take
 After more digging, I found another list of Massachusetts stations. The catch? These files lacked the clean, consistent headers I’d come to expect. I’d need to find a different way to work with this new batch of data.
 
 ```python
-# Let's dive into so python to see what we can do with this list 
+# Let's dive into some python to see what we can do with this list 
 # of stations and access to the ftp.
 
 import pandas as pd
@@ -85,7 +85,7 @@ print(station_ids[:10])
 
 As you can see this didn't work.  What's going on here?
 
-In my earlier code, I used \`\`\` sep="\\t"\`\`\` because I thought I had a tab separated document.  However, This doesn't appear to be the case.  Let's try delimiting the file by whitespace instead.
+In my earlier code, I used ``` sep="\t"``` because I thought I had a tab separated document.  However, This doesn't appear to be the case.  Let's try delimiting the file by whitespace instead.
 
 ```python
 # df = pd.read_csv("station_data/ma_stations.csv", delim_whitespace=True, engine="python")
@@ -269,7 +269,7 @@ We don't want to work with columns called 0, 1, 2, etc.  Let's give them some na
 
 From the NOAA website, I found the following:
 
-```
+```bash
 The "station".csv files contain all daily elements for that GHCN station for its entire period of record. 
 Each element-day is provided on a separate line and all files are updated daily for the entire period of record.
 
@@ -520,7 +520,7 @@ print(combined_df.isnull().sum())
     dtype: int64
 
 ```python
-# Re-drop our collumns form our good combined_df data frame
+# Re-drop our columns from our good combined_df data frame
 
 columns_to_drop = ['m_flag','q_flag','obs_time']
 
@@ -556,10 +556,12 @@ SNOW = Snowfall (mm)
 SNWD = Snow depth (mm)
 TMAX = Maximum temperature (tenths of degrees C)
 TMIN = Minimum temperature (tenths of degrees C)
+
+https://www.ncei.noaa.gov/pub/data/ghcn/daily/readme.txt
 ```
 
 ```python
-# Let's make sure we don't have any elements other than the abov, core elements
+# Let's make sure we don't have any elements other than the above, core elements
 
 print(combined_df['element'].unique())
 ```
@@ -640,7 +642,7 @@ plt.show()
 ```
 
     
-![TMAX Over Time \\\(Sample\\\)](/img/uploads/output_36_0.png "TMAX Over Time \\\(Sample\\\)")
+![TMAX Over Time \\\\(Sample\\\\)](/img/uploads/output_36_0.png "TMAX Over Time \\\\(Sample\\\\)")
     
 
 I had to play with the plot above a bit before I could get it to look decent.  Key changes are that I only sampled data for every 5 years rather than all the data present.  It was also helpful to put the axis labels at a 45 degree angle. 
@@ -677,7 +679,7 @@ OK, about 10 million records!
 
 I think our last few steps before we can start analyzing this data is to combine it with our ma\_stations.csv and flatten it out
 
-We want each record to be a station, date, all the various elements for that date and their corresponding units
+We want each record to be a station, date, all the various elements for that date and their corresponding units.  Just like in excel, where you can pivot tables, you can do a similar function in python.
 
 ```python
 # first merge the combined_df with stations_df
@@ -704,7 +706,7 @@ print(pivoted.count())
 ```
 
     element
-    station\_id    3202432
+    station_id    3202432
     date          3202432
     town          3202432
     state         3202432
@@ -719,7 +721,7 @@ print(pivoted.count())
     dtype: int64
 
 ```python
-# 3.2 million station days.  That's a lot of data to build out some fun visualizations!
+# 3.2 million records!  That's a lot of data to build out some fun visualizations!
 
 # Now let's save this data for future analysis
 
@@ -728,11 +730,11 @@ pivoted.to_csv("clean_weather_data.csv", index=False)
 
 <h3>Data Cleaning Conclusions</h3>
 
-What started as a straightforward task—loading and cleaning a batch of CSVs—quickly turned into a reminder of how messy real-world data can be. Even though the files came from the same source, they weren’t consistently structured. Some were missing expected columns, others had malformed rows, and most required extra context to make sense of what they contained. Unit conversions were another critical step: temperature and precipitation values came in scaled integers (tenths of degrees or millimeters), and without converting them early, any downstream analysis would have been misleading.
+What started as a straightforward task—loading and cleaning a batch of CSVs—quickly turned into a reminder of how messy real-world data can be. Most of the data required extra context to make sense of what they contained. Unit conversions were another critical step: temperature and precipitation values came in scaled integers (tenths of degrees or millimeters), and without converting them early, any downstream analysis would have been misleading.
 
 Merging in station metadata—latitude, longitude, elevation, and name—was what really brought the dataset to life. Before that, each record was just a raw number with a cryptic ID. Afterward, those records had location and meaning.
 
-This cleaning process also revealed just how deceptive “quick wins” can be. Loading the files was fast—but preparing them for analysis took iteration, inspection, and a fair amount of troubleshooting. Pandas made much of this possible to automate, but at the scale of 10 million records, even common operations like merging or applying functions had to be handled thoughtfully.
+This cleaning process also revealed just how deceptive “quick wins” can be. Loading the files was fast—but preparing them for analysis took iteration, inspection, and a fair amount of troubleshooting. Pandas made much of this possible to automate, but at scale, even common operations like merging or applying functions had to be handled thoughtfully.
 
 In the end, the result is a dataset that’s analysis-ready—but getting there meant transforming raw numbers into context-rich, interpretable information.
 
