@@ -85,7 +85,7 @@ print(station_ids[:10])
 
 As you can see this didn't work.  What's going on here?
 
-In my earlier code, I used \`\`\`sep="\\t"\`\`\` because I thought I had a tab separated document.  However, This doesn't appear to be the case.  Let's try delimiting the file by whitespace instead.
+In my earlier code, I used ``` sep="\t"``` because I thought I had a tab separated document.  However, This doesn't appear to be the case.  Let's try delimiting the file by whitespace instead.
 
 ```python
 # df = pd.read_csv("station_data/ma_stations.csv", delim_whitespace=True, engine="python")
@@ -592,30 +592,30 @@ plt.show()
 # Now we can convert the value column for the elements that we care about
 
 def convert_value(row):
-    if row['element'] in ['TMAX','TMIN']:
-        return row['value'] / 10.0 # tenths of C -> C
+    if row['element'] in ['TMAX', 'TMIN']:
+        return row['value'] / 10.0  # tenths of C -> C
     elif row['element'] == 'PRCP':
-        return row['value'] / 10.0 # tents of mm -> mm
-    elif row['element'] in ['SNOW','SNWD']:
-        return row['value'] # already in mm
+        return row['value'] / 10.0  # tenths of mm -> mm
+    elif row['element'] in ['SNOW', 'SNWD']:
+        return row['value']  # already in mm
     else:
-        return row['value'] #fallback if none of the other cases or null 
-    
-combined_df.loc[:,'value_converted'] = combined_df.apply(convert_value, axis=1) #added .loc to clear warning
+        return row['value']  # fallback
+
+combined_df.loc[:, 'value_converted'] = combined_df.apply(convert_value, axis=1)
 
 # Let's also assign units so that we know what we're looking at
 
 def assign_units(element):
-    if element in ['TMAX','TMIN']:
+    if element in ['TMAX', 'TMIN']:
         return 'C'
     elif element == 'PRCP':
         return 'mm'
-    elif element in ['SNOW','SNWD']:
+    elif element in ['SNOW', 'SNWD']:
         return 'mm'
     else:
-        return 'unknkown'
-    
-combined_df.loc[:,'units'] = combined_df['element'].apply(assign_units)
+        return 'unknown'
+
+combined_df.loc[:, 'units'] = combined_df['element'].apply(assign_units)
 ```
 
 ```python
@@ -638,7 +638,7 @@ plt.show()
 ```
 
     
-![TMAX Over Time \(Sample\)](/img/uploads/output_36_0.png "TMAX Over Time \(Sample\)")
+![TMAX Over Time \\(Sample\\)](/img/uploads/output_36_0.png "TMAX Over Time \\(Sample\\)")
     
 
 I had to play with the plot above a bit before I could get it to look decent.  Key changes are that I only sampled data for every 5 years rather than all the data present.  It was also helpful to put the axis labels at a 45 degree angle. 
