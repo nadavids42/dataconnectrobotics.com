@@ -327,8 +327,8 @@
           if (md) {
             md = stripFrontmatter(md);
             marked.setOptions({
-              highlight: function (code, lang) {
-                return hljs.highlight(code, { language: lang || 'plaintext' }).value;
+              highlight: function (code) {
+                return hljs.highlightAuto(code).value;
               },
               langPrefix: 'language-', // REQUIRED for highlight.js
               });
