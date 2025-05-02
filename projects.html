@@ -335,7 +335,7 @@
           if (md) {
             md = stripFrontmatter(md);
             contentEl.innerHTML = marked.parse(md);
-
+            hljs.highlightAll();
             if (post) {
               metaEl.innerHTML = `
                 <h2 class="text-2xl font-bold mb-1">${post.title}</h2>
