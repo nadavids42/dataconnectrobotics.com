@@ -26,6 +26,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
+    marked.setOptions({
+      highlight: function (code) {
+        return hljs.highlightAuto(code).value;
+      },
+      langPrefix: 'language-', // REQUIRED for highlight.js
+      });
+  </script>
+  <script>
     function toggleMenu() {
       const menu = document.getElementById('mobile-menu');
       menu.classList.toggle('hidden');
@@ -326,12 +334,6 @@
         .then(md => {
           if (md) {
             md = stripFrontmatter(md);
-            marked.setOptions({
-              highlight: function (code) {
-                return hljs.highlightAuto(code).value;
-              },
-              langPrefix: 'language-', // REQUIRED for highlight.js
-              });
             contentEl.innerHTML = marked.parse(md);
 
             if (post) {
