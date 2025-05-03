@@ -47,7 +47,21 @@ df = pd.read_csv("survey.csv")
 df.head()
 ```
 
-<div>
+<div class="overflow-x-auto w-full my-6">
+
+  <style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+  </style>
+  <table border="1" class="dataframe min-w-[1000px] text-sm text-left"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
