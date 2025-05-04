@@ -8,6 +8,7 @@ export const METRICS = [
   { key: "sat_math",    label: "SAT Math Score",               col: "sat_Math", legend: "test", format: d => d == null ? "N/A" : d.toFixed(1) },
   { key: "asian_per",   label: "% Asian Students",             col: "demo_Asian", legend: "demo", format: d => d == null ? "N/A": d.toFixed(1) + "%" },
   { key: "hisp_per",    label: "% Hispanic Students",          col: "demo_Hispanic or Latino", legend: "demo", format: d => d == null ? "N/A": d.toFixed(1) + "%" },
+  { key: "multi_race",  label: "% Multi-Race Not Hispanic",    col: "demo_Multi-Race, Not Hispanic or Latino", legend: "demo", format: d => d == null ? "N/A": d.toFixed(1) + "%" },
   { key: "black_per",   label: "% Black Students",             col: "demo_Black or African American", legend: "demo", format: d => d == null ? "N/A": d.toFixed(1) + "%" },
   { key: "pacific_per", label: "% Pacific Island Students",    col: "demo_Native Hawaiian or Other Pacific Islander", legend: "demo", format: d => d == null ? "N/A": d.toFixed(1) + "%" },
   { key: "white_per",   label: "% White Students",             col: "demo_White", legend: "demo", format: d => d == null ? "N/A": d.toFixed(1) + "%" }
