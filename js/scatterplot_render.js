@@ -47,9 +47,18 @@ export function updateScatterplot(
   const y = d3.scaleLinear().domain([yExtent[0] * 0.97, yExtent[1] * 1.03]).range([scatterHeight - margin.bottom, margin.top]);
 
   // Axes
-  scatterSvg.append("g")
-    .attr("transform", `translate(0,${scatterHeight - margin.bottom})`)
-    .call(d3.axisBottom(x).tickFormat(xMetricObj.format));
+  const xAxis = d3.axisBottom(x);
+  if (xMetricObj.label === "Average salary") {
+    xAxis
+    .ticks(6)  // or .tickValues([40000, 50000, 60000, 70000, 80000])
+    .tickFormat(d => `$${d / 1000}k`);
+  } else {
+    xAxis.tickFormat(xMetricObj.format);
+  }
+
+scatterSvg.append("g")
+  .attr("transform", `translate(0,${scatterHeight - margin.bottom})`)
+  .call(xAxis);
 
   scatterSvg.append("g")
     .attr("transform", `translate(${margin.left},0)`)
