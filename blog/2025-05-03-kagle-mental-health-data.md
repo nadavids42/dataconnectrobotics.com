@@ -1,5 +1,5 @@
 ---
-title: Kagle Mental Health Data
+title: Kaggle Mental Health Data
 date: 2025-05-03T13:17:00
 ---
 # Mental Health Risk Prediction
