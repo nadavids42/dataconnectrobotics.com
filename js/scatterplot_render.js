@@ -48,7 +48,7 @@ export function updateScatterplot(
 
   // Axes
   const xAxis = d3.axisBottom(x);
-  if (xMetricObj.label === "Average salary") {
+  if (xMetricObj.label === "Average Salary") {
     xAxis
     .ticks(6)  // or .tickValues([40000, 50000, 60000, 70000, 80000])
     .tickFormat(d => `$${d / 1000}k`);
