@@ -43,15 +43,56 @@
     .animate-slide-in { animation: slide-in 1s ease-out both; animation-delay: 0.2s; }
   </style>
 </head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBH44FRNK1"></script>
+<!-- Google Analytics Consent Logic -->
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-JBH44FRNK1');
+  function loadGA() {
+    const gtagScript = document.createElement('script');
+    gtagScript.src = "https://www.googletagmanager.com/gtag/js?id=G-JBH44FRNK1";
+    gtagScript.async = true;
+    document.head.appendChild(gtagScript);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    window.gtag = gtag;
+
+    gtag('js', new Date());
+    gtag('config', 'G-JBH44FRNK1');
+  }
+
+  if (localStorage.getItem('ga_consent') === 'granted') {
+    window.addEventListener('DOMContentLoaded', loadGA);
+  }
 </script>
+
 <body class="font-sans text-gray-900 dark:text-white min-h-screen flex flex-col">
+  <!-- Cookie Consent Banner -->
+<div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-slate-800 text-white px-4 py-3 flex flex-col md:flex-row items-center justify-between z-50" style="display: none;">
+  <p class="mb-2 md:mb-0 text-sm">This site uses cookies for analytics. Do you consent to tracking?</p>
+  <div class="flex space-x-2">
+    <button onclick="acceptAnalytics()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">Accept</button>
+    <button onclick="rejectAnalytics()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-1 rounded">Reject</button>
+  </div>
+</div>
+
+<script>
+  function acceptAnalytics() {
+    localStorage.setItem('ga_consent', 'granted');
+    loadGA();
+    document.getElementById('cookie-banner').style.display = 'none';
+  }
+
+  function rejectAnalytics() {
+    localStorage.setItem('ga_consent', 'denied');
+    document.getElementById('cookie-banner').style.display = 'none';
+  }
+
+  if (!localStorage.getItem('ga_consent')) {
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('cookie-banner').style.display = 'flex';
+    });
+  }
+</script>
+
   <!-- HEADER -->
   <header class="bg-white dark:bg-slate-900 shadow sticky top-0 z-20">
     <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
