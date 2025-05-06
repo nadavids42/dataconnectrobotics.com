@@ -6,7 +6,14 @@ import { setupControls } from './ui_controls.js';
 import { renderLineChart } from "./linechart_render.js";
 
 
-loadData().then(([districts, allData, massDistricts]) => {
+// loadData().then(([districts, allData, massDistricts]) => {
+//   const width = 800;
+//   const height = 600;
+//   const scatterWidth = 480;
+//   const scatterHeight = 480;
+//   const defaultYear = 2021;
+
+loadData().then(([districts, allData]) => {
   const width = 800;
   const height = 600;
   const scatterWidth = 480;
@@ -57,15 +64,15 @@ loadData().then(([districts, allData, massDistricts]) => {
   const path = d3.geoPath().projection(projection);
 
   // --- Add Massachusetts Districts GeoJSON Layer (outline, below main layer) ---
-  svg.append("g").attr("class", "ma-districts")
-    .selectAll("path")
-    .data(massDistricts.features)
-    .enter().append("path")
-    .attr("d", path)
-    .attr("fill", "none")
-    .attr("stroke", "#ccc")
-    .attr("stroke-width", 1.5)
-    .attr("pointer-events", "none");
+  // svg.append("g").attr("class", "ma-districts")
+  //   .selectAll("path")
+  //   .data(massDistricts.features)
+  //   .enter().append("path")
+  //   .attr("d", path)
+  //   .attr("fill", "none")
+  //   .attr("stroke", "#ccc")
+  //   .attr("stroke-width", 1.5)
+  //   .attr("pointer-events", "none");
 
   svg.append("g").attr("class", "districts")
     .selectAll("path")
