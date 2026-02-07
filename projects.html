@@ -1,147 +1,44 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Projects | DataConnect Robotics</title>
-  <!-- SEO Meta Tags -->
-  <meta name="description" content="Explore robotics projects, tutorials, and builds from DataConnect Robotics. Hands-on creations blending coding, electronics, and innovation.">
-  <meta name="robots" content="index, follow">
+
+  <!-- SEO -->
+  <meta name="description" content="Explore robotics and data projects from DataConnect Robotics. Build logs, tutorials, and interactive dashboards." />
+  <meta name="robots" content="index, follow" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Projects | DataConnect Robotics">
-  <meta property="og:description" content="Dive into hands-on robotics and coding projects at DataConnect Robotics. Tutorials, builds, and innovation.">
-  <meta property="og:image" content="https://dataconnectrobotics.com/img/header.jpg">
-  <meta property="og:url" content="https://dataconnectrobotics.com/projects.html">
-  <meta property="og:type" content="website">
+  <meta property="og:title" content="Projects | DataConnect Robotics" />
+  <meta property="og:description" content="Robotics and data projects: build logs, tutorials, and dashboards." />
+  <meta property="og:image" content="https://dataconnectrobotics.com/img/header.jpg" />
+  <meta property="og:url" content="https://dataconnectrobotics.com/projects.html" />
+  <meta property="og:type" content="website" />
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Projects | DataConnect Robotics">
-  <meta name="twitter:description" content="Explore robotics projects, builds, and tutorials with DataConnect Robotics. Learn by doing.">
-  <meta name="twitter:image" content="https://dataconnectrobotics.com/img/header.jpg">
-  
-  <link rel="icon" href="img/logo.png">
-  
+  <link rel="icon" href="img/logo.png" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script>
-    marked.setOptions({
-      highlight: function (code) {
-        return hljs.highlightAuto(code).value;
-      },
-      langPrefix: 'language-', // REQUIRED for highlight.js
-      });
-  </script>
-  <script>
-    function toggleMenu() {
-      const menu = document.getElementById('mobile-menu');
-      menu.classList.toggle('hidden');
-    }
-  </script>
-  <link rel="icon" href="img/logo.png">
-  <style>
-    body {
-      background-color: #f1f5f9;
-    }
-    .dark body {
-      background-color: #0f172a !important;
-    }
-    .dark .bg-white,
-    .dark.bg-white {
-      background-color: #1e293b !important;
-      color: #f1f5f9 !important;
-    }
-    .dark .bg-slate-100,
-    .dark.bg-slate-100 {
-      background-color: #0f172a !important;
-      color: #f1f5f9 !important;
-    }
-    .dark .text-gray-900 {
-      color: #f1f5f9 !important;
-    }
-    .dark .text-gray-700 {
-      color: #e5e7eb !important;
-    }
-    .dark input,
-    .dark textarea {
-      background-color: #1e293b !important;
-      color: #f1f5f9 !important;
-      border-color: #334155 !important;
-    }
-    .dark .border-slate-200,
-    .dark.border-slate-200 {
-      border-color: #334155 !important;
-    }
-    .dark .border-slate-300,
-    .dark.border-slate-300 {
-      border-color: #334155 !important;
-    }
-    .dark .border-slate-600 {
-      border-color: #64748b !important;
-    }
 
-    /* Markdown/Prose Styling for blog content */
-    .prose img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1em 0; }
-    .prose a { color: #38bdf8; text-decoration: underline; transition: color 0.15s;}
-    .prose a:hover { color: #2563eb;}
-    .prose code { background: #23272f; padding: 0.12em 0.4em; border-radius: 4px; font-size: 0.96em;}
-    .prose pre { background: #23272f; padding: 1em; border-radius: 8px; font-size: 0.95em; margin: 1em 0;}
-    .prose table { width: 100%; border-collapse: collapse; margin: 1em 0; }
-    .prose th, .prose td { border: 1px solid #444; padding: 0.5em; }
-    .prose blockquote { border-left: 4px solid #38bdf8; padding-left: 1em; color: #334155; margin: 1em 0; }
-    .prose ul { list-style-type: disc; margin-left: 1.5em; }
-    .prose ol { list-style-type: decimal; margin-left: 1.5em; }
-    .prose li { margin-bottom: 0.4em; }
-    .prose h1, .prose h2, .prose h3, .prose h4 {
-      font-weight: bold;
-      margin-top: 1.2em;
-      margin-bottom: 0.6em;
-      line-height: 1.15;
-    }
-    .prose pre {
-      white-space: pre-wrap;       /* wrap long lines */
-      word-break: break-word;      /* break long strings */
-    }
-    .prose pre {
-      overflow-x: auto;
-    }
-    .prose pre code {
-      display: block;
-      overflow-x: auto;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      font-size: 0.95rem;
-      line-height: 1.5;
-    }
-    .prose h1 { font-size: 2.1em; }
-    .prose h2 { font-size: 1.6em; }
-    .prose h3 { font-size: 1.25em; }
-    .prose p { margin: 1em 0; }
-    .dark .prose, .prose-invert {
-      color: #f1f5f9 !important;
-    }
-    .dark .prose blockquote, .prose-invert blockquote {
-      border-left: 4px solid #60a5fa;
-      color: #a5b4fc !important;
-    }
-    .dark .prose code, .prose-invert code,
-    .dark .prose pre, .prose-invert pre {
-      background: #23272f !important;
-      color: #e0e7ef !important;
-    }
+  <style>
+    body { background-color: #f1f5f9; }
+    .dark body { background-color: #0f172a !important; }
+    .dark .bg-white, .dark.bg-white { background-color: #1e293b !important; color: #f1f5f9 !important; }
+    .dark .bg-slate-100, .dark.bg-slate-100 { background-color: #0f172a !important; color: #f1f5f9 !important; }
+    .dark .text-gray-900 { color: #f1f5f9 !important; }
+    .dark .text-gray-700 { color: #e5e7eb !important; }
+    .dark input, .dark textarea { background-color: #1e293b !important; color: #f1f5f9 !important; border-color: #334155 !important; }
+    .dark .border-slate-200, .dark.border-slate-200 { border-color: #334155 !important; }
+    .dark .border-slate-300, .dark.border-slate-300 { border-color: #334155 !important; }
+    .dark .border-slate-600 { border-color: #64748b !important; }
+
     @keyframes fade-in {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .animate-fade-in { animation: fade-in 1s ease-out both; }
+    .animate-fade-in { animation: fade-in 0.5s ease-out both; }
   </style>
-  <!-- Highlight.js styles and script -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-
 </head>
+
 <!-- Google Analytics Consent Logic -->
 <script>
   function loadGA() {
@@ -157,40 +54,38 @@
     gtag('js', new Date());
     gtag('config', 'G-JBH44FRNK1');
   }
-
   if (localStorage.getItem('ga_consent') === 'granted') {
     window.addEventListener('DOMContentLoaded', loadGA);
   }
 </script>
 
 <body class="font-sans text-gray-900 dark:text-white min-h-screen flex flex-col">
+
   <!-- Cookie Consent Banner -->
-<div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-slate-800 text-white px-4 py-3 flex flex-col md:flex-row items-center justify-between z-50" style="display: none;">
-  <p class="mb-2 md:mb-0 text-sm">This site uses cookies for analytics. Do you consent to tracking?</p>
-  <div class="flex space-x-2">
-    <button onclick="acceptAnalytics()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">Accept</button>
-    <button onclick="rejectAnalytics()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-1 rounded">Reject</button>
+  <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-slate-800 text-white px-4 py-3 flex flex-col md:flex-row items-center justify-between z-50" style="display:none;">
+    <p class="mb-2 md:mb-0 text-sm">This site uses cookies for analytics. Do you consent to tracking?</p>
+    <div class="flex space-x-2">
+      <button onclick="acceptAnalytics()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">Accept</button>
+      <button onclick="rejectAnalytics()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-1 rounded">Reject</button>
+    </div>
   </div>
-</div>
 
-<script>
-  function acceptAnalytics() {
-    localStorage.setItem('ga_consent', 'granted');
-    loadGA();
-    document.getElementById('cookie-banner').style.display = 'none';
-  }
-
-  function rejectAnalytics() {
-    localStorage.setItem('ga_consent', 'denied');
-    document.getElementById('cookie-banner').style.display = 'none';
-  }
-
-  if (!localStorage.getItem('ga_consent')) {
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('cookie-banner').style.display = 'flex';
-    });
-  }
-</script>
+  <script>
+    function acceptAnalytics() {
+      localStorage.setItem('ga_consent', 'granted');
+      loadGA();
+      document.getElementById('cookie-banner').style.display = 'none';
+    }
+    function rejectAnalytics() {
+      localStorage.setItem('ga_consent', 'denied');
+      document.getElementById('cookie-banner').style.display = 'none';
+    }
+    if (!localStorage.getItem('ga_consent')) {
+      document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('cookie-banner').style.display = 'flex';
+      });
+    }
+  </script>
 
   <!-- Header -->
   <header class="bg-white dark:bg-slate-900 shadow sticky top-0 z-20">
@@ -201,19 +96,21 @@
           <span class="text-2xl font-bold tracking-tight text-blue-700 dark:text-blue-400">DataConnect Robotics</span>
         </a>
       </div>
+
       <nav class="hidden md:flex space-x-6 text-lg font-medium">
         <a href="/#about" class="hover:text-blue-600 dark:hover:text-blue-400 transition">About</a>
         <a href="/projects.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Projects</a>
         <a href="/#contact" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Contact</a>
         <a href="/classes.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Classes</a>
       </nav>
+
       <div class="flex items-center gap-2">
         <button class="md:hidden text-2xl focus:outline-none" onclick="toggleMenu()">
           <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
+
         <button id="toggle-dark" class="ml-2 rounded-full border border-slate-200 dark:border-slate-700 p-2 hover:bg-blue-100 dark:hover:bg-blue-800 transition">
           <svg id="light-icon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="5" />
@@ -225,6 +122,7 @@
         </button>
       </div>
     </div>
+
     <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 bg-white dark:bg-slate-900">
       <a href="/#about" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">About</a>
       <a href="/projects.html" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">Projects</a>
@@ -234,47 +132,93 @@
   </header>
 
   <!-- Hero -->
-  <section class="relative overflow-hidden flex flex-col items-center justify-center text-center py-20 px-6 bg-gradient-to-br from-blue-200 to-indigo-100 dark:from-blue-900 dark:to-indigo-900">
-    <h1 class="relative z-10 text-4xl md:text-6xl font-bold mb-4 text-blue-900 dark:text-blue-200 drop-shadow">Projects</h1>
-    <p class="relative z-10 text-xl md:text-2xl max-w-2xl text-blue-800 dark:text-blue-300">Stories, project notes, and tutorials from DataConnect Robotics.</p>
+  <section class="relative overflow-hidden text-center py-16 px-6 bg-gradient-to-br from-blue-200 to-indigo-100 dark:from-blue-900 dark:to-indigo-900">
+    <h1 class="text-4xl md:text-6xl font-bold mb-3 text-blue-900 dark:text-blue-200 drop-shadow">Projects</h1>
+    <p class="text-lg md:text-xl max-w-3xl mx-auto text-blue-800 dark:text-blue-300">
+      A real index: robotics builds, data dashboards, and tutorials — searchable and filterable.
+    </p>
   </section>
 
-  <!-- Blog Main/Single Post -->
-  <main class="max-w-3xl mx-auto py-10 px-4 w-full flex-1">
-    <!-- Blog List -->
-    <div id="blog-list">
-      <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-8">
-        <ul id="post-list" class="space-y-3"></ul>
+  <!-- Main -->
+  <main class="max-w-7xl mx-auto py-10 px-4 w-full flex-1">
+    <!-- Controls -->
+    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-6 md:p-8">
+      <div class="flex flex-col md:flex-row md:items-end gap-4">
+        <div class="flex-1">
+          <label class="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-200" for="search">
+            Search
+          </label>
+          <input id="search" type="text" placeholder="Search projects..."
+                 class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div class="w-full md:w-56">
+          <label class="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-200" for="status">
+            Status
+          </label>
+          <select id="status"
+                  class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="All">All</option>
+            <option value="Planned">Planned</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Complete">Complete</option>
+          </select>
+        </div>
+
+        <div class="w-full md:w-56">
+          <label class="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-200" for="type">
+            Type
+          </label>
+          <select id="type"
+                  class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="All">All</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mt-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div id="results-meta" class="text-sm text-slate-600 dark:text-slate-300"></div>
+
+        <div class="flex gap-2">
+          <button id="clear"
+                  class="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition text-sm font-semibold">
+            Clear
+          </button>
+        </div>
       </div>
     </div>
-    <!-- Single Post View -->
-    <div id="post-content-container" class="hidden">
-      <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-8">
-        <div id="post-meta" class="mb-4"></div>
-        <div id="post-content" class="prose prose-lg dark:prose-invert transition-colors"></div>
-      </div>
-    </div>
-    <div id="back-link" class="mt-8 hidden">
-      <a href="#" class="inline-block px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 transition font-semibold text-white" onclick="showList(event)">
-        &larr; Back to all Projects
-      </a>
-    </div>
+
+    <!-- Cards -->
+    <section class="mt-8">
+      <div id="cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+      <noscript>
+        <div class="mt-6 text-sm text-slate-600 dark:text-slate-300">
+          JavaScript is required to render the projects index.
+        </div>
+      </noscript>
+    </section>
   </main>
 
   <!-- Footer -->
   <footer class="text-center py-8 text-base text-slate-600 dark:text-slate-400 bg-transparent mt-10">
-  <div class="space-y-2">
-    <p>&copy; 2025 DataConnect Robotics. All rights reserved.</p>
-    <p>
-      <a href="/hire_me.html" class="inline-block font-medium text-blue-600 dark:text-blue-400 hover:underline hover:text-blue-800 dark:hover:text-blue-200 transition">
-        Available for freelance work
-      </a>
-    </p>
-  </div>
-</footer>
+    <div class="space-y-2">
+      <p>&copy; 2025 DataConnect Robotics. All rights reserved.</p>
+      <p>
+        <a href="/hire_me.html" class="inline-block font-medium text-blue-600 dark:text-blue-400 hover:underline hover:text-blue-800 dark:hover:text-blue-200 transition">
+          Available for freelance work
+        </a>
+      </p>
+    </div>
+  </footer>
 
   <script>
-    // Initial theme setup (index.html logic)
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    // Theme setup
     if (localStorage.theme === 'light') {
       document.documentElement.classList.remove('dark');
     } else if (localStorage.theme === 'dark') {
@@ -283,17 +227,13 @@
       document.documentElement.classList.add('dark');
     }
 
-    // Icon switcher (index.html logic)
     function updateDarkIcons() {
       const html = document.documentElement;
       document.getElementById('light-icon').style.display = html.classList.contains('dark') ? 'none' : 'block';
       document.getElementById('dark-icon').style.display = html.classList.contains('dark') ? 'block' : 'none';
     }
-
-    // Initial icon update on page load
     document.addEventListener('DOMContentLoaded', updateDarkIcons);
 
-    // Toggle button
     document.getElementById('toggle-dark').onclick = function () {
       const html = document.documentElement;
       if (html.classList.contains('dark')) {
@@ -304,111 +244,225 @@
         localStorage.theme = 'dark';
       }
       updateDarkIcons();
-    }
+    };
 
-    // Blog logic (unchanged)
-    const posts = [
-      { title: "Official Launch", date: "2025-04-24", file: "2025-04-23-this-is-a-test.md", image: "/img/uploads/logo.png" },
-      { title: "2-Wheeled Smart Car - Version 1", date: "2025-04-26", file: "2025-04-26-2-wheeled-smart-car-version-1.md", image: "/img/uploads/v1.jpg" },
-      { title: "V2 - New and Improved", date: "2025-04-28", file: "2025-04-29-v2---new-and-improved.md", image: "/img/uploads/head_on.jpg" },
-      { title: "Massachusetts Weather - Data Cleaning", date: "2025-05-01", file: "2025-05-01-massachusetts-weather---data-cleaning.md", image: "/img/uploads/output_9_0.png" },
-      { title: "Massachusetts Weather - Data Analysis", date: "2025-05-02", file: "2025-05-02-massachusetts-weather-data--part-2.md", image: "/img/uploads/output_67_0.png" },
-      { title: "Kaggle Mental Health Data", date: "2025-05-03", file: "2025-05-03-kagle-mental-health-data.md", image: "/img/uploads/output_13_0.png" },
-      { title: "Robot Arm V1 - Design and Build Begins", date: "2025-05-24", file: "2025-05-25-robot-arm-v1---design-and-build-begins.md", image: "/img/uploads/base_printing.jpg" },
-      { title: "Robot Arm V2 – A Fresh Start (and Some Hard Lessons)", date: "2025-06-03", file: "2025-06-04-robot-arm-v2-–-a-fresh-start-and-some-hard-lessons.md", image: "/img/uploads/PXL_20250604_032359579.PORTRAIT.jpg" }
-      // Add more posts here
-    ];
-    const listEl = document.getElementById("post-list");
-    const contentContainerEl = document.getElementById("post-content-container");
-    const contentEl = document.getElementById("post-content");
-    const metaEl = document.getElementById("post-meta");
-    const blogList = document.getElementById("blog-list");
-    const backLink = document.getElementById("back-link");
-
-    function stripFrontmatter(md) {
-      return md.replace(/^---[\s\S]*?---\s*/, '');
-    }
-    function renderList() {
-      listEl.innerHTML = '';
-      posts.forEach(post => {
-      const li = document.createElement("li");
-      li.className = "flex gap-4 items-center";
-
-      if (post.image) {
-        const img = document.createElement("img");
-        img.src = post.image;
-        img.alt = `${post.title} preview`;
-        img.className = "w-20 h-20 object-cover rounded-xl shadow-md flex-shrink-0";
-        li.appendChild(img);
+    // ---- Projects data (edit this list) ----
+    // link.kind:
+    //  - "post": renders markdown via project.html?post=FILENAME.md
+    //  - "page": direct link to an html tool/dashboard/etc
+    const projects = [
+      {
+        title: "2-Wheeled Smart Car — Version 1",
+        date: "2025-04-26",
+        type: ["Robotics"],
+        status: "In Progress",
+        summary: "Build log, iteration notes, and design decisions for a small two-wheeled smart car.",
+        image: "/img/uploads/v1.jpg",
+        link: { kind: "post", file: "2025-04-26-2-wheeled-smart-car-version-1.md" }
+      },
+      {
+        title: "Robot Arm V1 — Design and Build Begins",
+        date: "2025-05-24",
+        type: ["Robotics"],
+        status: "In Progress",
+        summary: "From design constraints to first prints: building a robot arm from scratch.",
+        image: "/img/uploads/base_printing.jpg",
+        link: { kind: "post", file: "2025-05-25-robot-arm-v1---design-and-build-begins.md" }
+      },
+      {
+        title: "Robot Arm V2 — A Fresh Start (and Some Hard Lessons)",
+        date: "2025-06-03",
+        type: ["Robotics"],
+        status: "In Progress",
+        summary: "Resetting the approach and documenting what didn’t work so the next version does.",
+        image: "/img/uploads/PXL_20250604_032359579.PORTRAIT.jpg",
+        link: { kind: "post", file: "2025-06-04-robot-arm-v2-–-a-fresh-start-and-some-hard-lessons.md" }
+      },
+      {
+        title: "Massachusetts Weather — Data Cleaning",
+        date: "2025-05-01",
+        type: ["Data"],
+        status: "Complete",
+        summary: "Cleaning + structuring MA weather data for analysis and modeling.",
+        image: "/img/uploads/output_9_0.png",
+        link: { kind: "post", file: "2025-05-01-massachusetts-weather---data-cleaning.md" }
+      },
+      {
+        title: "Massachusetts Weather — Data Analysis",
+        date: "2025-05-02",
+        type: ["Data"],
+        status: "Complete",
+        summary: "Exploration and analysis of trends and distributions after cleaning.",
+        image: "/img/uploads/output_67_0.png",
+        link: { kind: "post", file: "2025-05-02-massachusetts-weather-data--part-2.md" }
+      },
+      {
+        title: "MA Public School Districts Dashboard",
+        date: "2025-05-02",
+        type: ["Data", "Dashboard"],
+        status: "Complete",
+        summary: "Interactive map + scatterplots for exploring Massachusetts district metrics.",
+        image: "/img/header.jpg",
+        link: { kind: "page", href: "/district-map.html" }
+      },
+      {
+        title: "Kaggle Mental Health Data",
+        date: "2025-05-03",
+        type: ["Data", "ML"],
+        status: "Planned",
+        summary: "Notes and early exploration around a mental health survey dataset.",
+        image: "/img/uploads/output_13_0.png",
+        link: { kind: "post", file: "2025-05-03-kagle-mental-health-data.md" }
+      },
+      {
+        title: "Official Launch",
+        date: "2025-04-24",
+        type: ["Meta"],
+        status: "Complete",
+        summary: "Site launch notes and initial direction.",
+        image: "/img/uploads/logo.png",
+        link: { kind: "post", file: "2025-04-23-this-is-a-test.md" }
+      },
+      {
+        title: "V2 — New and Improved",
+        date: "2025-04-28",
+        type: ["Robotics"],
+        status: "Complete",
+        summary: "Second iteration notes and improvements to the smart car build.",
+        image: "/img/uploads/head_on.jpg",
+        link: { kind: "post", file: "2025-04-29-v2---new-and-improved.md" }
       }
+    ];
 
-      const link = document.createElement("a");
-      link.href = `#${post.file}`;
-      link.textContent = post.title;
-      link.className = "block px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-gray-900 dark:text-white shadow hover:bg-blue-100 dark:hover:bg-blue-800 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition";
-      li.appendChild(link);
+    // ---- Rendering ----
+    const cardsEl = document.getElementById("cards");
+    const resultsMetaEl = document.getElementById("results-meta");
 
-      listEl.appendChild(li);
-      });
+    const searchEl = document.getElementById("search");
+    const statusEl = document.getElementById("status");
+    const typeEl = document.getElementById("type");
+    const clearEl = document.getElementById("clear");
+
+    function uniq(arr) {
+      return [...new Set(arr)].sort((a, b) => a.localeCompare(b));
     }
 
-    function showList(e) {
-      if (e) e.preventDefault();
-      contentContainerEl.classList.add('hidden');
-      blogList.classList.remove('hidden');
-      backLink.classList.add('hidden');
-      history.replaceState(null, '', window.location.pathname);
-    }
     function formatDate(dateStr) {
-      if (!dateStr) return '';
+      if (!dateStr) return "";
       const d = new Date(dateStr);
       if (isNaN(d.getTime())) return dateStr;
-      return d.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+      return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
     }
-    function showPost(file) {
-      const post = posts.find(p => p.file === file);
-      fetch(`/blog/${file}`)
-        .then(res => {
-          if (!res.ok) {
-            contentEl.innerHTML = "<em>Post not found.</em>";
-            metaEl.innerHTML = "";
-            return "";
-          }
-          return res.text();
-        })
-        .then(md => {
-          if (md) {
-            md = stripFrontmatter(md);
-            contentEl.innerHTML = marked.parse(md);
-            hljs.highlightAll();
-            if (post) {
-              metaEl.innerHTML = `
-                <h2 class="text-2xl font-bold mb-1">${post.title}</h2>
-                <div class="text-slate-400 text-sm mb-4">${formatDate(post.date)}</div>
-                <hr class="border-slate-700 mb-4">
-              `;
-            } else {
-              metaEl.innerHTML = "";
-            }
-          }
-          blogList.classList.add('hidden');
-          contentContainerEl.classList.remove('hidden');
-          backLink.classList.remove('hidden');
-          contentContainerEl.scrollIntoView({ behavior: "smooth" });
-        });
-    }
-    window.onhashchange = () => {
-      const hash = decodeURIComponent(location.hash.replace(/^#/, ''));
-      if (hash) {
-        showPost(hash);
-      } else {
-        showList();
+
+    function getLinkHref(p) {
+      if (p.link?.kind === "post" && p.link.file) {
+        return `/project.html?post=${encodeURIComponent(p.link.file)}`;
       }
-    };
-    renderList();
-    if (location.hash) {
-      showPost(decodeURIComponent(location.hash.replace(/^#/, '')));
+      if (p.link?.kind === "page" && p.link.href) {
+        return p.link.href;
+      }
+      return "#";
     }
+
+    function pill(text) {
+      return `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-100 border border-slate-200 dark:border-slate-600">${text}</span>`;
+    }
+
+    function statusPill(status) {
+      // no custom colors; keep consistent neutral styling
+      return pill(status);
+    }
+
+    function renderTypeOptions() {
+      const allTypes = uniq(projects.flatMap(p => p.type || []));
+      typeEl.innerHTML = `<option value="All">All</option>` + allTypes.map(t => `<option value="${t}">${t}</option>`).join("");
+    }
+
+    function matchesFilters(p, q, status, type) {
+      const hay = (p.title + " " + (p.summary || "") + " " + (p.type || []).join(" ")).toLowerCase();
+      const queryOk = !q || hay.includes(q);
+
+      const statusOk = (status === "All") || (p.status === status);
+
+      const typeOk = (type === "All") || ((p.type || []).includes(type));
+
+      return queryOk && statusOk && typeOk;
+    }
+
+    function render() {
+      const q = (searchEl.value || "").trim().toLowerCase();
+      const status = statusEl.value;
+      const type = typeEl.value;
+
+      const sorted = [...projects].sort((a, b) => new Date(b.date) - new Date(a.date));
+      const filtered = sorted.filter(p => matchesFilters(p, q, status, type));
+
+      resultsMetaEl.textContent = `${filtered.length} project${filtered.length === 1 ? "" : "s"} shown`;
+
+      cardsEl.innerHTML = "";
+      if (filtered.length === 0) {
+        cardsEl.innerHTML = `
+          <div class="col-span-full bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-8 text-slate-700 dark:text-slate-200">
+            No matches. Try a different search or clear filters.
+          </div>
+        `;
+        return;
+      }
+
+      for (const p of filtered) {
+        const href = getLinkHref(p);
+        const types = (p.type || []).map(t => pill(t)).join(" ");
+        const imgHtml = p.image
+          ? `<img src="${p.image}" alt="${p.title} preview" class="w-full h-44 object-cover rounded-2xl border border-slate-200 dark:border-slate-700">`
+          : `<div class="w-full h-44 rounded-2xl bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-600"></div>`;
+
+        const card = document.createElement("article");
+        card.className = "bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-6 animate-fade-in";
+
+        card.innerHTML = `
+          <a href="${href}" class="block">
+            ${imgHtml}
+            <div class="mt-4 flex items-start justify-between gap-3">
+              <h2 class="text-lg font-bold text-slate-900 dark:text-white leading-snug">${p.title}</h2>
+            </div>
+          </a>
+
+          <div class="mt-2 text-sm text-slate-500 dark:text-slate-300">${formatDate(p.date)}</div>
+
+          <div class="mt-3 flex flex-wrap gap-2">
+            ${statusPill(p.status)}
+            ${types}
+          </div>
+
+          <p class="mt-4 text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
+            ${p.summary || ""}
+          </p>
+
+          <div class="mt-5">
+            <a href="${href}" class="inline-block px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 transition font-semibold text-white">
+              View
+            </a>
+          </div>
+        `;
+
+        cardsEl.appendChild(card);
+      }
+    }
+
+    function clearFilters() {
+      searchEl.value = "";
+      statusEl.value = "All";
+      typeEl.value = "All";
+      render();
+    }
+
+    renderTypeOptions();
+    render();
+
+    searchEl.addEventListener("input", render);
+    statusEl.addEventListener("change", render);
+    typeEl.addEventListener("change", render);
+    clearEl.addEventListener("click", clearFilters);
   </script>
 </body>
 </html>
