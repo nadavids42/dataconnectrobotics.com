@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project | DataConnect Robotics</title>
+
+  <meta name="robots" content="index, follow" />
+  <meta name="description" content="Project details for DataConnect Robotics." />
+
+  <link rel="icon" href="img/logo.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Marked + Highlight.js -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+  <style>
+    body { background-color: #f1f5f9; }
+    .dark body { background-color: #0f172a !important; }
+    .dark .bg-white, .dark.bg-white { background-color: #1e293b !important; color: #f1f5f9 !important; }
+    .dark .text-gray-900 { color: #f1f5f9 !important; }
+    .dark .text-gray-700 { color: #e5e7eb !important; }
+    .dark .border-slate-200, .dark.border-slate-200 { border-color: #334155 !important; }
+
+    /* Markdown / prose */
+    .prose img { max-width: 100%; height: auto; border-radius: 0.75rem; margin: 1em 0; }
+    .prose a { color: #38bdf8; text-decoration: underline; transition: color 0.15s; }
+    .prose a:hover { color: #2563eb; }
+    .prose code { background: #23272f; padding: 0.12em 0.4em; border-radius: 4px; font-size: 0.96em; }
+    .prose pre { background: #23272f; padding: 1em; border-radius: 12px; font-size: 0.95em; margin: 1em 0; overflow-x: auto; }
+    .prose pre code { display: block; overflow-x: auto; padding: 1rem; border-radius: 0.75rem; font-size: 0.95rem; line-height: 1.5; }
+    .prose table { width: 100%; border-collapse: collapse; margin: 1em 0; }
+    .prose th, .prose td { border: 1px solid #444; padding: 0.5em; }
+    .prose blockquote { border-left: 4px solid #38bdf8; padding-left: 1em; color: #334155; margin: 1em 0; }
+    .prose ul { list-style-type: disc; margin-left: 1.5em; }
+    .prose ol { list-style-type: decimal; margin-left: 1.5em; }
+    .prose li { margin-bottom: 0.4em; }
+    .prose h1, .prose h2, .prose h3, .prose h4 { font-weight: bold; margin-top: 1.2em; margin-bottom: 0.6em; line-height: 1.15; }
+    .prose h1 { font-size: 2.1em; }
+    .prose h2 { font-size: 1.6em; }
+    .prose h3 { font-size: 1.25em; }
+    .prose p { margin: 1em 0; }
+    .dark .prose, .prose-invert { color: #f1f5f9 !important; }
+    .dark .prose blockquote, .prose-invert blockquote { border-left: 4px solid #60a5fa; color: #a5b4fc !important; }
+    .dark .prose code, .prose-invert code, .dark .prose pre, .prose-invert pre { background: #23272f !important; color: #e0e7ef !important; }
+  </style>
+</head>
+
+<!-- Google Analytics Consent Logic -->
+<script>
+  function loadGA() {
+    const gtagScript = document.createElement('script');
+    gtagScript.src = "https://www.googletagmanager.com/gtag/js?id=G-JBH44FRNK1";
+    gtagScript.async = true;
+    document.head.appendChild(gtagScript);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    window.gtag = gtag;
+
+    gtag('js', new Date());
+    gtag('config', 'G-JBH44FRNK1');
+  }
+  if (localStorage.getItem('ga_consent') === 'granted') {
+    window.addEventListener('DOMContentLoaded', loadGA);
+  }
+</script>
+
+<body class="font-sans text-gray-900 dark:text-white min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-white dark:bg-slate-900 shadow sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="/" class="flex items-center gap-3">
+          <img src="img/logo.png" alt="Logo" class="h-12 rounded-lg shadow">
+          <span class="text-2xl font-bold tracking-tight text-blue-700 dark:text-blue-400">DataConnect Robotics</span>
+        </a>
+      </div>
+
+      <nav class="hidden md:flex space-x-6 text-lg font-medium">
+        <a href="/#about" class="hover:text-blue-600 dark:hover:text-blue-400 transition">About</a>
+        <a href="/projects.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Projects</a>
+        <a href="/#contact" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Contact</a>
+        <a href="/classes.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Classes</a>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <button class="md:hidden text-2xl focus:outline-none" onclick="toggleMenu()">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+
+        <button id="toggle-dark" class="ml-2 rounded-full border border-slate-200 dark:border-slate-700 p-2 hover:bg-blue-100 dark:hover:bg-blue-800 transition">
+          <svg id="light-icon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5" />
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+          <svg id="dark-icon" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 0010 9.79z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 bg-white dark:bg-slate-900">
+      <a href="/#about" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">About</a>
+      <a href="/projects.html" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">Projects</a>
+      <a href="/#contact" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">Contact</a>
+      <a href="/classes.html" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">Classes</a>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto py-10 px-4 w-full flex-1">
+    <div class="mb-6">
+      <a href="/projects.html" class="inline-block px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 transition font-semibold text-white">
+        &larr; Back to Projects
+      </a>
+    </div>
+
+    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-6 md:p-8">
+      <div id="meta" class="mb-4"></div>
+
+      <div id="loading" class="text-slate-600 dark:text-slate-300">
+        Loading…
+      </div>
+
+      <div id="content" class="prose prose-lg dark:prose-invert hidden"></div>
+
+      <div id="error" class="hidden mt-4 text-slate-700 dark:text-slate-200">
+        <div class="font-semibold mb-2">Couldn’t load this project.</div>
+        <div class="text-sm mb-4" id="error-msg"></div>
+        <button id="retry" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 transition font-semibold text-white">
+          Retry
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="text-center py-8 text-base text-slate-600 dark:text-slate-400 bg-transparent mt-10">
+    <div class="space-y-2">
+      <p>&copy; 2025 DataConnect Robotics. All rights reserved.</p>
+      <p>
+        <a href="/hire_me.html" class="inline-block font-medium text-blue-600 dark:text-blue-400 hover:underline hover:text-blue-800 dark:hover:text-blue-200 transition">
+          Available for freelance work
+        </a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    // Theme setup
+    if (localStorage.theme === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else if (localStorage.theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark');
+    }
+
+    function updateDarkIcons() {
+      const html = document.documentElement;
+      document.getElementById('light-icon').style.display = html.classList.contains('dark') ? 'none' : 'block';
+      document.getElementById('dark-icon').style.display = html.classList.contains('dark') ? 'block' : 'none';
+    }
+    document.addEventListener('DOMContentLoaded', updateDarkIcons);
+
+    document.getElementById('toggle-dark').onclick = function () {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.theme = 'light';
+      } else {
+        html.classList.add('dark');
+        localStorage.theme = 'dark';
+      }
+      updateDarkIcons();
+    };
+
+    function stripFrontmatter(md) {
+      return md.replace(/^---[\s\S]*?---\s*/, '');
+    }
+
+    function getParam(name) {
+      const u = new URL(window.location.href);
+      return u.searchParams.get(name);
+    }
+
+    async function loadProject() {
+      const post = getParam("post");
+      const href = getParam("href");
+
+      // If someone links a direct page through project.html, just redirect.
+      if (href) {
+        window.location.href = href;
+        return;
+      }
+
+      const loadingEl = document.getElementById("loading");
+      const contentEl = document.getElementById("content");
+      const errorEl = document.getElementById("error");
+      const errorMsgEl = document.getElementById("error-msg");
+      const metaEl = document.getElementById("meta");
+
+      loadingEl.classList.remove("hidden");
+      contentEl.classList.add("hidden");
+      errorEl.classList.add("hidden");
+      metaEl.innerHTML = "";
+
+      if (!post) {
+        loadingEl.classList.add("hidden");
+        errorEl.classList.remove("hidden");
+        errorMsgEl.textContent = "Missing query string. Expected ?post=FILENAME.md";
+        return;
+      }
+
+      try {
+        const res = await fetch(`/blog/${encodeURIComponent(post)}`);
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status} — /blog/${post}`);
+        }
+
+        let md = await res.text();
+        md = stripFrontmatter(md);
+
+        // title from first markdown heading if present
+        const firstH1 = (md.match(/^\s*#\s+(.+)\s*$/m) || [])[1];
+        if (firstH1) {
+          document.title = `${firstH1} | DataConnect Robotics`;
+          metaEl.innerHTML = `<h1 class="text-3xl md:text-4xl font-bold mb-2">${firstH1}</h1>`;
+        }
+
+        // safer marked defaults (no highlight hook; we run hljs after)
+        marked.setOptions({ langPrefix: "language-" });
+
+        contentEl.innerHTML = marked.parse(md);
+        loadingEl.classList.add("hidden");
+        contentEl.classList.remove("hidden");
+
+        // Highlight after render
+        document.querySelectorAll('pre code').forEach((block) => hljs.highlightElement(block));
+      } catch (err) {
+        loadingEl.classList.add("hidden");
+        errorEl.classList.remove("hidden");
+        errorMsgEl.textContent = String(err && err.message ? err.message : err);
+      }
+    }
+
+    document.getElementById("retry").addEventListener("click", loadProject);
+
+    loadProject();
+  </script>
+</body>
+</html>
