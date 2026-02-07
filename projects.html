@@ -350,7 +350,7 @@
       typeEl.innerHTML = `<option value="All">All</option>` + allTypes.map(t => `<option value="${t}">${t}</option>`).join("");
     }
 
-    function matchesFilters(p, q, status, type) {
+    function matchesFilters(p, q, type) {
       const hay = (p.title + " " + (p.summary || "") + " " + (p.type || []).join(" ")).toLowerCase();
       const queryOk = !q || hay.includes(q);
 
@@ -432,4 +432,5 @@
   </script>
 </body>
 </html>
+
 
