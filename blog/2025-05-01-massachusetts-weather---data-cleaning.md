@@ -54,7 +54,7 @@ Just a few minutes later, I had a folder full of files—so I opened one to take
 After more digging, I found another list of Massachusetts stations. The catch? These files lacked the clean, consistent headers I’d come to expect. I’d need to find a different way to work with this new batch of data.
 
 ```python
-# Let's dive into some python to see what we can do with this list 
+# # Let's dive into some python to see what we can do with this list 
 # of stations and access to the ftp.
 
 import pandas as pd
