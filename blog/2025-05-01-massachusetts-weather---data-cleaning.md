@@ -2,7 +2,7 @@
 title: Massachusetts Weather - Data Cleaning
 date: 2025-05-01T16:14:00
 ---
-## Massachusetts Weather Trends Analysis - Phase 1
+# Massachusetts Weather Trends Analysis - Phase 1
 
 I moved to Massachusetts in the summer of 2015, and from what I’ve been told, I haven’t experienced a real winter yet. The last one that earned that title was apparently the brutal 2014–2015 season. Curious about how winters (and weather in general) have changed over time, I decided to dig into historical weather data for Massachusetts — going back as far as I could.
 
