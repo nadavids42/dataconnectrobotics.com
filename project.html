@@ -231,11 +231,11 @@
         md = stripFrontmatter(md);
 
         // title from first markdown heading if present
-        const firstH1 = (md.match(/^\s*#\s+(.+)\s*$/m) || [])[1];
-        if (firstH1) {
-          document.title = `${firstH1} | DataConnect Robotics`;
-          metaEl.innerHTML = `<h1 class="text-3xl md:text-4xl font-bold mb-2">${firstH1}</h1>`;
-        }
+        // const firstH1 = (md.match(/^\s*#\s+(.+)\s*$/m) || [])[1];
+        // if (firstH1) {
+        //   document.title = `${firstH1} | DataConnect Robotics`;
+        //   metaEl.innerHTML = `<h1 class="text-3xl md:text-4xl font-bold mb-2">${firstH1}</h1>`;
+        // }
 
         // safer marked defaults (no highlight hook; we run hljs after)
         marked.setOptions({ langPrefix: "language-" });
