@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DataConnect Robotics | Professional Work</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Professional work by Nick Davidson: enterprise analytics, automation, and AI implementation. Practical systems thinking at scale.">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="DataConnect Robotics | Professional Work">
+  <meta property="og:description" content="Enterprise analytics, automation, and AI implementation work—bridging technical systems and real-world outcomes.">
+  <meta property="og:image" content="https://dataconnectrobotics.com/img/header.jpg">
+  <meta property="og:url" content="https://dataconnectrobotics.com/professional.html">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DataConnect Robotics | Professional Work">
+  <meta name="twitter:description" content="Enterprise analytics, automation, and AI implementation—systems thinking applied at scale.">
+  <meta name="twitter:image" content="https://dataconnectrobotics.com/img/header.jpg">
+
+  <link rel="icon" href="img/logo.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+  </script>
+
+  <style>
+    body { background-color: #f1f5f9; }
+    .dark body { background-color: #0f172a !important; }
+
+    /* FORCE DARK MODE OVERRIDES */
+    .dark .bg-white,
+    .dark.bg-white {
+      background-color: #1e293b !important;
+      color: #f1f5f9 !important;
+    }
+    .dark .bg-slate-100,
+    .dark.bg-slate-100 {
+      background-color: #0f172a !important;
+      color: #f1f5f9 !important;
+    }
+    .dark .text-gray-900 { color: #f1f5f9 !important; }
+    .dark .text-gray-700 { color: #e5e7eb !important; }
+    .dark input,
+    .dark textarea {
+      background-color: #1e293b !important;
+      color: #f1f5f9 !important;
+      border-color: #334155 !important;
+    }
+    .dark .border-slate-200,
+    .dark.border-slate-200 { border-color: #334155 !important; }
+    .dark .border-slate-300,
+    .dark.border-slate-300 { border-color: #334155 !important; }
+    .dark .border-slate-600 { border-color: #64748b !important; }
+
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .animate-fade-in { animation: fade-in 1s ease-out both; }
+    .animate-slide-in { animation: slide-in 1s ease-out both; animation-delay: 0.15s; }
+  </style>
+</head>
+
+<!-- Google tag (gtag.js) -->
+<script>
+  function loadGA() {
+    const gtagScript = document.createElement('script');
+    gtagScript.src = "https://www.googletagmanager.com/gtag/js?id=G-JBH44FRNK1";
+    gtagScript.async = true;
+    document.head.appendChild(gtagScript);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    window.gtag = gtag;
+
+    gtag('js', new Date());
+    gtag('config', 'G-JBH44FRNK1');
+  }
+
+  // Only run GA if consent was previously given
+  if (localStorage.getItem('ga_consent') === 'granted') {
+    window.addEventListener('DOMContentLoaded', loadGA);
+  }
+</script>
+
+<body class="font-sans text-gray-900 dark:text-white min-h-screen flex flex-col">
+
+  <!-- Cookie Banner -->
+  <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-slate-800 text-white px-4 py-3 flex flex-col md:flex-row items-center justify-between z-50" style="display: none;">
+    <p class="mb-2 md:mb-0 text-sm">This site uses cookies for analytics. Do you consent to tracking?</p>
+    <div class="flex space-x-2">
+      <button onclick="acceptAnalytics()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">Accept</button>
+      <button onclick="rejectAnalytics()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-1 rounded">Reject</button>
+    </div>
+  </div>
+
+  <script>
+    function acceptAnalytics() {
+      localStorage.setItem('ga_consent', 'granted');
+      loadGA();
+      document.getElementById('cookie-banner').style.display = 'none';
+    }
+
+    function rejectAnalytics() {
+      localStorage.setItem('ga_consent', 'denied');
+      document.getElementById('cookie-banner').style.display = 'none';
+    }
+
+    if (!localStorage.getItem('ga_consent')) {
+      document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('cookie-banner').style.display = 'flex';
+      });
+    }
+  </script>
+
+  <!-- Header -->
+  <header class="bg-white dark:bg-slate-900 shadow sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="/" class="flex items-center gap-4">
+          <img src="img/logo.png" alt="Logo" class="h-12 rounded-lg shadow">
+          <span class="text-2xl font-bold tracking-tight text-blue-700 dark:text-blue-400">DataConnect Robotics</span>
+        </a>
+      </div>
+
+      <nav class="hidden md:flex space-x-6 text-lg font-medium">
+        <a href="/#about" class="hover:text-blue-600 dark:hover:text-blue-400 transition">About</a>
+        <a href="/projects.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Projects</a>
+        <a href="/professional.html" class="text-blue-700 dark:text-blue-300 font-semibold">Professional</a>
+        <a href="/#contact" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Contact</a>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <button class="md:hidden text-2xl focus:outline-none" onclick="toggleMenu()">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+
+        <button id="toggle-dark" class="ml-2 rounded-full border border-slate-200 dark:border-slate-700 p-2 hover:bg-blue-100 dark:hover:bg-blue-800 transition">
+          <svg id="light-icon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5" />
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+          <svg id="dark-icon" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 0010 9.79z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 bg-white dark:bg-slate-900">
+      <a href="/#about" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">About</a>
+      <a href="/projects.html" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">Projects</a>
+      <a href="/professional.html" class="block py-2 text-lg text-blue-700 dark:text-blue-300 font-semibold">Professional</a>
+      <a href="/#contact" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">Contact</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden flex flex-col items-center justify-center text-center py-20 px-6 bg-gradient-to-br from-blue-200 to-indigo-100 dark:from-blue-900 dark:to-indigo-900">
+    <div class="max-w-4xl mx-auto animate-fade-in">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4 text-blue-900 dark:text-blue-200 drop-shadow">
+        Professional Work
+      </h1>
+      <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-6 text-blue-800 dark:text-blue-300">
+        The other half of what I build: enterprise analytics, automation, and AI systems that have to work in the real world.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="#overview" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition shadow">
+          Overview
+        </a>
+        <a href="#impact" class="bg-white/70 hover:bg-white text-blue-800 px-6 py-3 rounded-xl font-bold transition shadow ring-1 ring-blue-400/30 dark:bg-slate-800/70 dark:hover:bg-slate-800 dark:text-blue-200">
+          Impact
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section id="overview" class="py-16 px-6 max-w-5xl mx-auto">
+    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-6 animate-slide-in">
+      <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">What This Page Is</h2>
+
+      <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-200">
+        If you’ve found your way here through my robotics builds or data projects, this is the missing context:
+        most of my day-to-day work happens inside large organizations, helping teams implement analytics platforms,
+        automation systems, and AI-driven workflows.
+      </p>
+
+      <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-200">
+        My personal projects are where I explore ideas freely. My professional work is where I apply the same
+        systems thinking under real constraints—timelines, stakeholders, messy data, and the inconvenient reality
+        that everything has to ship and keep working after go-live.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+        <div class="bg-slate-100 dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">In plain terms</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            I translate business problems into working technical systems—then help people actually use them.
+          </p>
+        </div>
+
+        <div class="bg-slate-100 dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">The “unicorn” part</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            I’m technical enough to design and troubleshoot, and client-facing enough to build trust and drive alignment.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What I Do -->
+  <section class="py-16 bg-slate-100 dark:bg-slate-900">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-4 text-center text-blue-700 dark:text-blue-400">
+        What I Do (Professionally)
+      </h2>
+      <p class="text-center max-w-3xl mx-auto mb-12 text-slate-600 dark:text-slate-300">
+        Less “consulting,” more: building durable systems that survive contact with real organizations.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-7 shadow-md border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Enterprise analytics implementation</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            Data modeling, dashboard strategy, reporting design, and adoption—built to answer real questions, not to look pretty.
+          </p>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-7 shadow-md border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Automation & workflow design</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            Designing “if this, then that” systems that remove manual work, reduce errors, and keep teams moving.
+          </p>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-7 shadow-md border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">AI agent enablement</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            Turning AI features into usable workflows—clear inputs, clear outputs, guardrails, and measurable success criteria.
+          </p>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-7 shadow-md border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Data migration collaboration</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            Helping teams plan migrations with less drama: mapping, validation, and “what breaks when this field changes?”
+          </p>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-7 shadow-md border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Client alignment & delivery</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            Running workshops, translating between roles, keeping scope sane, and making sure the work actually lands.
+          </p>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-7 shadow-md border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Measurement & outcomes</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            Defining success metrics early and tracking them through go-live, so the value is visible and defensible.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Impact -->
+  <section id="impact" class="py-16 px-6 max-w-5xl mx-auto">
+    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8">
+      <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Selected Impact</h2>
+
+      <div class="space-y-5">
+        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Turning around messy projects</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            I’ve inherited projects that were off the rails—unclear scope, shaky stakeholder trust, and timelines already on fire—
+            and stabilized them by getting alignment fast, clarifying dependencies, and converting “opinions” into testable requirements.
+          </p>
+        </div>
+
+        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Replacing spreadsheet reporting with dashboards people trust</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            A common pattern: organizations run on spreadsheet reporting because no one trusts the system outputs.
+            My work tends to be: make the data reliable, make the dashboards honest, and make the story clear enough that people actually adopt it.
+          </p>
+        </div>
+
+        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">AI workflows that don’t collapse under reality</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            AI is easy to demo and harder to operationalize. I focus on the surrounding system:
+            inputs, automation steps, exceptions, reporting, and the “what happens when this fails?” plan.
+          </p>
+        </div>
+
+        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Cross-product, end-to-end implementation leadership</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            I’ve led implementations that span multiple products with overlapping timelines—workshops, UAT cycles, migrations,
+            and go-live readiness—where the hard part is less “build the thing” and more “keep all the moving pieces from colliding.”
+          </p>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-200">
+          If you want the one-line summary: I like building systems that behave consistently over time—especially when humans are involved.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How I Think -->
+  <section class="py-16 bg-slate-100 dark:bg-slate-900">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-6">
+        <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">How I Think About This Work</h2>
+
+        <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-200">
+          I’m interested in the gap between “AI can do impressive things” and “AI can be trusted inside an organization.”
+          Most failures aren’t about raw capability. They’re about missing context, brittle processes, unclear ownership, and weak feedback loops.
+        </p>
+
+        <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-200">
+          So I build the scaffolding: automation logic, reporting, governance, and measurable success criteria.
+          It’s the same mindset I bring to robotics—sensors and control are nothing without reliability and a clear definition of “working.”
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Bias toward clarity</h3>
+            <p class="text-slate-700 dark:text-slate-200">
+              “What exactly are we trying to improve?” If that’s fuzzy, everything downstream gets weird.
+            </p>
+          </div>
+
+          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Bias toward systems</h3>
+            <p class="text-slate-700 dark:text-slate-200">
+              Tools don’t deliver value—systems do. People, process, data, feedback loops, ownership.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact CTA -->
+  <section class="py-16 px-6 max-w-3xl mx-auto">
+    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 text-center space-y-4">
+      <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Want to Talk?</h2>
+      <p class="text-lg text-gray-700 dark:text-gray-200">
+        I’m not “selling services” here—this page just tells a more complete story.
+        But if you’re working on analytics, automation, or AI adoption and want to compare notes, feel free to reach out.
+      </p>
+      <a href="/#contact" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition">
+        Contact
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-8 text-base text-slate-600 dark:text-slate-400 bg-transparent mt-10">
+    <div class="space-y-2">
+      <p>&copy; 2026 DataConnect Robotics. All rights reserved.</p>
+      <p>
+        <a href="/hire_me.html" class="inline-block font-medium text-blue-600 dark:text-blue-400 hover:underline hover:text-blue-800 dark:hover:text-blue-200 transition">
+          Available for freelance work
+        </a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Dark/Light Toggle Script -->
+  <script>
+    // Initial theme setup
+    if (localStorage.theme === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else if (localStorage.theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark');
+    }
+
+    // Icon switcher
+    function updateDarkIcons() {
+      const html = document.documentElement;
+      document.getElementById('light-icon').style.display = html.classList.contains('dark') ? 'none' : 'block';
+      document.getElementById('dark-icon').style.display = html.classList.contains('dark') ? 'block' : 'none';
+    }
+
+    // Initial icon update on page load
+    document.addEventListener('DOMContentLoaded', updateDarkIcons);
+
+    // Toggle button
+    document.getElementById('toggle-dark').onclick = function () {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.theme = 'light';
+      } else {
+        html.classList.add('dark');
+        localStorage.theme = 'dark';
+      }
+      updateDarkIcons();
+    }
+  </script>
+
+</body>
+</html>
