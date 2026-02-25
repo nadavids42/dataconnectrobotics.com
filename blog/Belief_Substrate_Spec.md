@@ -69,9 +69,9 @@ Represents a persistent node in the belief graph.
 
 A belief is a structured claim:
 
-\[
+$$
 (subject, relation, object)
-\]
+$$
 
 plus associated metadata.
 
@@ -92,9 +92,9 @@ plus associated metadata.
 - Exactly one of (`object_entity_id`, `object_value`) must be non-null.
 - If `relation.is_exclusive = true`:
 
-\[
-exclusivity\_key = \text{hash}(subject\_entity\_id + relation\_id)
-\]
+$$
+exclusivity\\_key = \text{hash}(subject\\_entity\\_id + relation\\_id)
+$$
 
 otherwise `null`.
 
@@ -131,9 +131,9 @@ Evidence represents a graded support signal for a candidate belief.
 
 **Mapping to target confidence:**
 
-\[
+$$
 \hat{w} = \frac{1 + s}{2}
-\]
+$$
 
 ---
 
@@ -175,13 +175,13 @@ A “turn” = one user–assistant interaction (conversation turn).
 
 Given current confidence \( w \) and target \( \hat{w} \):
 
-\[
+$$
 \eta = \alpha \cdot \rho
-\]
+$$
 
-\[
+$$
 w_{\text{new}} = (1 - \eta) w + \eta \hat{w}
-\]
+$$
 
 This ensures:
 - Smooth belief evolution
@@ -194,9 +194,9 @@ This ensures:
 
 Beliefs decay toward the global prior \( \mu \):
 
-\[
+$$
 w_{\text{decay}} = (1 - \lambda \Delta t) w_{\text{new}} + (\lambda \Delta t) \mu
-\]
+$$
 
 MVP simplification:
 - \( \Delta t \) = number of conversation turns
@@ -209,17 +209,17 @@ MVP simplification:
 
 Beliefs compete when they share:
 
-\[
+$$
 (subject, relation)
-\]
+$$
 
 but differ in object.
 
 Define:
 
-\[
-exclusivity\_key = \text{hash}(subject\_entity\_id + relation\_id)
-\]
+$$
+exclusivity\\_key = \text{hash}(subject\\_entity\\_id + relation\\_id)
+$$
 
 After updates:
 
