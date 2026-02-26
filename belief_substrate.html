@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DataConnect Robotics | Belief State</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Belief-State Substrate MVP: a persistent, evidence-updated belief graph with decay, contradiction handling, and neighborhood retrieval.">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="DataConnect Robotics | Belief State">
+  <meta property="og:description" content="A practical belief substrate: structured beliefs, graded evidence updates, decay toward priors, exclusivity competition, and neighborhood retrieval (math included).">
+  <meta property="og:image" content="https://dataconnectrobotics.com/img/header.jpg">
+  <meta property="og:url" content="https://dataconnectrobotics.com/belief_state.html">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DataConnect Robotics | Belief State">
+  <meta name="twitter:description" content="Belief-state substrate MVP spec with equations: update, decay, exclusivity, retrieval scoring.">
+  <meta name="twitter:image" content="https://dataconnectrobotics.com/img/header.jpg">
+
+  <link rel="icon" href="img/logo.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+  </script>
+
+  <style>
+    body { background-color: #f1f5f9; }
+    .dark body { background-color: #0f172a !important; }
+
+    /* FORCE DARK MODE OVERRIDES */
+    .dark .bg-white,
+    .dark.bg-white {
+      background-color: #1e293b !important;
+      color: #f1f5f9 !important;
+    }
+    .dark .bg-slate-100,
+    .dark.bg-slate-100 {
+      background-color: #0f172a !important;
+      color: #f1f5f9 !important;
+    }
+    .dark .text-gray-900 { color: #f1f5f9 !important; }
+    .dark .text-gray-700 { color: #e5e7eb !important; }
+    .dark input,
+    .dark textarea {
+      background-color: #1e293b !important;
+      color: #f1f5f9 !important;
+      border-color: #334155 !important;
+    }
+    .dark .border-slate-200,
+    .dark.border-slate-200 { border-color: #334155 !important; }
+    .dark .border-slate-300,
+    .dark.border-slate-300 { border-color: #334155 !important; }
+    .dark .border-slate-600 { border-color: #64748b !important; }
+
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .animate-fade-in { animation: fade-in 1s ease-out both; }
+    .animate-slide-in { animation: slide-in 1s ease-out both; animation-delay: 0.15s; }
+
+    /* Better spacing for MathJax blocks inside cards */
+    .prose-math p { margin: 0.6rem 0; }
+    .prose-math .MathJax, .prose-math mjx-container { margin: 0.75rem 0 !important; }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(148,163,184,0.35);
+      background: rgba(255,255,255,0.5);
+    }
+    .dark .chip {
+      border-color: rgba(51,65,85,0.8);
+      background: rgba(15,23,42,0.35);
+    }
+    code.inline {
+      padding: 0.15rem 0.35rem;
+      border-radius: 0.4rem;
+      background: rgba(148,163,184,0.25);
+    }
+    .dark code.inline {
+      background: rgba(51,65,85,0.7);
+    }
+  </style>
+
+  <!-- MathJax (renders LaTeX) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['$$','$$']],
+        processEscapes: true
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<!-- Google tag (gtag.js) -->
+<script>
+  function loadGA() {
+    const gtagScript = document.createElement('script');
+    gtagScript.src = "https://www.googletagmanager.com/gtag/js?id=G-JBH44FRNK1";
+    gtagScript.async = true;
+    document.head.appendChild(gtagScript);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    window.gtag = gtag;
+
+    gtag('js', new Date());
+    gtag('config', 'G-JBH44FRNK1');
+  }
+
+  // Only run GA if consent was previously given
+  if (localStorage.getItem('ga_consent') === 'granted') {
+    window.addEventListener('DOMContentLoaded', loadGA);
+  }
+</script>
+
+<body class="font-sans text-gray-900 dark:text-white min-h-screen flex flex-col">
+
+  <!-- Cookie Banner -->
+  <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-slate-800 text-white px-4 py-3 flex flex-col md:flex-row items-center justify-between z-50" style="display: none;">
+    <p class="mb-2 md:mb-0 text-sm">This site uses cookies for analytics. Do you consent to tracking?</p>
+    <div class="flex space-x-2">
+      <button onclick="acceptAnalytics()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">Accept</button>
+      <button onclick="rejectAnalytics()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-1 rounded">Reject</button>
+    </div>
+  </div>
+
+  <script>
+    function acceptAnalytics() {
+      localStorage.setItem('ga_consent', 'granted');
+      loadGA();
+      document.getElementById('cookie-banner').style.display = 'none';
+    }
+
+    function rejectAnalytics() {
+      localStorage.setItem('ga_consent', 'denied');
+      document.getElementById('cookie-banner').style.display = 'none';
+    }
+
+    if (!localStorage.getItem('ga_consent')) {
+      document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('cookie-banner').style.display = 'flex';
+      });
+    }
+  </script>
+
+  <!-- Header -->
+  <header class="bg-white dark:bg-slate-900 shadow sticky top-0 z-20">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="/" class="flex items-center gap-4">
+          <img src="img/logo.png" alt="Logo" class="h-12 rounded-lg shadow">
+          <span class="text-2xl font-bold tracking-tight text-blue-700 dark:text-blue-400">DataConnect Robotics</span>
+        </a>
+      </div>
+
+      <nav class="hidden md:flex space-x-6 text-lg font-medium">
+        <a href="/#about" class="hover:text-blue-600 dark:hover:text-blue-400 transition">About</a>
+        <a href="/projects.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Projects</a>
+        <a href="/professional.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Professional</a>
+        <a href="/#contact" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Contact</a>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <button class="md:hidden text-2xl focus:outline-none" onclick="toggleMenu()">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+
+        <button id="toggle-dark" class="ml-2 rounded-full border border-slate-200 dark:border-slate-700 p-2 hover:bg-blue-100 dark:hover:bg-blue-800 transition">
+          <svg id="light-icon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5" />
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+          <svg id="dark-icon" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 0010 9.79z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 bg-white dark:bg-slate-900">
+      <a href="/#about" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">About</a>
+      <a href="/projects.html" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">Projects</a>
+      <a href="/professional.html" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">Professional</a>
+      <a href="/#contact" class="block py-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">Contact</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden flex flex-col items-center justify-center text-center py-20 px-6 bg-gradient-to-br from-blue-200 to-indigo-100 dark:from-blue-900 dark:to-indigo-900">
+    <div class="max-w-4xl mx-auto animate-fade-in">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4 text-blue-900 dark:text-blue-200 drop-shadow">
+        Belief State Substrate
+      </h1>
+      <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-6 text-blue-800 dark:text-blue-300">
+        A persistent, math-backed “world model” that updates from graded evidence, forgets (slowly), and surfaces contradictions.
+      </p>
+
+      <div class="flex flex-wrap gap-2 justify-center mb-8">
+        <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">SQLite</span><span class="opacity-70">system of record</span></span>
+        <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">Evidence</span><span class="opacity-70">s ∈ [-1,1], ρ ∈ [0,1]</span></span>
+        <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">Decay</span><span class="opacity-70">toward μ</span></span>
+        <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">Exclusivity</span><span class="opacity-70">competition groups</span></span>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="#overview" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition shadow">
+          Overview
+        </a>
+        <a href="#math" class="bg-white/70 hover:bg-white text-blue-800 px-6 py-3 rounded-xl font-bold transition shadow ring-1 ring-blue-400/30 dark:bg-slate-800/70 dark:hover:bg-slate-800 dark:text-blue-200">
+          The Math
+        </a>
+        <a href="#retrieval" class="bg-white/70 hover:bg-white text-blue-800 px-6 py-3 rounded-xl font-bold transition shadow ring-1 ring-blue-400/30 dark:bg-slate-800/70 dark:hover:bg-slate-800 dark:text-blue-200">
+          Retrieval
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section id="overview" class="py-16 px-6 max-w-5xl mx-auto">
+    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-6 animate-slide-in prose-math">
+      <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">What It Is</h2>
+
+      <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-200">
+        The goal is a persistent belief substrate — an explicit internal world model — that stores structured beliefs,
+        updates them from graded evidence, decays toward priors when not reinforced, resolves mutually exclusive contradictions,
+        and retrieves “belief neighborhoods” to constrain downstream reasoning. (In other words: coherent memory with teeth.)
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+        <div class="bg-slate-100 dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Beliefs are structured</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            A belief is a claim of the form:
+          </p>
+          <p class="text-slate-700 dark:text-slate-200">
+            $$ (subject, relation, object) $$
+          </p>
+          <p class="text-slate-700 dark:text-slate-200">
+            plus confidence <span class="font-semibold">w ∈ [0,1]</span>, timestamps, status, and provenance.
+          </p>
+        </div>
+
+        <div class="bg-slate-100 dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Evidence is graded</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            Evidence comes in with support <span class="font-semibold">s ∈ [-1,1]</span> and reliability <span class="font-semibold">ρ ∈ [0,1]</span>.
+            Support maps to a target confidence:
+          </p>
+          <p class="text-slate-700 dark:text-slate-200">
+            $$ \hat{w} = \frac{1 + s}{2} $$
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MVP Success Criteria -->
+  <section class="py-16 bg-slate-100 dark:bg-slate-900">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-6 prose-math">
+        <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">MVP Success Criteria</h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">What “working” means</h3>
+            <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
+              <li>Beliefs persist across restarts (SQLite store).</li>
+              <li>Beliefs are structured: <code class="inline">(subject, relation, object/value)</code> + metadata.</li>
+              <li>Evidence ingestion: <code class="inline">s</code>, <code class="inline">ρ</code>, and source/provenance.</li>
+              <li>Dynamics: update rule + decay + exclusivity normalization.</li>
+              <li>Contradiction surfacing: conflicts in exclusivity groups.</li>
+              <li>Neighborhood retrieval: top-K beliefs by confidence + recency.</li>
+            </ul>
+          </div>
+
+          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Toy demo requirement</h3>
+            <p class="text-slate-700 dark:text-slate-200">
+              A scripted world should demonstrate: belief formation, contradiction, reinforcement-driven stabilization,
+              decay behavior, and metrics (accuracy vs ground truth + contradiction rate).
+            </p>
+            <p class="text-slate-700 dark:text-slate-200 mt-3">
+              The goal isn’t UI polish — it’s showing the dynamics behave predictably.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Objects -->
+  <section class="py-16 px-6 max-w-5xl mx-auto">
+    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
+      <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Core Objects</h2>
+
+      <div class="space-y-6">
+        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Entity</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            A persistent node (person, organization, project, place, artifact, concept). Types are informational —
+            behavior comes from relation semantics.
+          </p>
+        </div>
+
+        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Belief (Claim)</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            Canonical structured claim:
+          </p>
+          <p class="text-slate-700 dark:text-slate-200">
+            $$ (subject, relation, object) $$
+          </p>
+          <p class="text-slate-700 dark:text-slate-200">
+            With confidence <span class="font-semibold">w ∈ [0,1]</span> and status:
+            <code class="inline">active</code>, <code class="inline">superseded</code>, <code class="inline">rejected</code>.
+          </p>
+          <p class="text-slate-700 dark:text-slate-200 mt-2">
+            If a relation is exclusive, beliefs get an exclusivity key:
+          </p>
+          <p class="text-slate-700 dark:text-slate-200">
+            $$ exclusivity\_key = \text{hash}(subject\_entity\_id + relation\_id) $$
+          </p>
+          <p class="text-slate-700 dark:text-slate-200 mt-2">
+            No separate “developing” status — just confidence bands (emerging/committed/disfavored).
+          </p>
+        </div>
+
+        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Evidence</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            Evidence targets a candidate belief via <span class="font-semibold">support</span> and <span class="font-semibold">reliability</span>.
+          </p>
+          <p class="text-slate-700 dark:text-slate-200">
+            $$ s \in [-1,1], \quad \rho \in [0,1] $$
+          </p>
+          <p class="text-slate-700 dark:text-slate-200">
+            Mapped to target confidence:
+          </p>
+          <p class="text-slate-700 dark:text-slate-200">
+            $$ \hat{w} = \frac{1+s}{2} $$
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Math -->
+  <section id="math" class="py-16 bg-slate-100 dark:bg-slate-900">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
+        <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Dynamics (Update Engine)</h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Parameters (MVP defaults)</h3>
+            <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
+              <li>Learning rate: \( \alpha = 0.3 \)</li>
+              <li>Decay per turn: \( \lambda = 0.002 \)</li>
+              <li>Global prior: \( \mu = 0.5 \)</li>
+              <li>Exclusivity epsilon: \( \varepsilon = 10^{-6} \)</li>
+              <li>Turn = one user–assistant interaction</li>
+            </ul>
+          </div>
+
+          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Update rule (smoothing)</h3>
+            <p class="text-slate-700 dark:text-slate-200">
+              Reliability gates the step size:
+            </p>
+            <p class="text-slate-700 dark:text-slate-200">
+              $$ \eta = \alpha \cdot \rho $$
+            </p>
+            <p class="text-slate-700 dark:text-slate-200">
+              Then blend current confidence \( w \) toward target \( \hat{w} \):
+            </p>
+            <p class="text-slate-700 dark:text-slate-200">
+              $$ w_{\text{new}} = (1-\eta)w + \eta \hat{w} $$
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Decay toward the prior</h3>
+            <p class="text-slate-700 dark:text-slate-200">
+              Beliefs drift back toward \( \mu \) when not reinforced:
+            </p>
+            <p class="text-slate-700 dark:text-slate-200">
+              $$ w_{\text{decay}} = (1-\lambda \Delta t) w_{\text{new}} + (\lambda \Delta t)\mu $$
+            </p>
+            <p class="text-slate-700 dark:text-slate-200">
+              MVP simplification: \( \Delta t \) is measured in conversation turns (discrete).
+            </p>
+          </div>
+
+          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Exclusivity (competition)</h3>
+            <p class="text-slate-700 dark:text-slate-200">
+              For relations flagged exclusive (e.g., “current employer”, “capital of”), beliefs sharing \( (subject, relation) \)
+              compete by normalization:
+            </p>
+            <p class="text-slate-700 dark:text-slate-200">
+              $$ w_i \leftarrow \frac{w_i}{\sum_j w_j + \varepsilon} $$
+            </p>
+            <p class="text-slate-700 dark:text-slate-200">
+              Practical meaning: “only one can win,” but the system can surface uncertainty when multiple are close.
+            </p>
+          </div>
+        </div>
+
+        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Provenance</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            Evidence is append-only, and each belief retains links to the last \( N = 10 \) supporting/contradicting evidence items,
+            enabling “why do we believe this?” queries.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Storage -->
+  <section class="py-16 px-6 max-w-5xl mx-auto">
+    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
+      <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Storage & Identity</h2>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">SQLite tables</h3>
+          <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
+            <li><code class="inline">entities</code>, <code class="inline">relations</code>, <code class="inline">beliefs</code></li>
+            <li><code class="inline">sources</code>, <code class="inline">evidence</code></li>
+            <li><code class="inline">belief_evidence_link</code></li>
+          </ul>
+          <p class="text-slate-700 dark:text-slate-200 mt-3">
+            Indexes focus on fast lookup by subject+relation and exclusivity groups.
+          </p>
+        </div>
+
+        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Belief identity</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            Beliefs are canonical, keyed by:
+          </p>
+          <p class="text-slate-700 dark:text-slate-200">
+            $$ (subject\_entity\_id, relation\_id, object\_entity\_id/object\_value) $$
+          </p>
+          <p class="text-slate-700 dark:text-slate-200">
+            Enforced by a uniqueness constraint:
+          </p>
+          <p class="text-slate-700 dark:text-slate-200">
+            $$ \text{UNIQUE}(subject\_entity\_id, relation\_id, object\_entity\_id, object\_value) $$
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Retrieval -->
+  <section id="retrieval" class="py-16 bg-slate-100 dark:bg-slate-900">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
+        <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Belief Neighborhood Retrieval</h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Ranking ingredients</h3>
+
+            <p class="text-slate-700 dark:text-slate-200">
+              Recency weight decays exponentially:
+            </p>
+            <p class="text-slate-700 dark:text-slate-200">
+              $$ \text{recency\_weight} = e^{-k \cdot \text{age\_in\_turns}}, \quad k = 0.05 $$
+            </p>
+
+            <p class="text-slate-700 dark:text-slate-200">
+              Optional hop expansion gets penalized:
+            </p>
+            <p class="text-slate-700 dark:text-slate-200">
+              $$ \text{hop\_penalty} =
+              \begin{cases}
+                1.0 & \text{(0-hop)} \\
+                0.7 & \text{(1-hop)}
+              \end{cases} $$
+            </p>
+          </div>
+
+          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Final score</h3>
+            <p class="text-slate-700 dark:text-slate-200">
+              Confidence gets emphasized with \( p = 2.0 \):
+            </p>
+            <p class="text-slate-700 dark:text-slate-200">
+              $$ \text{score} = (w^p) \cdot \text{recency\_weight} \cdot \text{hop\_penalty} $$
+            </p>
+            <p class="text-slate-700 dark:text-slate-200">
+              Return the top \( K = 20 \) beliefs for an entity.
+            </p>
+          </div>
+        </div>
+
+        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">What this buys you</h3>
+          <p class="text-slate-700 dark:text-slate-200">
+            You’re not retrieving “everything you’ve ever known.” You’re retrieving the beliefs most likely to be relevant
+            right now: high-confidence, recent, and close in the graph.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Validation / Toy World -->
+  <section class="py-16 px-6 max-w-5xl mx-auto">
+    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
+      <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Validation: Toy World</h2>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Ground truth (places)</h3>
+          <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
+            <li>Paris → France</li>
+            <li>Rome → Italy</li>
+            <li>Berlin → Germany</li>
+          </ul>
+          <p class="text-slate-700 dark:text-slate-200 mt-3">
+            Relation: <code class="inline">capital_of</code> (exclusive).
+          </p>
+        </div>
+
+        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Metrics</h3>
+          <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
+            <li>Accuracy: \( \arg\max_w(\text{capital\_of}) \) matches ground truth</li>
+            <li>Contradiction rate: ≥2 candidates with \( w \ge 0.55 \) OR within \( \Delta = 0.10 \)</li>
+          </ul>
+          <p class="text-slate-700 dark:text-slate-200 mt-3">
+            The point is to see stabilization with reinforcement and drift with decay.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Non-goals / Phase 2 -->
+  <section class="py-16 bg-slate-100 dark:bg-slate-900">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
+        <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">What This MVP Does Not Try To Be</h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Non-goals (for now)</h3>
+            <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
+              <li>No NLP evidence extraction</li>
+              <li>No embeddings in retrieval</li>
+              <li>No graph DB backend</li>
+              <li>No learned update parameters</li>
+              <li>No wall-clock-time decay (turn-based only)</li>
+              <li>No UI beyond CLI/testing scripts</li>
+              <li>No agentic planning loop</li>
+              <li>No multi-dimensional confidence</li>
+            </ul>
+          </div>
+
+          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Phase 2 questions</h3>
+            <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
+              <li>Improved entity resolution</li>
+              <li>Contradiction detection beyond exclusivity</li>
+              <li>Relation canonicalization</li>
+              <li>Embedding-based retrieval</li>
+              <li>Learned reliability estimation</li>
+            </ul>
+            <p class="text-slate-700 dark:text-slate-200 mt-3">
+              The MVP is meant to be “boring but correct” — then we make it smarter.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact CTA -->
+  <section class="py-16 px-6 max-w-3xl mx-auto">
+    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 text-center space-y-4">
+      <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Want to Build This With Me?</h2>
+      <p class="text-lg text-gray-700 dark:text-gray-200">
+        If you’re into reliable memory, explicit epistemic state, and systems that don’t collapse under edge cases,
+        I’m always down to compare notes.
+      </p>
+      <a href="/#contact" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition">
+        Contact
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-8 text-base text-slate-600 dark:text-slate-400 bg-transparent mt-10">
+    <div class="space-y-2">
+      <p>&copy; 2026 DataConnect Robotics. All rights reserved.</p>
+      <p>
+        <a href="/hire_me.html" class="inline-block font-medium text-blue-600 dark:text-blue-400 hover:underline hover:text-blue-800 dark:hover:text-blue-200 transition">
+          Available for freelance work
+        </a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Dark/Light Toggle Script -->
+  <script>
+    // Initial theme setup
+    if (localStorage.theme === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else if (localStorage.theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark');
+    }
+
+    // Icon switcher
+    function updateDarkIcons() {
+      const html = document.documentElement;
+      document.getElementById('light-icon').style.display = html.classList.contains('dark') ? 'none' : 'block';
+      document.getElementById('dark-icon').style.display = html.classList.contains('dark') ? 'block' : 'none';
+    }
+
+    // Initial icon update on page load
+    document.addEventListener('DOMContentLoaded', updateDarkIcons);
+
+    // Toggle button
+    document.getElementById('toggle-dark').onclick = function () {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.theme = 'light';
+      } else {
+        html.classList.add('dark');
+        localStorage.theme = 'dark';
+      }
+      updateDarkIcons();
+    }
+  </script>
+
+</body>
+</html>
