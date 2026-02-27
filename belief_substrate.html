@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DataConnect Robotics | Belief State Substrate</title>
 
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Belief-State Substrate MVP: a persistent, evidence-updated belief graph with decay, contradiction handling, and neighborhood retrieval.">
-  <meta name="robots" content="index, follow">
+  <meta name="description" content="Belief-State Substrate MVP: a persistent, evidence-updated belief graph with decay, contradiction handling, and neighborhood retrieval." />
+  <meta name="robots" content="index, follow" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="DataConnect Robotics | Belief State Substrate">
-  <meta property="og:description" content="A practical belief substrate: structured beliefs, graded evidence updates, decay toward priors, exclusivity competition, and neighborhood retrieval (math included).">
-  <meta property="og:image" content="https://dataconnectrobotics.com/img/header.jpg">
-  <meta property="og:url" content="https://dataconnectrobotics.com/belief_substrate.html">
-  <meta property="og:type" content="website">
+  <meta property="og:title" content="DataConnect Robotics | Belief State Substrate" />
+  <meta property="og:description" content="A practical belief substrate: structured beliefs, graded evidence updates, decay toward priors, exclusivity competition, and neighborhood retrieval (math included)." />
+  <meta property="og:image" content="https://dataconnectrobotics.com/img/header.jpg" />
+  <meta property="og:url" content="https://dataconnectrobotics.com/belief_substrate.html" />
+  <meta property="og:type" content="website" />
 
   <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="DataConnect Robotics | Belief State Substrate">
-  <meta name="twitter:description" content="Belief-state substrate MVP spec with equations: update, decay, exclusivity, retrieval scoring.">
-  <meta name="twitter:image" content="https://dataconnectrobotics.com/img/header.jpg">
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="DataConnect Robotics | Belief State Substrate" />
+  <meta name="twitter:description" content="Belief-state substrate MVP spec with equations: update, decay, exclusivity, retrieval scoring." />
+  <meta name="twitter:image" content="https://dataconnectrobotics.com/img/header.jpg" />
 
-  <link rel="icon" href="img/logo.png">
+  <link rel="icon" href="img/logo.png" />
   <script src="https://cdn.tailwindcss.com"></script>
 
   <script>
@@ -70,7 +70,7 @@
       to { opacity: 1; transform: translateX(0); }
     }
     .animate-fade-in { animation: fade-in 1s ease-out both; }
-    .animate-slide-in { animation: slide-in 1s ease-out both; animation-delay: 0.15s; }
+    .animate-slide-in { animation: slide-in 0.8s ease-out both; animation-delay: 0.12s; }
 
     /* Better spacing for MathJax blocks inside cards */
     .prose-math p { margin: 0.6rem 0; }
@@ -95,11 +95,9 @@
       border-radius: 0.4rem;
       background: rgba(148,163,184,0.25);
     }
-    .dark code.inline {
-      background: rgba(51,65,85,0.7);
-    }
+    .dark code.inline { background: rgba(51,65,85,0.7); }
 
-    /* New: subtle “equation/code block” wrapper */
+    /* Subtle equation/code wrapper */
     .eqblock {
       border-radius: 0.9rem;
       border: 1px solid rgba(148,163,184,0.35);
@@ -112,7 +110,6 @@
       background: rgba(2,6,23,0.25);
     }
 
-    /* New: small label style */
     .mini-label {
       font-size: 0.72rem;
       letter-spacing: 0.09em;
@@ -120,6 +117,44 @@
       color: rgb(100 116 139);
     }
     .dark .mini-label { color: rgb(148 163 184); }
+
+    /* “Show equation” details styling */
+    details.eqdetails > summary {
+      cursor: pointer;
+      list-style: none;
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: rgb(30 64 175);
+    }
+    .dark details.eqdetails > summary { color: rgb(147 197 253); }
+    details.eqdetails > summary::-webkit-details-marker { display: none; }
+    details.eqdetails > summary::after {
+      content: "▾";
+      opacity: 0.75;
+      transform: translateY(-1px);
+    }
+    details.eqdetails[open] > summary::after { content: "▴"; }
+
+    /* Mode pills */
+    .mode-pill {
+      border: 1px solid rgba(148,163,184,0.35);
+      background: rgba(255,255,255,0.55);
+    }
+    .dark .mode-pill {
+      border-color: rgba(51,65,85,0.8);
+      background: rgba(2,6,23,0.25);
+    }
+    .mode-pill-active {
+      border-color: rgba(37,99,235,0.45);
+      background: rgba(37,99,235,0.12);
+    }
+    .dark .mode-pill-active {
+      border-color: rgba(147,197,253,0.4);
+      background: rgba(147,197,253,0.10);
+    }
   </style>
 
   <!-- MathJax (renders LaTeX) -->
@@ -175,12 +210,10 @@
       loadGA();
       document.getElementById('cookie-banner').style.display = 'none';
     }
-
     function rejectAnalytics() {
       localStorage.setItem('ga_consent', 'denied');
       document.getElementById('cookie-banner').style.display = 'none';
     }
-
     if (!localStorage.getItem('ga_consent')) {
       document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('cookie-banner').style.display = 'flex';
@@ -193,7 +226,7 @@
     <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
       <div class="flex items-center gap-4">
         <a href="/" class="flex items-center gap-4">
-          <img src="img/logo.png" alt="Logo" class="h-12 rounded-lg shadow">
+          <img src="img/logo.png" alt="Logo" class="h-12 rounded-lg shadow" />
           <span class="text-2xl font-bold tracking-tight text-blue-700 dark:text-blue-400">DataConnect Robotics</span>
         </a>
       </div>
@@ -209,8 +242,7 @@
       <div class="flex items-center gap-2">
         <button class="md:hidden text-2xl focus:outline-none" onclick="toggleMenu()">
           <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
 
@@ -235,7 +267,7 @@
     </div>
   </header>
 
-  <!-- Hero (refined) -->
+  <!-- Hero -->
   <section class="relative overflow-hidden py-20 px-6 bg-gradient-to-br from-blue-200 to-indigo-100 dark:from-blue-900 dark:to-indigo-900">
     <div class="max-w-6xl mx-auto animate-fade-in">
       <div class="max-w-4xl">
@@ -261,15 +293,24 @@
           <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">Exclusivity</span><span class="opacity-70">competition groups</span></span>
         </div>
 
-        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+        <!-- Mode Toggle -->
+        <div class="mt-8 flex flex-wrap items-center gap-2">
+          <span class="mini-label">Reading mode</span>
+          <button id="mode-overview" class="mode-pill mode-pill-active px-3 py-1.5 rounded-full text-sm font-semibold text-slate-700 dark:text-slate-200 hover:opacity-95 transition" type="button">
+            Overview
+          </button>
+          <button id="mode-spec" class="mode-pill px-3 py-1.5 rounded-full text-sm font-semibold text-slate-700 dark:text-slate-200 hover:opacity-95 transition" type="button">
+            Full spec
+          </button>
+          <span class="text-xs text-slate-600 dark:text-slate-300 ml-2">Overview hides the deep-dive sections without deleting them.</span>
+        </div>
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-3">
           <a href="#overview" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition shadow">
             Start here
           </a>
-          <a href="#math" class="bg-white/70 hover:bg-white text-blue-800 px-6 py-3 rounded-xl font-bold transition shadow ring-1 ring-blue-400/30 dark:bg-slate-800/70 dark:hover:bg-slate-800 dark:text-blue-200">
-            The Math
-          </a>
-          <a href="#retrieval" class="bg-white/70 hover:bg-white text-blue-800 px-6 py-3 rounded-xl font-bold transition shadow ring-1 ring-blue-400/30 dark:bg-slate-800/70 dark:hover:bg-slate-800 dark:text-blue-200">
-            Retrieval
+          <a href="#objects" class="bg-white/70 hover:bg-white text-blue-800 px-6 py-3 rounded-xl font-bold transition shadow ring-1 ring-blue-400/30 dark:bg-slate-800/70 dark:hover:bg-slate-800 dark:text-blue-200">
+            Core objects
           </a>
           <a href="/docs/belief-substrate-paper.pdf" class="bg-white/70 hover:bg-white text-blue-800 px-6 py-3 rounded-xl font-bold transition shadow ring-1 ring-blue-400/30 dark:bg-slate-800/70 dark:hover:bg-slate-800 dark:text-blue-200" target="_blank" rel="noopener">
             Read the paper (PDF)
@@ -277,7 +318,7 @@
         </div>
       </div>
 
-      <!-- Right-side “why this exists” card -->
+      <!-- Why / MVP stance -->
       <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="bg-white/70 dark:bg-slate-800/60 rounded-3xl shadow-xl p-8 border border-slate-200/70 dark:border-slate-700/70">
           <h2 class="text-lg font-bold text-blue-800 dark:text-blue-200">Why this exists</h2>
@@ -302,12 +343,17 @@
           <p class="mt-2 text-gray-700 dark:text-gray-200">
             Boring but correct. Scripts + invariants first. UI later.
           </p>
-          <div class="mt-5 eqblock prose-math">
-            <p class="mini-label">One-line definition</p>
-            <p class="text-gray-700 dark:text-gray-200">
-              $$ \text{belief} = (s, r, o) + \text{confidence} + \text{provenance} + \text{time dynamics} $$
-            </p>
-          </div>
+
+          <!-- Progressive disclosure for equation -->
+          <details class="eqdetails mt-5">
+            <summary>Show one-line definition</summary>
+            <div class="mt-3 eqblock prose-math">
+              <p class="mini-label">One-line definition</p>
+              <p class="text-gray-700 dark:text-gray-200">
+                $$ \text{belief} = (s, r, o) + \text{confidence} + \text{provenance} + \text{time dynamics} $$
+              </p>
+            </div>
+          </details>
         </div>
       </div>
     </div>
@@ -315,20 +361,31 @@
 
   <!-- Main Content + TOC -->
   <section class="py-16 px-6 max-w-6xl mx-auto">
-    <div class="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-8 items-start">
+    <div class="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8 items-start">
       <!-- TOC -->
       <aside class="hidden lg:block sticky top-28">
         <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-6 border border-slate-200 dark:border-slate-700">
           <p class="mini-label">On this page</p>
           <nav class="mt-4 space-y-2 text-sm font-medium">
             <a class="block hover:text-blue-600 dark:hover:text-blue-300" href="#overview">Overview</a>
-            <a class="block hover:text-blue-600 dark:hover:text-blue-300" href="#mvp">MVP Success</a>
             <a class="block hover:text-blue-600 dark:hover:text-blue-300" href="#objects">Core objects</a>
-            <a class="block hover:text-blue-600 dark:hover:text-blue-300" href="#math">Dynamics</a>
-            <a class="block hover:text-blue-600 dark:hover:text-blue-300" href="#storage">Storage & identity</a>
-            <a class="block hover:text-blue-600 dark:hover:text-blue-300" href="#retrieval">Retrieval</a>
-            <a class="block hover:text-blue-600 dark:hover:text-blue-300" href="#validation">Validation</a>
-            <a class="block hover:text-blue-600 dark:hover:text-blue-300" href="#phase2">Non-goals</a>
+
+            <!-- Deep-dive links hide in Overview mode -->
+            <a class="block hover:text-blue-600 dark:hover:text-blue-300 spec-link" href="#mvp">MVP Success</a>
+            <a class="block hover:text-blue-600 dark:hover:text-blue-300 spec-link" href="#math">Dynamics</a>
+            <a class="block hover:text-blue-600 dark:hover:text-blue-300 spec-link" href="#storage">Storage & identity</a>
+            <a class="block hover:text-blue-600 dark:hover:text-blue-300 spec-link" href="#retrieval">Retrieval</a>
+            <a class="block hover:text-blue-600 dark:hover:text-blue-300 spec-link" href="#validation">Validation</a>
+            <a class="block hover:text-blue-600 dark:hover:text-blue-300 spec-link" href="#phase2">Non-goals</a>
+
+            <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+              <p class="mini-label">Download</p>
+              <a href="/docs/belief-substrate-paper.pdf" target="_blank" rel="noopener"
+                 class="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-blue-700 dark:text-blue-300 hover:underline">
+                Belief Substrate Paper (PDF)
+                <span class="opacity-70">↗</span>
+              </a>
+            </div>
           </nav>
         </div>
       </aside>
@@ -346,36 +403,124 @@
               <span class="font-semibold">(Coherent memory with teeth.)</span>
             </p>
 
+            <!-- Overview-friendly: math is optional -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
               <div class="bg-slate-100 dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
                 <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Beliefs are structured</h3>
-                <p class="text-slate-700 dark:text-slate-200">A belief is a claim of the form:</p>
-                <div class="eqblock prose-math">
-                  $$ (subject,\ relation,\ object) $$
-                </div>
+                <p class="text-slate-700 dark:text-slate-200">
+                  Claims look like “subject — relation — object”, plus confidence, provenance, and time dynamics.
+                </p>
+
+                <details class="eqdetails mt-3">
+                  <summary>Show equation</summary>
+                  <div class="mt-3 eqblock prose-math">
+                    $$ (subject,\ relation,\ object) $$
+                  </div>
+                </details>
+
                 <p class="text-slate-700 dark:text-slate-200 mt-3">
-                  plus confidence <span class="font-semibold">w ∈ [0,1]</span>, timestamps, status, and provenance.
+                  Confidence is <span class="font-semibold">w ∈ [0,1]</span>. Status is <code class="inline">active</code> / <code class="inline">superseded</code> / <code class="inline">rejected</code>.
                 </p>
               </div>
 
               <div class="bg-slate-100 dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
                 <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Evidence is graded</h3>
                 <p class="text-slate-700 dark:text-slate-200">
-                  Evidence comes in with support <span class="font-semibold">s ∈ [-1,1]</span> and reliability <span class="font-semibold">ρ ∈ [0,1]</span>.
+                  Evidence arrives as support <span class="font-semibold">s ∈ [-1,1]</span> and reliability <span class="font-semibold">ρ ∈ [0,1]</span>.
                 </p>
-                <p class="text-slate-700 dark:text-slate-200 mt-2">Support maps to a target confidence:</p>
-                <div class="eqblock prose-math">
-                  $$ \hat{w} = \frac{1 + s}{2} $$
-                </div>
+
+                <details class="eqdetails mt-3">
+                  <summary>Show mapping to target confidence</summary>
+                  <div class="mt-3 eqblock prose-math">
+                    $$ \hat{w} = \frac{1 + s}{2} $$
+                  </div>
+                </details>
+
+                <p class="text-slate-700 dark:text-slate-200 mt-3">
+                  Reliability doesn’t change what you claim — it changes how fast the system moves.
+                </p>
               </div>
+            </div>
+
+            <!-- Overview-only “what you’ll see in Full Spec” -->
+            <div class="rounded-2xl p-6 bg-blue-50/70 dark:bg-slate-900/60 border border-blue-200/60 dark:border-slate-700">
+              <p class="mini-label">If you switch to full spec</p>
+              <p class="mt-2 text-slate-700 dark:text-slate-200">
+                You’ll get the exact update rule, decay toward priors, exclusivity normalization, retrieval scoring, and toy-world validation metrics.
+              </p>
             </div>
           </div>
         </section>
 
-        <!-- MVP -->
-        <section id="mvp" class="scroll-mt-28">
+        <!-- Core Objects (kept in both modes) -->
+        <section id="objects" class="scroll-mt-28">
+          <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
+            <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Core Objects</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Entity</h3>
+                <p class="text-slate-700 dark:text-slate-200">
+                  A persistent node (person, organization, project, place, artifact, concept). Types are informational —
+                  behavior comes from relation semantics.
+                </p>
+              </div>
+
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Belief (Claim)</h3>
+                <p class="text-slate-700 dark:text-slate-200">
+                  Canonical structured claim, with confidence and provenance.
+                </p>
+
+                <details class="eqdetails mt-3">
+                  <summary>Show equation</summary>
+                  <div class="mt-3 eqblock prose-math">
+                    $$ (subject,\ relation,\ object) $$
+                  </div>
+                </details>
+
+                <p class="text-slate-700 dark:text-slate-200 mt-3">
+                  Status: <code class="inline">active</code>, <code class="inline">superseded</code>, <code class="inline">rejected</code>.
+                </p>
+              </div>
+
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Evidence</h3>
+                <p class="text-slate-700 dark:text-slate-200">
+                  Targets a belief with support and reliability.
+                </p>
+
+                <details class="eqdetails mt-3">
+                  <summary>Show ranges</summary>
+                  <div class="mt-3 eqblock prose-math">
+                    $$ s \in [-1,1], \quad \rho \in [0,1] $$
+                  </div>
+                </details>
+
+                <p class="text-slate-700 dark:text-slate-200 mt-3">
+                  Evidence is append-only (so “why do we believe this?” is always answerable).
+                </p>
+              </div>
+            </div>
+
+            <!-- Compact “overview mode” bridge -->
+            <div class="rounded-2xl p-6 bg-white/60 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700">
+              <p class="mini-label">In practice</p>
+              <p class="mt-2 text-slate-700 dark:text-slate-200">
+                The substrate behaves like a scoreboard: evidence nudges confidence, time pulls it back toward a prior,
+                and mutually exclusive claims must compete instead of coexisting silently.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- FULL SPEC SECTIONS (hidden in Overview mode) -->
+        <section id="mvp" class="scroll-mt-28 spec-section">
           <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-6 prose-math">
-            <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">MVP Success Criteria</h2>
+            <div class="flex items-end justify-between gap-4">
+              <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">MVP Success Criteria</h2>
+              <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">Full spec</span><span class="opacity-70">detail</span></span>
+            </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
@@ -404,55 +549,12 @@
           </div>
         </section>
 
-        <!-- Core Objects -->
-        <section id="objects" class="scroll-mt-28">
+        <section id="math" class="scroll-mt-28 spec-section">
           <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
-            <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Core Objects</h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-                <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Entity</h3>
-                <p class="text-slate-700 dark:text-slate-200">
-                  A persistent node (person, organization, project, place, artifact, concept). Types are informational —
-                  behavior comes from relation semantics.
-                </p>
-              </div>
-
-              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-                <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Belief (Claim)</h3>
-                <p class="text-slate-700 dark:text-slate-200">Canonical structured claim:</p>
-                <div class="eqblock prose-math">
-                  $$ (subject,\ relation,\ object) $$
-                </div>
-                <p class="text-slate-700 dark:text-slate-200 mt-3">
-                  With confidence <span class="font-semibold">w ∈ [0,1]</span> and status:
-                  <code class="inline">active</code>, <code class="inline">superseded</code>, <code class="inline">rejected</code>.
-                </p>
-              </div>
-
-              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-                <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Evidence</h3>
-                <p class="text-slate-700 dark:text-slate-200">
-                  Evidence targets a candidate belief via <span class="font-semibold">support</span> and <span class="font-semibold">reliability</span>.
-                </p>
-                <div class="eqblock prose-math">
-                  $$ s \in [-1,1], \quad \rho \in [0,1] $$
-                </div>
-                <p class="text-slate-700 dark:text-slate-200 mt-2">
-                  Mapped to target confidence:
-                </p>
-                <div class="eqblock prose-math">
-                  $$ \hat{w} = \frac{1+s}{2} $$
-                </div>
-              </div>
+            <div class="flex items-end justify-between gap-4">
+              <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Dynamics (Update Engine)</h2>
+              <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">Full spec</span><span class="opacity-70">math</span></span>
             </div>
-          </div>
-        </section>
-
-        <!-- Dynamics -->
-        <section id="math" class="scroll-mt-28">
-          <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
-            <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Dynamics (Update Engine)</h2>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
@@ -469,13 +571,11 @@
               <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
                 <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Update rule (smoothing)</h3>
                 <p class="text-slate-700 dark:text-slate-200">Reliability gates the step size:</p>
-                <div class="eqblock prose-math">
-                  $$ \eta = \alpha \cdot \rho $$
-                </div>
-                <p class="text-slate-700 dark:text-slate-200 mt-3">Then blend current confidence \( w \) toward target \( \hat{w} \):</p>
-                <div class="eqblock prose-math">
-                  $$ w_{\text{new}} = (1-\eta)w + \eta \hat{w} $$
-                </div>
+                <div class="eqblock prose-math">$$ \eta = \alpha \cdot \rho $$</div>
+                <p class="text-slate-700 dark:text-slate-200 mt-3">
+                  Then blend current confidence \( w \) toward target \( \hat{w} \):
+                </p>
+                <div class="eqblock prose-math">$$ w_{\text{new}} = (1-\eta)w + \eta \hat{w} $$</div>
               </div>
             </div>
 
@@ -515,10 +615,12 @@
           </div>
         </section>
 
-        <!-- Storage -->
-        <section id="storage" class="scroll-mt-28">
+        <section id="storage" class="scroll-mt-28 spec-section">
           <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
-            <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Storage & Identity</h2>
+            <div class="flex items-end justify-between gap-4">
+              <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Storage & Identity</h2>
+              <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">Full spec</span><span class="opacity-70">schema</span></span>
+            </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
@@ -533,7 +635,6 @@
                 </p>
               </div>
 
-              <!-- Belief identity (fully consistent with your card system) -->
               <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
                 <div class="flex items-start justify-between gap-4">
                   <div>
@@ -570,10 +671,12 @@
           </div>
         </section>
 
-        <!-- Retrieval -->
-        <section id="retrieval" class="scroll-mt-28">
+        <section id="retrieval" class="scroll-mt-28 spec-section">
           <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
-            <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Belief Neighborhood Retrieval</h2>
+            <div class="flex items-end justify-between gap-4">
+              <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Belief Neighborhood Retrieval</h2>
+              <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">Full spec</span><span class="opacity-70">ranking</span></span>
+            </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
@@ -614,10 +717,12 @@
           </div>
         </section>
 
-        <!-- Validation -->
-        <section id="validation" class="scroll-mt-28">
+        <section id="validation" class="scroll-mt-28 spec-section">
           <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
-            <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Validation: Toy World</h2>
+            <div class="flex items-end justify-between gap-4">
+              <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Validation: Toy World</h2>
+              <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">Full spec</span><span class="opacity-70">demo</span></span>
+            </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
@@ -646,10 +751,12 @@
           </div>
         </section>
 
-        <!-- Non-goals / Phase 2 -->
-        <section id="phase2" class="scroll-mt-28">
+        <section id="phase2" class="scroll-mt-28 spec-section">
           <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
-            <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">What This MVP Does Not Try To Be</h2>
+            <div class="flex items-end justify-between gap-4">
+              <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">What This MVP Does Not Try To Be</h2>
+              <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">Full spec</span><span class="opacity-70">scope</span></span>
+            </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
@@ -678,18 +785,17 @@
                 <p class="text-slate-700 dark:text-slate-200 mt-3">
                   The MVP is meant to be “boring but correct” — then we make it smarter.
                 </p>
+
+                <!-- Secondary download (subtle) -->
+                <div class="mt-5 rounded-2xl p-4 bg-white/60 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+                  <p class="mini-label">Canonical artifact</p>
+                  <a href="/docs/belief-substrate-paper.pdf" target="_blank" rel="noopener"
+                     class="mt-2 inline-flex items-center gap-2 font-semibold text-blue-700 dark:text-blue-300 hover:underline">
+                    Download full paper (PDF)
+                    <span class="opacity-70">↗</span>
+                  </a>
+                </div>
               </div>
-              <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-8 border border-slate-200 dark:border-slate-700">
-  <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300">Download</h3>
-  <p class="mt-2 text-gray-700 dark:text-gray-200">
-    Full write-up with details, assumptions, and derivations.
-  </p>
-  <a href="/docs/belief-substrate-paper.pdf"
-     class="mt-4 inline-flex bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold transition"
-     target="_blank" rel="noopener">
-    Belief Substrate Paper (PDF)
-  </a>
-</div>
             </div>
           </div>
         </section>
@@ -702,9 +808,15 @@
               If you’re into reliable memory, explicit epistemic state, and systems that don’t collapse under edge cases,
               I’m always down to compare notes.
             </p>
-            <a href="/#contact" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition">
-              Contact
-            </a>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+              <a href="/#contact" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition">
+                Contact
+              </a>
+              <a href="/docs/belief-substrate-paper.pdf" target="_blank" rel="noopener"
+                 class="inline-block bg-white/70 hover:bg-white text-blue-800 px-6 py-3 rounded-xl font-bold transition shadow ring-1 ring-blue-400/30 dark:bg-slate-800/70 dark:hover:bg-slate-800 dark:text-blue-200">
+                Read the paper (PDF)
+              </a>
+            </div>
           </div>
         </section>
       </main>
@@ -740,11 +852,8 @@
       document.getElementById('light-icon').style.display = html.classList.contains('dark') ? 'none' : 'block';
       document.getElementById('dark-icon').style.display = html.classList.contains('dark') ? 'block' : 'none';
     }
-
-    // Initial icon update on page load
     document.addEventListener('DOMContentLoaded', updateDarkIcons);
 
-    // Toggle button
     document.getElementById('toggle-dark').onclick = function () {
       const html = document.documentElement;
       if (html.classList.contains('dark')) {
@@ -755,7 +864,58 @@
         localStorage.theme = 'dark';
       }
       updateDarkIcons();
+    };
+  </script>
+
+  <!-- Mode + MathJax progressive disclosure -->
+  <script>
+    function setMode(mode) {
+      // mode: 'overview' or 'spec'
+      const specSections = document.querySelectorAll('.spec-section');
+      const specLinks = document.querySelectorAll('.spec-link');
+
+      const btnOverview = document.getElementById('mode-overview');
+      const btnSpec = document.getElementById('mode-spec');
+
+      if (mode === 'overview') {
+        specSections.forEach(el => el.classList.add('hidden'));
+        specLinks.forEach(el => el.classList.add('hidden'));
+
+        btnOverview.classList.add('mode-pill-active');
+        btnSpec.classList.remove('mode-pill-active');
+      } else {
+        specSections.forEach(el => el.classList.remove('hidden'));
+        specLinks.forEach(el => el.classList.remove('hidden'));
+
+        btnSpec.classList.add('mode-pill-active');
+        btnOverview.classList.remove('mode-pill-active');
+      }
+
+      localStorage.setItem('belief_page_mode', mode);
+
+      // Re-typeset MathJax after layout changes
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Restore last mode (default: overview)
+      const saved = localStorage.getItem('belief_page_mode') || 'overview';
+      setMode(saved);
+
+      document.getElementById('mode-overview').addEventListener('click', () => setMode('overview'));
+      document.getElementById('mode-spec').addEventListener('click', () => setMode('spec'));
+
+      // When expanding a details block, typeset math inside it
+      document.querySelectorAll('details.eqdetails').forEach(d => {
+        d.addEventListener('toggle', () => {
+          if (d.open && window.MathJax && MathJax.typesetPromise) {
+            MathJax.typesetPromise([d]);
+          }
+        });
+      });
+    });
   </script>
 
 </body>
