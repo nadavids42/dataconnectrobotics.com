@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DataConnect Robotics | Belief State</title>
+  <title>DataConnect Robotics | Belief State Substrate</title>
 
   <!-- SEO Meta Tags -->
   <meta name="description" content="Belief-State Substrate MVP: a persistent, evidence-updated belief graph with decay, contradiction handling, and neighborhood retrieval.">
   <meta name="robots" content="index, follow">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="DataConnect Robotics | Belief State">
+  <meta property="og:title" content="DataConnect Robotics | Belief State Substrate">
   <meta property="og:description" content="A practical belief substrate: structured beliefs, graded evidence updates, decay toward priors, exclusivity competition, and neighborhood retrieval (math included).">
   <meta property="og:image" content="https://dataconnectrobotics.com/img/header.jpg">
-  <meta property="og:url" content="https://dataconnectrobotics.com/belief_state.html">
+  <meta property="og:url" content="https://dataconnectrobotics.com/belief_substrate.html">
   <meta property="og:type" content="website">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="DataConnect Robotics | Belief State">
+  <meta name="twitter:title" content="DataConnect Robotics | Belief State Substrate">
   <meta name="twitter:description" content="Belief-state substrate MVP spec with equations: update, decay, exclusivity, retrieval scoring.">
   <meta name="twitter:image" content="https://dataconnectrobotics.com/img/header.jpg">
 
@@ -75,6 +75,7 @@
     /* Better spacing for MathJax blocks inside cards */
     .prose-math p { margin: 0.6rem 0; }
     .prose-math .MathJax, .prose-math mjx-container { margin: 0.75rem 0 !important; }
+
     .chip {
       display: inline-flex;
       align-items: center;
@@ -88,6 +89,7 @@
       border-color: rgba(51,65,85,0.8);
       background: rgba(15,23,42,0.35);
     }
+
     code.inline {
       padding: 0.15rem 0.35rem;
       border-radius: 0.4rem;
@@ -96,6 +98,28 @@
     .dark code.inline {
       background: rgba(51,65,85,0.7);
     }
+
+    /* New: subtle “equation/code block” wrapper */
+    .eqblock {
+      border-radius: 0.9rem;
+      border: 1px solid rgba(148,163,184,0.35);
+      background: rgba(255,255,255,0.55);
+      padding: 0.75rem 1rem;
+      overflow-x: auto;
+    }
+    .dark .eqblock {
+      border-color: rgba(51,65,85,0.8);
+      background: rgba(2,6,23,0.25);
+    }
+
+    /* New: small label style */
+    .mini-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: rgb(100 116 139);
+    }
+    .dark .mini-label { color: rgb(148 163 184); }
   </style>
 
   <!-- MathJax (renders LaTeX) -->
@@ -211,417 +235,74 @@
     </div>
   </header>
 
-  <!-- Hero -->
-  <section class="relative overflow-hidden flex flex-col items-center justify-center text-center py-20 px-6 bg-gradient-to-br from-blue-200 to-indigo-100 dark:from-blue-900 dark:to-indigo-900">
-    <div class="max-w-4xl mx-auto animate-fade-in">
-      <h1 class="text-4xl md:text-6xl font-bold mb-4 text-blue-900 dark:text-blue-200 drop-shadow">
-        Belief State Substrate
-      </h1>
-      <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-6 text-blue-800 dark:text-blue-300">
-        A persistent, math-backed “world model” that updates from graded evidence, forgets (slowly), and surfaces contradictions.
-      </p>
+  <!-- Hero (refined) -->
+  <section class="relative overflow-hidden py-20 px-6 bg-gradient-to-br from-blue-200 to-indigo-100 dark:from-blue-900 dark:to-indigo-900">
+    <div class="max-w-6xl mx-auto animate-fade-in">
+      <div class="max-w-4xl">
+        <p class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-400/30 bg-white/40 dark:bg-slate-800/40 text-xs font-semibold text-blue-900 dark:text-blue-200">
+          Experimental Systems Note
+          <span class="h-1 w-1 rounded-full bg-blue-700/50 dark:bg-blue-200/50"></span>
+          SQLite-backed • Math-driven
+        </p>
 
-      <div class="flex flex-wrap gap-2 justify-center mb-8">
-        <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">SQLite</span><span class="opacity-70">system of record</span></span>
-        <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">Evidence</span><span class="opacity-70">s ∈ [-1,1], ρ ∈ [0,1]</span></span>
-        <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">Decay</span><span class="opacity-70">toward μ</span></span>
-        <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">Exclusivity</span><span class="opacity-70">competition groups</span></span>
-      </div>
+        <h1 class="mt-4 text-4xl md:text-6xl font-bold text-blue-900 dark:text-blue-200 drop-shadow">
+          Belief State Substrate
+        </h1>
 
-      <div class="flex flex-col sm:flex-row gap-3 justify-center">
-        <a href="#overview" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition shadow">
-          Overview
-        </a>
-        <a href="#math" class="bg-white/70 hover:bg-white text-blue-800 px-6 py-3 rounded-xl font-bold transition shadow ring-1 ring-blue-400/30 dark:bg-slate-800/70 dark:hover:bg-slate-800 dark:text-blue-200">
-          The Math
-        </a>
-        <a href="#retrieval" class="bg-white/70 hover:bg-white text-blue-800 px-6 py-3 rounded-xl font-bold transition shadow ring-1 ring-blue-400/30 dark:bg-slate-800/70 dark:hover:bg-slate-800 dark:text-blue-200">
-          Retrieval
-        </a>
-      </div>
-    </div>
-  </section>
+        <p class="mt-4 text-xl md:text-2xl text-blue-800 dark:text-blue-300 leading-relaxed max-w-3xl">
+          A persistent, math-backed “world model” that updates from graded evidence, forgets (slowly),
+          and surfaces contradictions — so memory behaves like a system, not a vibe.
+        </p>
 
-  <!-- Overview -->
-  <section id="overview" class="py-16 px-6 max-w-5xl mx-auto">
-    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-6 animate-slide-in prose-math">
-      <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">What It Is</h2>
-
-      <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-200">
-        The goal is a persistent belief substrate — an explicit internal world model — that stores structured beliefs,
-        updates them from graded evidence, decays toward priors when not reinforced, resolves mutually exclusive contradictions,
-        and retrieves “belief neighborhoods” to constrain downstream reasoning. (In other words: coherent memory with teeth.)
-      </p>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-        <div class="bg-slate-100 dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
-          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Beliefs are structured</h3>
-          <p class="text-slate-700 dark:text-slate-200">
-            A belief is a claim of the form:
-          </p>
-          <p class="text-slate-700 dark:text-slate-200">
-            $$ (subject, relation, object) $$
-          </p>
-          <p class="text-slate-700 dark:text-slate-200">
-            plus confidence <span class="font-semibold">w ∈ [0,1]</span>, timestamps, status, and provenance.
-          </p>
+        <div class="mt-6 flex flex-wrap gap-2">
+          <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">SQLite</span><span class="opacity-70">system of record</span></span>
+          <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">Evidence</span><span class="opacity-70">s ∈ [-1,1], ρ ∈ [0,1]</span></span>
+          <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">Decay</span><span class="opacity-70">toward μ</span></span>
+          <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">Exclusivity</span><span class="opacity-70">competition groups</span></span>
         </div>
 
-        <div class="bg-slate-100 dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
-          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Evidence is graded</h3>
-          <p class="text-slate-700 dark:text-slate-200">
-            Evidence comes in with support <span class="font-semibold">s ∈ [-1,1]</span> and reliability <span class="font-semibold">ρ ∈ [0,1]</span>.
-            Support maps to a target confidence:
-          </p>
-          <p class="text-slate-700 dark:text-slate-200">
-            $$ \hat{w} = \frac{1 + s}{2} $$
-          </p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <a href="#overview" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition shadow">
+            Start here
+          </a>
+          <a href="#math" class="bg-white/70 hover:bg-white text-blue-800 px-6 py-3 rounded-xl font-bold transition shadow ring-1 ring-blue-400/30 dark:bg-slate-800/70 dark:hover:bg-slate-800 dark:text-blue-200">
+            The Math
+          </a>
+          <a href="#retrieval" class="bg-white/70 hover:bg-white text-blue-800 px-6 py-3 rounded-xl font-bold transition shadow ring-1 ring-blue-400/30 dark:bg-slate-800/70 dark:hover:bg-slate-800 dark:text-blue-200">
+            Retrieval
+          </a>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- MVP Success Criteria -->
-  <section class="py-16 bg-slate-100 dark:bg-slate-900">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-6 prose-math">
-        <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">MVP Success Criteria</h2>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">What “working” means</h3>
-            <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
-              <li>Beliefs persist across restarts (SQLite store).</li>
-              <li>Beliefs are structured: <code class="inline">(subject, relation, object/value)</code> + metadata.</li>
-              <li>Evidence ingestion: <code class="inline">s</code>, <code class="inline">ρ</code>, and source/provenance.</li>
-              <li>Dynamics: update rule + decay + exclusivity normalization.</li>
-              <li>Contradiction surfacing: conflicts in exclusivity groups.</li>
-              <li>Neighborhood retrieval: top-K beliefs by confidence + recency.</li>
-            </ul>
-          </div>
-
-          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Toy demo requirement</h3>
-            <p class="text-slate-700 dark:text-slate-200">
-              A scripted world should demonstrate: belief formation, contradiction, reinforcement-driven stabilization,
-              decay behavior, and metrics (accuracy vs ground truth + contradiction rate).
-            </p>
-            <p class="text-slate-700 dark:text-slate-200 mt-3">
-              The goal isn’t UI polish — it’s showing the dynamics behave predictably.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Core Objects -->
-  <section class="py-16 px-6 max-w-5xl mx-auto">
-    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
-      <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Core Objects</h2>
-
-      <div class="space-y-6">
-        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-          <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Entity</h3>
-          <p class="text-slate-700 dark:text-slate-200">
-            A persistent node (person, organization, project, place, artifact, concept). Types are informational —
-            behavior comes from relation semantics.
-          </p>
-        </div>
-
-        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-          <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Belief (Claim)</h3>
-          <p class="text-slate-700 dark:text-slate-200">
-            Canonical structured claim:
-          </p>
-          <p class="text-slate-700 dark:text-slate-200">
-            $$ (subject, relation, object) $$
-          </p>
-          <p class="text-slate-700 dark:text-slate-200">
-            With confidence <span class="font-semibold">w ∈ [0,1]</span> and status:
-            <code class="inline">active</code>, <code class="inline">superseded</code>, <code class="inline">rejected</code>.
-          </p>
-          <p class="text-slate-700 dark:text-slate-200 mt-2">
-            If a relation is exclusive, beliefs get an exclusivity key:
-          </p>
-          <p class="text-slate-700 dark:text-slate-200">
-            $$ exclusivity\_key = \text{hash}(subject\_entity\_id + relation\_id) $$
-          </p>
-          <p class="text-slate-700 dark:text-slate-200 mt-2">
-            No separate “developing” status — just confidence bands (emerging/committed/disfavored).
-          </p>
-        </div>
-
-        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-          <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Evidence</h3>
-          <p class="text-slate-700 dark:text-slate-200">
-            Evidence targets a candidate belief via <span class="font-semibold">support</span> and <span class="font-semibold">reliability</span>.
-          </p>
-          <p class="text-slate-700 dark:text-slate-200">
-            $$ s \in [-1,1], \quad \rho \in [0,1] $$
-          </p>
-          <p class="text-slate-700 dark:text-slate-200">
-            Mapped to target confidence:
-          </p>
-          <p class="text-slate-700 dark:text-slate-200">
-            $$ \hat{w} = \frac{1+s}{2} $$
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- The Math -->
-  <section id="math" class="py-16 bg-slate-100 dark:bg-slate-900">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
-        <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Dynamics (Update Engine)</h2>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Parameters (MVP defaults)</h3>
-            <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
-              <li>Learning rate: \( \alpha = 0.3 \)</li>
-              <li>Decay per turn: \( \lambda = 0.002 \)</li>
-              <li>Global prior: \( \mu = 0.5 \)</li>
-              <li>Exclusivity epsilon: \( \varepsilon = 10^{-6} \)</li>
-              <li>Turn = one user–assistant interaction</li>
-            </ul>
-          </div>
-
-          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Update rule (smoothing)</h3>
-            <p class="text-slate-700 dark:text-slate-200">
-              Reliability gates the step size:
-            </p>
-            <p class="text-slate-700 dark:text-slate-200">
-              $$ \eta = \alpha \cdot \rho $$
-            </p>
-            <p class="text-slate-700 dark:text-slate-200">
-              Then blend current confidence \( w \) toward target \( \hat{w} \):
-            </p>
-            <p class="text-slate-700 dark:text-slate-200">
-              $$ w_{\text{new}} = (1-\eta)w + \eta \hat{w} $$
-            </p>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Decay toward the prior</h3>
-            <p class="text-slate-700 dark:text-slate-200">
-              Beliefs drift back toward \( \mu \) when not reinforced:
-            </p>
-            <p class="text-slate-700 dark:text-slate-200">
-              $$ w_{\text{decay}} = (1-\lambda \Delta t) w_{\text{new}} + (\lambda \Delta t)\mu $$
-            </p>
-            <p class="text-slate-700 dark:text-slate-200">
-              MVP simplification: \( \Delta t \) is measured in conversation turns (discrete).
-            </p>
-          </div>
-
-          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Exclusivity (competition)</h3>
-            <p class="text-slate-700 dark:text-slate-200">
-              For relations flagged exclusive (e.g., “current employer”, “capital of”), beliefs sharing \( (subject, relation) \)
-              compete by normalization:
-            </p>
-            <p class="text-slate-700 dark:text-slate-200">
-              $$ w_i \leftarrow \frac{w_i}{\sum_j w_j + \varepsilon} $$
-            </p>
-            <p class="text-slate-700 dark:text-slate-200">
-              Practical meaning: “only one can win,” but the system can surface uncertainty when multiple are close.
-            </p>
-          </div>
-        </div>
-
-        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Provenance</h3>
-          <p class="text-slate-700 dark:text-slate-200">
-            Evidence is append-only, and each belief retains links to the last \( N = 10 \) supporting/contradicting evidence items,
-            enabling “why do we believe this?” queries.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Storage -->
-  <section class="py-16 px-6 max-w-5xl mx-auto">
-    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
-      <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Storage & Identity</h2>
-
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">SQLite tables</h3>
-          <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
-            <li><code class="inline">entities</code>, <code class="inline">relations</code>, <code class="inline">beliefs</code></li>
-            <li><code class="inline">sources</code>, <code class="inline">evidence</code></li>
-            <li><code class="inline">belief_evidence_link</code></li>
+      <!-- Right-side “why this exists” card -->
+      <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white/70 dark:bg-slate-800/60 rounded-3xl shadow-xl p-8 border border-slate-200/70 dark:border-slate-700/70">
+          <h2 class="text-lg font-bold text-blue-800 dark:text-blue-200">Why this exists</h2>
+          <ul class="mt-4 space-y-3 text-gray-700 dark:text-gray-200">
+            <li class="flex gap-3">
+              <span class="mt-2 h-2 w-2 rounded-full bg-blue-600 dark:bg-blue-300"></span>
+              <span><span class="font-semibold">Coherence:</span> beliefs don’t silently overwrite each other.</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="mt-2 h-2 w-2 rounded-full bg-blue-600 dark:bg-blue-300"></span>
+              <span><span class="font-semibold">Explainability:</span> provenance exists by default (“why do we believe this?”).</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="mt-2 h-2 w-2 rounded-full bg-blue-600 dark:bg-blue-300"></span>
+              <span><span class="font-semibold">Dynamics:</span> evidence changes state; time decays it; exclusivity forces competition.</span>
+            </li>
           </ul>
-          <p class="text-slate-700 dark:text-slate-200 mt-3">
-            Indexes focus on fast lookup by subject+relation and exclusivity groups.
+        </div>
+
+        <div class="bg-white/70 dark:bg-slate-800/60 rounded-3xl shadow-xl p-8 border border-slate-200/70 dark:border-slate-700/70">
+          <p class="mini-label">MVP stance</p>
+          <p class="mt-2 text-gray-700 dark:text-gray-200">
+            Boring but correct. Scripts + invariants first. UI later.
           </p>
-        </div>
-
-       <div class="rounded-2xl p-6 bg-white/70 dark:bg-slate-900/60 border border-slate-200/70 dark:border-slate-700/70 shadow-sm">
-  <div class="flex items-start justify-between gap-4">
-    <div>
-      <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-100">
-        Belief identity
-      </h3>
-      <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">
-        How a belief is uniquely represented and enforced.
-      </p>
-    </div>
-  </div>
-
-  <div class="mt-5 space-y-4">
-    <div>
-      <p class="text-sm font-medium text-slate-700 dark:text-slate-200">
-        Canonical key
-      </p>
-      <div class="mt-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950/40 px-4 py-3 overflow-x-auto">
-        <div class="text-[13px] leading-relaxed text-slate-800 dark:text-slate-100">
-          $$ (subject\_entity\_id,\ relation\_id,\ object\_entity\_id / object\_value) $$
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <p class="text-sm font-medium text-slate-700 dark:text-slate-200">
-        Uniqueness constraint
-      </p>
-      <div class="mt-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950/40 px-4 py-3 overflow-x-auto">
-        <div class="text-[13px] leading-relaxed text-slate-800 dark:text-slate-100">
-          $$ \text{UNIQUE}(subject\_entity\_id,\ relation\_id,\ object\_entity\_id,\ object\_value) $$
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Retrieval -->
-  <section id="retrieval" class="py-16 bg-slate-100 dark:bg-slate-900">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
-        <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Belief Neighborhood Retrieval</h2>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Ranking ingredients</h3>
-
-            <p class="text-slate-700 dark:text-slate-200">
-              Recency weight decays exponentially:
-            </p>
-            <p class="text-slate-700 dark:text-slate-200">
-              $$ \text{recency\_weight} = e^{-k \cdot \text{age\_in\_turns}}, \quad k = 0.05 $$
-            </p>
-
-            <p class="text-slate-700 dark:text-slate-200">
-              Optional hop expansion gets penalized:
-            </p>
-            <p class="text-slate-700 dark:text-slate-200">
-              $$ \text{hop\_penalty} =
-              \begin{cases}
-                1.0 & \text{(0-hop)} \\
-                0.7 & \text{(1-hop)}
-              \end{cases} $$
-            </p>
-          </div>
-
-          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Final score</h3>
-            <p class="text-slate-700 dark:text-slate-200">
-              Confidence gets emphasized with \( p = 2.0 \):
-            </p>
-            <p class="text-slate-700 dark:text-slate-200">
-              $$ \text{score} = (w^p) \cdot \text{recency\_weight} \cdot \text{hop\_penalty} $$
-            </p>
-            <p class="text-slate-700 dark:text-slate-200">
-              Return the top \( K = 20 \) beliefs for an entity.
-            </p>
-          </div>
-        </div>
-
-        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">What this buys you</h3>
-          <p class="text-slate-700 dark:text-slate-200">
-            You’re not retrieving “everything you’ve ever known.” You’re retrieving the beliefs most likely to be relevant
-            right now: high-confidence, recent, and close in the graph.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Validation / Toy World -->
-  <section class="py-16 px-6 max-w-5xl mx-auto">
-    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
-      <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Validation: Toy World</h2>
-
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Ground truth (places)</h3>
-          <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
-            <li>Paris → France</li>
-            <li>Rome → Italy</li>
-            <li>Berlin → Germany</li>
-          </ul>
-          <p class="text-slate-700 dark:text-slate-200 mt-3">
-            Relation: <code class="inline">capital_of</code> (exclusive).
-          </p>
-        </div>
-
-        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Metrics</h3>
-          <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
-            <li>Accuracy: \( \arg\max_w(\text{capital\_of}) \) matches ground truth</li>
-            <li>Contradiction rate: ≥2 candidates with \( w \ge 0.55 \) OR within \( \Delta = 0.10 \)</li>
-          </ul>
-          <p class="text-slate-700 dark:text-slate-200 mt-3">
-            The point is to see stabilization with reinforcement and drift with decay.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Non-goals / Phase 2 -->
-  <section class="py-16 bg-slate-100 dark:bg-slate-900">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
-        <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">What This MVP Does Not Try To Be</h2>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Non-goals (for now)</h3>
-            <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
-              <li>No NLP evidence extraction</li>
-              <li>No embeddings in retrieval</li>
-              <li>No graph DB backend</li>
-              <li>No learned update parameters</li>
-              <li>No wall-clock-time decay (turn-based only)</li>
-              <li>No UI beyond CLI/testing scripts</li>
-              <li>No agentic planning loop</li>
-              <li>No multi-dimensional confidence</li>
-            </ul>
-          </div>
-
-          <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-            <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Phase 2 questions</h3>
-            <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
-              <li>Improved entity resolution</li>
-              <li>Contradiction detection beyond exclusivity</li>
-              <li>Relation canonicalization</li>
-              <li>Embedding-based retrieval</li>
-              <li>Learned reliability estimation</li>
-            </ul>
-            <p class="text-slate-700 dark:text-slate-200 mt-3">
-              The MVP is meant to be “boring but correct” — then we make it smarter.
+          <div class="mt-5 eqblock prose-math">
+            <p class="mini-label">One-line definition</p>
+            <p class="text-gray-700 dark:text-gray-200">
+              $$ \text{belief} = (s, r, o) + \text{confidence} + \text{provenance} + \text{time dynamics} $$
             </p>
           </div>
         </div>
@@ -629,17 +310,390 @@
     </div>
   </section>
 
-  <!-- Contact CTA -->
-  <section class="py-16 px-6 max-w-3xl mx-auto">
-    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 text-center space-y-4">
-      <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Want to Build This With Me?</h2>
-      <p class="text-lg text-gray-700 dark:text-gray-200">
-        If you’re into reliable memory, explicit epistemic state, and systems that don’t collapse under edge cases,
-        I’m always down to compare notes.
-      </p>
-      <a href="/#contact" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition">
-        Contact
-      </a>
+  <!-- Main Content + TOC -->
+  <section class="py-16 px-6 max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-8 items-start">
+      <!-- TOC -->
+      <aside class="hidden lg:block sticky top-28">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-6 border border-slate-200 dark:border-slate-700">
+          <p class="mini-label">On this page</p>
+          <nav class="mt-4 space-y-2 text-sm font-medium">
+            <a class="block hover:text-blue-600 dark:hover:text-blue-300" href="#overview">Overview</a>
+            <a class="block hover:text-blue-600 dark:hover:text-blue-300" href="#mvp">MVP Success</a>
+            <a class="block hover:text-blue-600 dark:hover:text-blue-300" href="#objects">Core objects</a>
+            <a class="block hover:text-blue-600 dark:hover:text-blue-300" href="#math">Dynamics</a>
+            <a class="block hover:text-blue-600 dark:hover:text-blue-300" href="#storage">Storage & identity</a>
+            <a class="block hover:text-blue-600 dark:hover:text-blue-300" href="#retrieval">Retrieval</a>
+            <a class="block hover:text-blue-600 dark:hover:text-blue-300" href="#validation">Validation</a>
+            <a class="block hover:text-blue-600 dark:hover:text-blue-300" href="#phase2">Non-goals</a>
+          </nav>
+        </div>
+      </aside>
+
+      <main class="space-y-10">
+        <!-- Overview -->
+        <section id="overview" class="scroll-mt-28">
+          <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-6 animate-slide-in prose-math">
+            <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Overview</h2>
+
+            <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-200">
+              The goal is a persistent belief substrate — an explicit internal world model — that stores structured beliefs,
+              updates them from graded evidence, decays toward priors when not reinforced, resolves mutually exclusive contradictions,
+              and retrieves “belief neighborhoods” to constrain downstream reasoning.
+              <span class="font-semibold">(Coherent memory with teeth.)</span>
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+              <div class="bg-slate-100 dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Beliefs are structured</h3>
+                <p class="text-slate-700 dark:text-slate-200">A belief is a claim of the form:</p>
+                <div class="eqblock prose-math">
+                  $$ (subject,\ relation,\ object) $$
+                </div>
+                <p class="text-slate-700 dark:text-slate-200 mt-3">
+                  plus confidence <span class="font-semibold">w ∈ [0,1]</span>, timestamps, status, and provenance.
+                </p>
+              </div>
+
+              <div class="bg-slate-100 dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Evidence is graded</h3>
+                <p class="text-slate-700 dark:text-slate-200">
+                  Evidence comes in with support <span class="font-semibold">s ∈ [-1,1]</span> and reliability <span class="font-semibold">ρ ∈ [0,1]</span>.
+                </p>
+                <p class="text-slate-700 dark:text-slate-200 mt-2">Support maps to a target confidence:</p>
+                <div class="eqblock prose-math">
+                  $$ \hat{w} = \frac{1 + s}{2} $$
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MVP -->
+        <section id="mvp" class="scroll-mt-28">
+          <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-6 prose-math">
+            <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">MVP Success Criteria</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">What “working” means</h3>
+                <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
+                  <li>Beliefs persist across restarts (SQLite store).</li>
+                  <li>Beliefs are structured: <code class="inline">(subject, relation, object/value)</code> + metadata.</li>
+                  <li>Evidence ingestion: <code class="inline">s</code>, <code class="inline">ρ</code>, and source/provenance.</li>
+                  <li>Dynamics: update rule + decay + exclusivity normalization.</li>
+                  <li>Contradiction surfacing: conflicts in exclusivity groups.</li>
+                  <li>Neighborhood retrieval: top-K beliefs by confidence + recency.</li>
+                </ul>
+              </div>
+
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Toy demo requirement</h3>
+                <p class="text-slate-700 dark:text-slate-200">
+                  A scripted world should demonstrate: belief formation, contradiction, reinforcement-driven stabilization,
+                  decay behavior, and metrics (accuracy vs ground truth + contradiction rate).
+                </p>
+                <p class="text-slate-700 dark:text-slate-200 mt-3">
+                  The goal isn’t UI polish — it’s showing the dynamics behave predictably.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Core Objects -->
+        <section id="objects" class="scroll-mt-28">
+          <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
+            <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Core Objects</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Entity</h3>
+                <p class="text-slate-700 dark:text-slate-200">
+                  A persistent node (person, organization, project, place, artifact, concept). Types are informational —
+                  behavior comes from relation semantics.
+                </p>
+              </div>
+
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Belief (Claim)</h3>
+                <p class="text-slate-700 dark:text-slate-200">Canonical structured claim:</p>
+                <div class="eqblock prose-math">
+                  $$ (subject,\ relation,\ object) $$
+                </div>
+                <p class="text-slate-700 dark:text-slate-200 mt-3">
+                  With confidence <span class="font-semibold">w ∈ [0,1]</span> and status:
+                  <code class="inline">active</code>, <code class="inline">superseded</code>, <code class="inline">rejected</code>.
+                </p>
+              </div>
+
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Evidence</h3>
+                <p class="text-slate-700 dark:text-slate-200">
+                  Evidence targets a candidate belief via <span class="font-semibold">support</span> and <span class="font-semibold">reliability</span>.
+                </p>
+                <div class="eqblock prose-math">
+                  $$ s \in [-1,1], \quad \rho \in [0,1] $$
+                </div>
+                <p class="text-slate-700 dark:text-slate-200 mt-2">
+                  Mapped to target confidence:
+                </p>
+                <div class="eqblock prose-math">
+                  $$ \hat{w} = \frac{1+s}{2} $$
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Dynamics -->
+        <section id="math" class="scroll-mt-28">
+          <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
+            <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Dynamics (Update Engine)</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Parameters (MVP defaults)</h3>
+                <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
+                  <li>Learning rate: \( \alpha = 0.3 \)</li>
+                  <li>Decay per turn: \( \lambda = 0.002 \)</li>
+                  <li>Global prior: \( \mu = 0.5 \)</li>
+                  <li>Exclusivity epsilon: \( \varepsilon = 10^{-6} \)</li>
+                  <li>Turn = one user–assistant interaction</li>
+                </ul>
+              </div>
+
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Update rule (smoothing)</h3>
+                <p class="text-slate-700 dark:text-slate-200">Reliability gates the step size:</p>
+                <div class="eqblock prose-math">
+                  $$ \eta = \alpha \cdot \rho $$
+                </div>
+                <p class="text-slate-700 dark:text-slate-200 mt-3">Then blend current confidence \( w \) toward target \( \hat{w} \):</p>
+                <div class="eqblock prose-math">
+                  $$ w_{\text{new}} = (1-\eta)w + \eta \hat{w} $$
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Decay toward the prior</h3>
+                <p class="text-slate-700 dark:text-slate-200">Beliefs drift back toward \( \mu \) when not reinforced:</p>
+                <div class="eqblock prose-math">
+                  $$ w_{\text{decay}} = (1-\lambda \Delta t) w_{\text{new}} + (\lambda \Delta t)\mu $$
+                </div>
+                <p class="text-slate-700 dark:text-slate-200 mt-2">
+                  MVP simplification: \( \Delta t \) is measured in conversation turns (discrete).
+                </p>
+              </div>
+
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Exclusivity (competition)</h3>
+                <p class="text-slate-700 dark:text-slate-200">
+                  For relations flagged exclusive, beliefs sharing \( (subject, relation) \) compete by normalization:
+                </p>
+                <div class="eqblock prose-math">
+                  $$ w_i \leftarrow \frac{w_i}{\sum_j w_j + \varepsilon} $$
+                </div>
+                <p class="text-slate-700 dark:text-slate-200 mt-2">
+                  Practical meaning: “only one can win,” but the system can surface uncertainty when multiple are close.
+                </p>
+              </div>
+            </div>
+
+            <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+              <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Provenance</h3>
+              <p class="text-slate-700 dark:text-slate-200">
+                Evidence is append-only, and each belief retains links to the last \( N = 10 \) supporting/contradicting evidence items,
+                enabling “why do we believe this?” queries.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Storage -->
+        <section id="storage" class="scroll-mt-28">
+          <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
+            <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Storage & Identity</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">SQLite tables</h3>
+                <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
+                  <li><code class="inline">entities</code>, <code class="inline">relations</code>, <code class="inline">beliefs</code></li>
+                  <li><code class="inline">sources</code>, <code class="inline">evidence</code></li>
+                  <li><code class="inline">belief_evidence_link</code></li>
+                </ul>
+                <p class="text-slate-700 dark:text-slate-200 mt-3">
+                  Indexes focus on fast lookup by subject+relation and exclusivity groups.
+                </p>
+              </div>
+
+              <!-- Belief identity (fully consistent with your card system) -->
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <div class="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 class="text-xl font-semibold text-blue-700 dark:text-blue-300">Belief identity</h3>
+                    <p class="mt-1 text-slate-700 dark:text-slate-200">
+                      How a belief is uniquely represented and enforced.
+                    </p>
+                  </div>
+                  <span class="chip text-blue-900 dark:text-blue-200"><span class="font-semibold">Schema</span><span class="opacity-70">invariant</span></span>
+                </div>
+
+                <div class="mt-5 space-y-4">
+                  <div>
+                    <p class="mini-label">Canonical key</p>
+                    <div class="eqblock prose-math">
+                      $$ (subject\_entity\_id,\ relation\_id,\ object\_entity\_id / object\_value) $$
+                    </div>
+                  </div>
+
+                  <div>
+                    <p class="mini-label">Uniqueness constraint</p>
+                    <div class="eqblock prose-math">
+                      $$ \text{UNIQUE}(subject\_entity\_id,\ relation\_id,\ object\_entity\_id,\ object\_value) $$
+                    </div>
+                  </div>
+
+                  <p class="text-slate-700 dark:text-slate-200 text-sm">
+                    Translation: the substrate will never store two separate rows that claim the same thing.
+                    New evidence updates confidence and provenance — it doesn’t create duplicates.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Retrieval -->
+        <section id="retrieval" class="scroll-mt-28">
+          <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
+            <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Belief Neighborhood Retrieval</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Ranking ingredients</h3>
+                <p class="text-slate-700 dark:text-slate-200">Recency weight decays exponentially:</p>
+                <div class="eqblock prose-math">
+                  $$ \text{recency\_weight} = e^{-k \cdot \text{age\_in\_turns}}, \quad k = 0.05 $$
+                </div>
+
+                <p class="text-slate-700 dark:text-slate-200 mt-4">Optional hop expansion gets penalized:</p>
+                <div class="eqblock prose-math">
+                  $$ \text{hop\_penalty} =
+                  \begin{cases}
+                    1.0 & \text{(0-hop)} \\
+                    0.7 & \text{(1-hop)}
+                  \end{cases} $$
+                </div>
+              </div>
+
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Final score</h3>
+                <p class="text-slate-700 dark:text-slate-200">Confidence gets emphasized with \( p = 2.0 \):</p>
+                <div class="eqblock prose-math">
+                  $$ \text{score} = (w^p) \cdot \text{recency\_weight} \cdot \text{hop\_penalty} $$
+                </div>
+                <p class="text-slate-700 dark:text-slate-200 mt-3">
+                  Return the top \( K = 20 \) beliefs for an entity.
+                </p>
+
+                <div class="mt-5 rounded-2xl p-4 bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+                  <p class="text-slate-700 dark:text-slate-200">
+                    You’re not retrieving “everything you’ve ever known.” You’re retrieving what’s most likely relevant
+                    right now: high-confidence, recent, and close in the graph.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Validation -->
+        <section id="validation" class="scroll-mt-28">
+          <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
+            <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Validation: Toy World</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Ground truth (places)</h3>
+                <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
+                  <li>Paris → France</li>
+                  <li>Rome → Italy</li>
+                  <li>Berlin → Germany</li>
+                </ul>
+                <p class="text-slate-700 dark:text-slate-200 mt-3">
+                  Relation: <code class="inline">capital_of</code> (exclusive).
+                </p>
+              </div>
+
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Metrics</h3>
+                <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
+                  <li>Accuracy: \( \arg\max_w(\text{capital\_of}) \) matches ground truth</li>
+                  <li>Contradiction rate: ≥2 candidates with \( w \ge 0.55 \) OR within \( \Delta = 0.10 \)</li>
+                </ul>
+                <p class="text-slate-700 dark:text-slate-200 mt-3">
+                  The point is to see stabilization with reinforcement and drift with decay.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Non-goals / Phase 2 -->
+        <section id="phase2" class="scroll-mt-28">
+          <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 space-y-8 prose-math">
+            <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">What This MVP Does Not Try To Be</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Non-goals (for now)</h3>
+                <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
+                  <li>No NLP evidence extraction</li>
+                  <li>No embeddings in retrieval</li>
+                  <li>No graph DB backend</li>
+                  <li>No learned update parameters</li>
+                  <li>No wall-clock-time decay (turn-based only)</li>
+                  <li>No UI beyond CLI/testing scripts</li>
+                  <li>No agentic planning loop</li>
+                  <li>No multi-dimensional confidence</li>
+                </ul>
+              </div>
+
+              <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Phase 2 questions</h3>
+                <ul class="space-y-2 text-slate-700 dark:text-slate-200 list-disc pl-5">
+                  <li>Improved entity resolution</li>
+                  <li>Contradiction detection beyond exclusivity</li>
+                  <li>Relation canonicalization</li>
+                  <li>Embedding-based retrieval</li>
+                  <li>Learned reliability estimation</li>
+                </ul>
+                <p class="text-slate-700 dark:text-slate-200 mt-3">
+                  The MVP is meant to be “boring but correct” — then we make it smarter.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="scroll-mt-28">
+          <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl p-10 text-center space-y-4">
+            <h2 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Want to Build This With Me?</h2>
+            <p class="text-lg text-gray-700 dark:text-gray-200">
+              If you’re into reliable memory, explicit epistemic state, and systems that don’t collapse under edge cases,
+              I’m always down to compare notes.
+            </p>
+            <a href="/#contact" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition">
+              Contact
+            </a>
+          </div>
+        </section>
+      </main>
     </div>
   </section>
 
