@@ -139,22 +139,22 @@
     details.eqdetails[open] > summary::after { content: "▴"; }
 
     /* Mode pills */
-    .mode-pill {
-      border: 1px solid rgba(148,163,184,0.35);
-      background: rgba(255,255,255,0.55);
-    }
-    .dark .mode-pill {
-      border-color: rgba(51,65,85,0.8);
-      background: rgba(2,6,23,0.25);
-    }
-    .mode-pill-active {
-      border-color: rgba(37,99,235,0.45);
-      background: rgba(37,99,235,0.12);
-    }
-    .dark .mode-pill-active {
-      border-color: rgba(147,197,253,0.4);
-      background: rgba(147,197,253,0.10);
-    }
+    .mode-pill { 
+  color: rgb(51 65 85);
+}
+.dark .mode-pill { 
+  color: rgb(226 232 240);
+}
+
+/* active pill should look like the selected segment, not another button */
+.mode-pill-active{
+  background: rgba(37, 99, 235, 0.18); /* subtle */
+  color: rgb(30 64 175);
+}
+.dark .mode-pill-active{
+  background: rgba(147, 197, 253, 0.18);
+  color: rgb(191 219 254);
+}
   </style>
 
   <!-- MathJax (renders LaTeX) -->
@@ -294,28 +294,50 @@
         </div>
 
         <!-- Mode Toggle -->
-        <div class="mt-8 flex flex-wrap items-center gap-2">
-          <span class="mini-label">Reading mode</span>
-          <button id="mode-overview" class="mode-pill mode-pill-active px-3 py-1.5 rounded-full text-sm font-semibold text-slate-700 dark:text-slate-200 hover:opacity-95 transition" type="button">
-            Overview
-          </button>
-          <button id="mode-spec" class="mode-pill px-3 py-1.5 rounded-full text-sm font-semibold text-slate-700 dark:text-slate-200 hover:opacity-95 transition" type="button">
-            Full spec
-          </button>
-          <span class="text-xs text-slate-600 dark:text-slate-300 ml-2">Overview hides the deep-dive sections without deleting them.</span>
-        </div>
+        <!-- Mode + Actions (cleaner, less pill-noise) -->
+<div class="mt-8 flex flex-col gap-4">
+  <!-- Reading mode row -->
+  <div class="flex flex-wrap items-center gap-3">
+    <span class="mini-label">Reading mode</span>
 
-        <div class="mt-6 flex flex-col sm:flex-row gap-3">
-          <a href="#overview" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition shadow">
-            Start here
-          </a>
-          <a href="#objects" class="bg-white/70 hover:bg-white text-blue-800 px-6 py-3 rounded-xl font-bold transition shadow ring-1 ring-blue-400/30 dark:bg-slate-800/70 dark:hover:bg-slate-800 dark:text-blue-200">
-            Core objects
-          </a>
-          <a href="/docs/belief-substrate-paper.pdf" class="bg-white/70 hover:bg-white text-blue-800 px-6 py-3 rounded-xl font-bold transition shadow ring-1 ring-blue-400/30 dark:bg-slate-800/70 dark:hover:bg-slate-800 dark:text-blue-200" target="_blank" rel="noopener">
-            Read the paper (PDF)
-          </a>
-        </div>
+    <!-- Segmented control -->
+    <div class="inline-flex rounded-full border border-slate-200/70 dark:border-slate-700/70 bg-white/40 dark:bg-slate-900/30 p-1 shadow-sm">
+      <button id="mode-overview"
+        class="mode-pill mode-pill-active px-3 py-1.5 rounded-full text-sm font-semibold transition">
+        Overview
+      </button>
+      <button id="mode-spec"
+        class="mode-pill px-3 py-1.5 rounded-full text-sm font-semibold transition">
+        Full spec
+      </button>
+    </div>
+
+    <!-- Helper text (subtle) -->
+    <span class="text-xs text-slate-600/90 dark:text-slate-300/90">
+      Overview hides deep-dive sections.
+    </span>
+  </div>
+
+  <!-- Actions row -->
+  <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+    <!-- Primary CTA -->
+    <a href="#overview"
+      class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition shadow">
+      Start here
+    </a>
+
+    <!-- Quiet secondary links (no big button chrome) -->
+    <a href="#objects"
+      class="px-2 py-2 text-sm font-semibold text-blue-900/90 dark:text-blue-200 hover:underline underline-offset-4">
+      Core objects
+    </a>
+    <a href="/docs/belief-substrate-paper.pdf"
+      class="px-2 py-2 text-sm font-semibold text-blue-900/90 dark:text-blue-200 hover:underline underline-offset-4"
+      target="_blank" rel="noopener">
+      Read the paper (PDF)
+    </a>
+  </div>
+</div>
       </div>
 
       <!-- Why / MVP stance -->
