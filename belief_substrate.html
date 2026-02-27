@@ -464,21 +464,42 @@
           </p>
         </div>
 
-        <div class="rounded-2xl p-6 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-          <h3 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-300">Belief identity</h3>
-          <p class="text-slate-700 dark:text-slate-200">
-            Beliefs are canonical, keyed by:
-          </p>
-          <p class="text-slate-700 dark:text-slate-200">
-            $$ (subject\_entity\_id, relation\_id, object\_entity\_id/object\_value) $$
-          </p>
-          <p class="text-slate-700 dark:text-slate-200">
-            Enforced by a uniqueness constraint:
-          </p>
-          <p class="text-slate-700 dark:text-slate-200">
-            $$ \text{UNIQUE}(subject\_entity\_id, relation\_id, object\_entity\_id, object\_value) $$
-          </p>
+       <div class="rounded-2xl p-6 bg-white/70 dark:bg-slate-900/60 border border-slate-200/70 dark:border-slate-700/70 shadow-sm">
+  <div class="flex items-start justify-between gap-4">
+    <div>
+      <h3 class="text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-100">
+        Belief identity
+      </h3>
+      <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">
+        How a belief is uniquely represented and enforced.
+      </p>
+    </div>
+  </div>
+
+  <div class="mt-5 space-y-4">
+    <div>
+      <p class="text-sm font-medium text-slate-700 dark:text-slate-200">
+        Canonical key
+      </p>
+      <div class="mt-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950/40 px-4 py-3 overflow-x-auto">
+        <div class="text-[13px] leading-relaxed text-slate-800 dark:text-slate-100">
+          $$ (subject\_entity\_id,\ relation\_id,\ object\_entity\_id / object\_value) $$
         </div>
+      </div>
+    </div>
+
+    <div>
+      <p class="text-sm font-medium text-slate-700 dark:text-slate-200">
+        Uniqueness constraint
+      </p>
+      <div class="mt-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950/40 px-4 py-3 overflow-x-auto">
+        <div class="text-[13px] leading-relaxed text-slate-800 dark:text-slate-100">
+          $$ \text{UNIQUE}(subject\_entity\_id,\ relation\_id,\ object\_entity\_id,\ object\_value) $$
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
       </div>
     </div>
   </section>
